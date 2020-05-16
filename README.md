@@ -1,6 +1,7 @@
 # hdiary
 
-A Flutter diary application. "h" stand for him/her or happiness.
+> A Flutter diary application.  
+> The letter "**h**" stands for **his/her** or **happiness**.
 
 ## Getting Started
 
