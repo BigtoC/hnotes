@@ -3,6 +3,10 @@ import 'package:hnotes/HomePage/home_ui.dart';
 import 'package:hnotes/SplashScreen/CountDayModel.dart';
 
 class DaySince extends StatefulWidget {
+  DaySince({Key key, this.isSplash});
+
+  final bool isSplash;
+
   @override
   _DaySince createState() => new _DaySince();
 }
@@ -42,11 +46,14 @@ class _DaySince extends State<DaySince> {
           borderRadius: BorderRadius.circular(20),
         ),
         onPressed: () {
-          Route route = MaterialPageRoute(
-            builder: (context) => MyHomePage(title: "更多功能敬请期待！"),
-            settings: RouteSettings(name: '/homePage'),
-          );
-          Navigator.push(context, route);
+          if (widget.isSplash) {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => MyHomePage()),
+                (Route<dynamic> route) => false);
+          }
+          else {
+            Navigator.pop(context);
+          }
         },
         padding: EdgeInsets.all(12),
         color: Colors.blueAccent,
