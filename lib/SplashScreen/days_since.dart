@@ -25,6 +25,7 @@ class _DaySince extends State<DaySince> {
         "在一起已经${daySince.toString()}天了呢",
         style: TextStyle(
           fontSize: 36,
+          color: Colors.black87,
         ),
       ),
     );
@@ -32,7 +33,10 @@ class _DaySince extends State<DaySince> {
 
   Widget loveUBtn() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
+      padding: EdgeInsets.symmetric(
+        vertical: 60.0,
+        horizontal: 100.0
+      ),
       child: RaisedButton(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
