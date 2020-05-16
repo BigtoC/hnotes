@@ -1,7 +1,7 @@
 # hnotes
 
 A Flutter notes application.
-> The letter "**h**" stands for **him/her** or **happiness**.
+> The letter "**h**" stands for **him/her** or **happiness**.  
 > Notes about him/her, or notes about happiness
 
 ## Getting Started
