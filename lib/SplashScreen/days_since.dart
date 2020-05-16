@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hdiary/HomePage/home_ui.dart';
-import 'package:hdiary/SplashScreen/CountDayModel.dart';
+import 'package:hnotes/HomePage/home_ui.dart';
+import 'package:hnotes/SplashScreen/CountDayModel.dart';
 
 class DaySince extends StatefulWidget {
   @override

@@ -1,6 +1,6 @@
-# hdiary
+# hnotes
 
-> A Flutter diary application.  
+> A Flutter notes application.  
 > The letter "**h**" stands for **his/her** or **happiness**.
 
 ## Getting Started

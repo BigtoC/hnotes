@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hdiary/SplashScreen/days_since.dart';
+import 'package:hnotes/SplashScreen/days_since.dart';
 
 void main() {
   runApp(MyApp());
