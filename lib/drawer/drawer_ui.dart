@@ -5,14 +5,15 @@ import 'package:hnotes/drawer/app_repo.dart';
 
 Widget drawer(BuildContext context) {
   return new Drawer(
-    child: ListView(
-      padding: EdgeInsets.zero,
+    child: Column(
+      mainAxisSize: MainAxisSize.max,
       children: <Widget>[
         header(),
         daySince(context),
         gitRepo(context),
         sizeBox(context, 0.1),
         divider(context, 0.5),
+        version(),
       ],
     ),
   );
@@ -28,8 +29,8 @@ Widget header() {
       color: Colors.lightBlue,
     ),
     child: Center(
-      child: Text(
-        "HNotes",
+      child: const Text(
+        "hNotes",
         style: TextStyle(
           fontSize: 30.0,
           fontWeight: FontWeight.w500,
@@ -42,6 +43,7 @@ Widget header() {
 
 Widget daySince(BuildContext context) {
   return ListTile(
+    leading: Icon(Icons.favorite),
     title: Text(
       'Day Counts',
       style: TextStyle(
@@ -61,6 +63,7 @@ Widget daySince(BuildContext context) {
 
 Widget gitRepo(BuildContext context) {
   return ListTile(
+    leading: Icon(Icons.code),
     title: Text(
       'Source Codes',
       style: TextStyle(
@@ -76,3 +79,13 @@ Widget gitRepo(BuildContext context) {
     },
   );
 }
+
+Widget version() {
+  return Expanded(
+    child: Align(
+      alignment: Alignment.bottomLeft,
+      child: Text('\n  0.0.1 Alpha\n'),
+    ),
+  );
+}
+
