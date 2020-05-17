@@ -8,7 +8,8 @@ A Flutter notes app with blockchain storage.
 
 ### Stage 1
 
-> Target before 2020/05/22
+> Basic notes mobile app developments  
+> Target finish before 2020/05/22
 
 - [x] Show how many days we've been together
 - [x] Switch light/dark themes
@@ -18,7 +19,9 @@ A Flutter notes app with blockchain storage.
 
 ### Stage 2
 
-- [ ] Develop smart contract on AntFin blockchain system ( [蚂蚁金服 - 蚂蚁区块链](https://tech.antfin.com/blockchain) )
+> Smart contracts and blockchain related developments
+
+- [ ] Develop smart contract on AntFin blockchain system ([蚂蚁金服 - 蚂蚁区块链](https://tech.antfin.com/blockchain))
 - [ ] Integrate with blockchain storage
 
 ### Stage 3
