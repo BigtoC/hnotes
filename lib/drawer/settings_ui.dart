@@ -55,7 +55,11 @@ class _SettingsPageState extends State<SettingsPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text('App Theme',
-                      style: TextStyle(fontFamily: 'ZillaSlab', fontSize: 24)),
+                      style: TextStyle(
+//                        fontFamily: fontFamily,
+                        fontSize: 24
+                      )
+                    ),
                     Container(
                       height: 20,
                     ),
@@ -92,9 +96,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   children: <Widget>[
                     Text('About app',
                       style: TextStyle(
-                        fontFamily: 'ZillaSlab',
+//                        fontFamily: fontFamily,
                         fontSize: 24,
-                        color: Theme.of(context).primaryColor)),
+                        color: Theme.of(context).primaryColor)
+                    ),
                     Container(
                       height: 40,
                     ),
@@ -103,16 +108,21 @@ class _SettingsPageState extends State<SettingsPage> {
                         style: TextStyle(
                           color: Colors.grey.shade600,
                           fontWeight: FontWeight.w500,
-                          letterSpacing: 1)),
+                          letterSpacing: 1)
+                      ),
                     ),
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
                         child: Text(
                           'Bigto Chan',
-                          style: TextStyle(fontFamily: 'ZillaSlab', fontSize: 24),
+                          style: TextStyle(
+//                            fontFamily: fontFamily,
+                            fontSize: 24
+                          ),
                         ),
-                      )),
+                      )
+                    ),
                     Container(
                       alignment: Alignment.center,
                       child: OutlineButton.icon(
@@ -121,9 +131,11 @@ class _SettingsPageState extends State<SettingsPage> {
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             letterSpacing: 1,
-                            color: Colors.grey.shade500)),
+                            color: Colors.grey.shade500)
+                        ),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16)),
+                          borderRadius: BorderRadius.circular(16)
+                        ),
                         onPressed: openGitHub,
                       ),
                     ),
@@ -135,7 +147,8 @@ class _SettingsPageState extends State<SettingsPage> {
                         style: TextStyle(
                           color: Colors.grey.shade600,
                           fontWeight: FontWeight.w500,
-                          letterSpacing: 1)),
+                          letterSpacing: 1)
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),

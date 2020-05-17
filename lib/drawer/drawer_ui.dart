@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hnotes/SplashScreen/days_since_ui.dart';
-import 'package:hnotes/util/util_collections.dart';
 import 'package:hnotes/drawer/settings_ui.dart';
+import 'package:hnotes/util/util_collections.dart';
+import 'package:hnotes/SplashScreen/days_since_ui.dart';
 
 Widget drawer(BuildContext context, Function(Brightness brightness) changeTheme) {
   return new Drawer(
@@ -31,6 +31,7 @@ Widget header() {
       child: const Text(
         "hNotes",
         style: TextStyle(
+          fontFamily: 'ZillaSlab',
           fontSize: 30.0,
           fontWeight: FontWeight.w500,
           color: Colors.white,
