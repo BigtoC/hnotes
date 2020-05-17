@@ -31,7 +31,6 @@ Widget header() {
       child: const Text(
         "hNotes",
         style: TextStyle(
-          fontFamily: 'ZillaSlab',
           fontSize: 30.0,
           fontWeight: FontWeight.w500,
           color: Colors.white,

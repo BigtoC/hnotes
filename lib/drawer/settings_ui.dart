@@ -56,7 +56,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   children: <Widget>[
                     Text('App Theme',
                       style: TextStyle(
-//                        fontFamily: fontFamily,
                         fontSize: 24
                       )
                     ),
@@ -96,7 +95,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   children: <Widget>[
                     Text('About app',
                       style: TextStyle(
-//                        fontFamily: fontFamily,
                         fontSize: 24,
                         color: Theme.of(context).primaryColor)
                     ),
@@ -117,7 +115,6 @@ class _SettingsPageState extends State<SettingsPage> {
                         child: Text(
                           'Bigto Chan',
                           style: TextStyle(
-//                            fontFamily: fontFamily,
                             fontSize: 24
                           ),
                         ),
