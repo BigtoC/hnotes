@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:hnotes/HomePage/home_ui.dart';
 import 'package:hnotes/SplashScreen/count_day_model.dart';
 
+// ignore: must_be_immutable
 class DaySince extends StatefulWidget {
-  DaySince({Key key, this.isSplash});
+  Function(Brightness brightness) changeTheme;
+  DaySince({
+    Key key, this.isSplash, Function(Brightness brightness) changeTheme})
+    : super(key: key) {
+    this.changeTheme = changeTheme;
+  }
 
   final bool isSplash;
 
@@ -48,7 +54,9 @@ class _DaySince extends State<DaySince> {
         onPressed: () {
           if (widget.isSplash) {
             Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => MyHomePage()),
+              MaterialPageRoute(builder: (context) =>
+                MyHomePage(changeTheme: widget.changeTheme)
+              ),
                 (Route<dynamic> route) => false);
           }
           else {

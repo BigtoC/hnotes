@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:hnotes/SplashScreen/days_since.dart';
+import 'package:hnotes/SplashScreen/days_since_ui.dart';
 import 'package:hnotes/util/util_collections.dart';
-import 'package:hnotes/drawer/app_repo.dart';
+import 'package:hnotes/drawer/settings_ui.dart';
 
-Widget drawer(BuildContext context) {
+Widget drawer(BuildContext context, Function(Brightness brightness) changeTheme) {
   return new Drawer(
     child: Column(
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
         header(),
         daySince(context),
-        gitRepo(context),
+        settings(context, changeTheme),
         sizeBox(context, 0.1),
         divider(context, 0.5),
         version(),
@@ -20,13 +20,12 @@ Widget drawer(BuildContext context) {
 }
 
 final double subtitleFontSize = 18.0;
-final itemFontColor = Colors.black87;
 final itemFontWeight = FontWeight.w400;
 
 Widget header() {
   return DrawerHeader(
     decoration: BoxDecoration(
-      color: Colors.lightBlue,
+      color: Colors.blueAccent,
     ),
     child: Center(
       child: const Text(
@@ -48,7 +47,6 @@ Widget daySince(BuildContext context) {
       'Day Counts',
       style: TextStyle(
         fontSize: subtitleFontSize,
-        color: itemFontColor,
         fontWeight: itemFontWeight,
       ),
     ),
@@ -61,20 +59,19 @@ Widget daySince(BuildContext context) {
   );
 }
 
-Widget gitRepo(BuildContext context) {
+Widget settings(BuildContext context, Function(Brightness brightness) changeTheme) {
   return ListTile(
-    leading: Icon(Icons.code),
+    leading: Icon(Icons.settings),
     title: Text(
-      'Source Codes',
+      'Settings',
       style: TextStyle(
         fontSize: subtitleFontSize,
-        color: itemFontColor,
         fontWeight: itemFontWeight,
       ),
     ),
     onTap: () {
       Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
-        return new Browser();
+        return new SettingsPage(changeTheme: changeTheme);
       }));
     },
   );
@@ -84,7 +81,7 @@ Widget version() {
   return Expanded(
     child: Align(
       alignment: Alignment.bottomLeft,
-      child: Text('\n  0.0.1 Alpha\n'),
+      child: Text('\n  0.0.1 Dev\n'),
     ),
   );
 }

@@ -4,6 +4,9 @@ A Flutter notes application.
 > The letter "**h**" stands for **him/her** or **happiness**.  
 > Notes about him/her, or notes about happiness
 
+## References:
+* Change Theme: [roshanrahman/flutter-notes-app](https://github.com/roshanrahman/flutter-notes-app)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
