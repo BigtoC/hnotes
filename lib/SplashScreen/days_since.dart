@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hnotes/HomePage/home_ui.dart';
-import 'package:hnotes/SplashScreen/CountDayModel.dart';
+import 'package:hnotes/SplashScreen/count_day_model.dart';
 
 class DaySince extends StatefulWidget {
   DaySince({Key key, this.isSplash});
