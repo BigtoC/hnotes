@@ -30,6 +30,8 @@ dependencies:
   webview_flutter: ^0.3.21
   shared_preferences: ^0.5.7+2
   share: 0.6.4+2
+  zefyr: 0.11.0
+  path_provider: ^1.6.8
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hnotes/drawer/drawer_ui.dart';
 import 'package:hnotes/util/theme.dart';
+import 'package:hnotes/HomePage/edit.dart';
+import 'package:hnotes/drawer/drawer_ui.dart';
 
 // ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
@@ -15,7 +16,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              '更多功能敬请期待！\nYou have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+              '更多功能敬请期待！',
             ),
           ],
         ),
@@ -50,13 +46,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _addNewNotes() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+    Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
+      return new EditorPage();
+    }));
   }
 }

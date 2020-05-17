@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:hnotes/SplashScreen/days_since_ui.dart';
-import 'package:hnotes/util/share_preferences.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:hnotes/util/theme.dart';
+import 'package:hnotes/util/share_preferences.dart';
+import 'package:hnotes/SplashScreen/days_since_ui.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,6 +22,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     updateThemeFromSharedPref();
+    createFolderInAppDocDir("hnotes");
   }
 
   @override
@@ -52,6 +55,23 @@ class _MyAppState extends State<MyApp> {
       setTheme(Brightness.dark);
     }
   }
+
+  static Future<String> createFolderInAppDocDir(String folderName) async {
+
+    //Get this App Document Directory
+    final Directory _appDocDir = await getApplicationDocumentsDirectory();
+    //App Document Directory + folder name
+    final Directory _appDocDirFolder =  Directory('${_appDocDir.path}/$folderName/');
+
+    if (await _appDocDirFolder.exists()) {  //if folder already exists return path
+      return _appDocDirFolder.path;
+    }
+    else{  //if folder not exists create folder and then return its path
+      final Directory _appDocDirNewFolder=await _appDocDirFolder.create(recursive: true);
+      return _appDocDirNewFolder.path;
+    }
+  }
+
 }
 
 

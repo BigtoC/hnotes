@@ -13,8 +13,8 @@ A Flutter notes app with blockchain storage.
 
 - [x] Show how many days we've been together
 - [x] Switch light/dark themes
+- [x] Rich text editor
 - [ ] Take notes and local storage
-- [ ] Rich text editor
 - [ ] Share notes
 
 ### Stage 2
@@ -35,7 +35,7 @@ A Flutter notes app with blockchain storage.
 ## References
 
 * [roshanrahman/flutter-notes-app](https://github.com/roshanrahman/flutter-notes-app)
-* [Zefyr Editor](https://zefyr-editor.gitbook.io/docs/quick-start)
+* Rich text editor: [Zefyr Editor](https://zefyr-editor.gitbook.io/docs/quick-start)
 
 ## Getting Started with Flutter
 
