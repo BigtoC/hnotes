@@ -1,13 +1,40 @@
 # hnotes
 
-A Flutter notes application.
+A Flutter notes app with blockchain storage.
 > The letter "**h**" stands for **him/her** or **happiness**.  
 > Notes about him/her, or notes about happiness
 
-## References:
-* Change Theme: [roshanrahman/flutter-notes-app](https://github.com/roshanrahman/flutter-notes-app)
+## Development Stages
 
-## Getting Started
+### Stage 1
+
+> Target before 2020/05/22
+
+- [x] Show how many days we've been together
+- [x] Switch light/dark themes
+- [ ] Take notes and local storage
+- [ ] Rich text editor
+- [ ] Share notes
+
+### Stage 2
+
+- [ ] Develop smart contract on AntFin blockchain system ( [蚂蚁金服 - 蚂蚁区块链](https://tech.antfin.com/blockchain) )
+- [ ] Integrate with blockchain storage
+
+### Stage 3
+
+> More enhancements
+
+- [ ]  Biometric authentications
+- [ ]  Share notes content in a picture
+- [ ]  More functions welcome pull requests and create issues
+
+## References
+
+* [roshanrahman/flutter-notes-app](https://github.com/roshanrahman/flutter-notes-app)
+* [Zefyr Editor](https://zefyr-editor.gitbook.io/docs/quick-start)
+
+## Getting Started with Flutter
 
 This project is a starting point for a Flutter application.
 
