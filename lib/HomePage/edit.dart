@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'dart:convert'; // access to jsonEncode()
 import 'dart:io'; // access to File and Directory classes
 
@@ -63,13 +64,25 @@ class EditorPageState extends State<EditorPage> {
     return NotusDocument.fromDelta(delta);
   }
 
-  void _saveDocument(BuildContext context) {
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+    return directory.path;
+  }
+
+  void _saveDocument(BuildContext context) async{
     // Notus documents can be easily serialized to JSON by passing to
     // `jsonEncode` directly
     final contents = jsonEncode(_controller.document);
-    // For this example we save our document to a temporary file.
-    final file = File(Directory.current.path + "hnotes/quick_start.json");
-    // And show a snack bar on success.
+
+    // Take timestamp as file name
+    final timestampStr = new DateTime.now().millisecondsSinceEpoch;
+
+    // Get file path
+    final path = await _localPath;
+    print(path);
+    final file = File('$path/notes-$timestampStr.json');
+
+    // Write file and show a snack bar on success.
     file.writeAsString(contents).then((_) {
       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Saved.")));
     });
