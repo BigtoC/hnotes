@@ -140,6 +140,28 @@ class _SettingsPageState extends State<SettingsPage> {
                       height: 30,
                     ),
                     Center(
+                      child: Text('Co-Designer'.toUpperCase(),
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1)
+                      ),
+                    ),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+                        child: Text(
+                          'Rita vv',
+                          style: TextStyle(
+                            fontSize: 24
+                          ),
+                        ),
+                      )
+                    ),
+                    Container(
+                      height: 30,
+                    ),
+                    Center(
                       child: Text('Made With'.toUpperCase(),
                         style: TextStyle(
                           color: Colors.grey.shade600,
