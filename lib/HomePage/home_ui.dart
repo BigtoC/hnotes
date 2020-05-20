@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hnotes/util/theme.dart';
-import 'package:hnotes/HomePage/edit.dart';
+import 'file:///F:/OneDrive%20-%20City%20University%20of%20Hong%20Kong/coding/Android/hnotes/lib/NoteServices/edit.dart';
 import 'package:hnotes/drawer/drawer_ui.dart';
 import 'package:hnotes/NoteServices/fetch_all_notes.dart';
 
@@ -156,8 +156,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget buildNoteComponentsList() {
-    return StreamBuilder(
-      
+    return Container(
+
     );
   }
 

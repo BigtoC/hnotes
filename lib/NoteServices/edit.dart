@@ -1,11 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:convert'; // access to jsonEncode()
+import 'dart:ui';
 import 'dart:io'; // access to File and Directory classes
+import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/painting.dart' as prefix0;
+import 'package:path_provider/path_provider.dart';
 
 import 'package:zefyr/zefyr.dart';
 import 'package:hnotes/util/theme.dart';
 import 'package:quill_delta/quill_delta.dart';
+import 'dart:convert'; // access to jsonEncode()
 
 class EditorPage extends StatefulWidget {
   @override
@@ -18,6 +22,8 @@ class EditorPageState extends State<EditorPage> {
 
   /// Zefyr editor like any other input field requires a focus node.
   FocusNode _focusNode;
+
+  bool isNoteNew = true;
 
   @override
   void initState() {
@@ -39,10 +45,16 @@ class EditorPageState extends State<EditorPage> {
         actions: <Widget>[
           Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.save),
-              onPressed: () => _saveDocument(context),
+              icon: Icon(Icons.delete_outline),
+              onPressed: () => _handleDelete(),
             ),
-          )
+          ),
+          Builder(
+            builder: (context) => IconButton(
+              icon: Icon(Icons.save),
+              onPressed: () => _handleSave(context),
+            ),
+          ),
         ],
       ),
       body: ZefyrScaffold(
@@ -52,6 +64,7 @@ class EditorPageState extends State<EditorPage> {
           focusNode: _focusNode,
         ),
       ),
+
     );
   }
 
@@ -60,7 +73,7 @@ class EditorPageState extends State<EditorPage> {
     // For simplicity we hardcode a simple document with one line of text
     // saying "Zefyr Quick Start".
     // (Note that delta must always end with newline.)
-    final Delta delta = Delta()..insert("Zefyr Quick Start\n");
+    final Delta delta = Delta()..insert("爱你哟\n");
     return NotusDocument.fromDelta(delta);
   }
 
@@ -69,7 +82,7 @@ class EditorPageState extends State<EditorPage> {
     return directory.path;
   }
 
-  void _saveDocument(BuildContext context) async{
+  void _handleSave(BuildContext context) async{
     // Notus documents can be easily serialized to JSON by passing to
     // `jsonEncode` directly
     final contents = jsonEncode(_controller.document);
@@ -86,5 +99,13 @@ class EditorPageState extends State<EditorPage> {
     file.writeAsString(contents).then((_) {
       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Saved.")));
     });
+  }
+
+  void _handleDelete() {
+
+  }
+
+  void _handleBack() {
+    Navigator.pop(context);
   }
 }
