@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hnotes/drawer/app_repo.dart';
 import 'package:hnotes/util/share_preferences.dart';
+import 'package:hnotes/SplashScreen/count_day_model.dart';
 
 // ignore: must_be_immutable
 class SettingsPage extends StatefulWidget {
@@ -19,6 +21,8 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   String selectedTheme;
+  String _selectedDate = '';
+
   @override
   Widget build(BuildContext context) {
     setState(() {
@@ -51,147 +55,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   padding: const EdgeInsets.only(left: 16, top: 36, right: 24),
                   child: buildHeaderWidget(context),
                 ),
-                buildCardWidget(Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text('App Theme',
-                      style: TextStyle(
-                        fontSize: 24
-                      )
-                    ),
-                    Container(
-                      height: 20,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Radio(
-                          value: 'light',
-                          groupValue: selectedTheme,
-                          onChanged: handleThemeSelection,
-                        ),
-                        Text(
-                          'Light theme',
-                          style: TextStyle(fontSize: 18),
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Radio(
-                          value: 'dark',
-                          groupValue: selectedTheme,
-                          onChanged: handleThemeSelection,
-                        ),
-                        Text(
-                          'Dark theme',
-                          style: TextStyle(fontSize: 18),
-                        )
-                      ],
-                    ),
-                  ],
-                )),
-                buildCardWidget(Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Text('About app',
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Theme.of(context).primaryColor)
-                    ),
-                    Container(
-                      height: 40,
-                    ),
-                    Center(
-                      child: Text('Developed by'.toUpperCase(),
-                        style: TextStyle(
-                          color: Colors.grey.shade600,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1)
-                      ),
-                    ),
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
-                        child: Text(
-                          'Bigto Chan',
-                          style: TextStyle(
-                            fontSize: 24
-                          ),
-                        ),
-                      )
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      child: OutlineButton.icon(
-                        icon: Icon(Icons.code),
-                        label: Text('GITHUB',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 1,
-                            color: Colors.grey.shade500)
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16)
-                        ),
-                        onPressed: openGitHub,
-                      ),
-                    ),
-                    Container(
-                      height: 30,
-                    ),
-                    Center(
-                      child: Text('Co-Designer'.toUpperCase(),
-                        style: TextStyle(
-                          color: Colors.grey.shade600,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1)
-                      ),
-                    ),
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
-                        child: Text(
-                          'Rita vv',
-                          style: TextStyle(
-                            fontSize: 24
-                          ),
-                        ),
-                      )
-                    ),
-                    Container(
-                      height: 30,
-                    ),
-                    Center(
-                      child: Text('Made With'.toUpperCase(),
-                        style: TextStyle(
-                          color: Colors.grey.shade600,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 1)
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            FlutterLogo(
-                              size: 40,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                'Flutter',
-                                style: TextStyle(
-                                  fontFamily: 'ZillaSlab', fontSize: 24),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ))
+                buildDatePicker(context),
+                buildAppThemeChoice(context),
+                buildAboutApp(context),
               ],
             ))
         ],
@@ -230,6 +96,95 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  Widget buildDatePicker(BuildContext context) {
+    return buildCardWidget(Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Love Start Date',
+          style: TextStyle(
+            fontSize: 24
+          )
+        ),
+        Container(
+          height: 20,
+        ),
+        Center(
+          child: new Column(
+            children: <Widget>[
+              new RaisedButton(
+                onPressed: _selectDate,
+                child: new Text(
+                  _selectedDate == '' ? 'Select Your Date' : _selectedDate,
+                  style: TextStyle(fontSize: 18)
+                ),
+              )
+            ],
+          ),
+        ),
+      ],
+    ));
+  }
+
+  Future _selectDate() async {
+    DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: new DateTime.now(),
+      firstDate: new DateTime(1966),
+      lastDate: new DateTime.now()
+    );
+    if (picked != null) {
+      setState(() => _selectedDate = picked.toString().split(" ")[0]);
+    }
+  }
+
+  void _updateDate(DateTime newDateTime) {
+    print(newDateTime);
+//    startDate = newDateTime;
+  }
+
+  Widget buildAppThemeChoice(BuildContext context) {
+    return buildCardWidget(Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text('App Theme',
+          style: TextStyle(
+            fontSize: 24
+          )
+        ),
+        Container(
+          height: 20,
+        ),
+        Row(
+          children: <Widget>[
+            Radio(
+              value: 'light',
+              groupValue: selectedTheme,
+              onChanged: handleThemeSelection,
+            ),
+            Text(
+              'Light theme',
+              style: TextStyle(fontSize: 18),
+            )
+          ],
+        ),
+        Row(
+          children: <Widget>[
+            Radio(
+              value: 'dark',
+              groupValue: selectedTheme,
+              onChanged: handleThemeSelection,
+            ),
+            Text(
+              'Dark theme',
+              style: TextStyle(fontSize: 18),
+            )
+          ],
+        ),
+      ],
+    ));
+  }
+
   void handleThemeSelection(String value) {
     setState(() {
       selectedTheme = value;
@@ -240,6 +195,111 @@ class _SettingsPageState extends State<SettingsPage> {
       widget.changeTheme(Brightness.dark);
     }
     setThemeInSharedPref(value);
+  }
+
+  Widget buildAboutApp(BuildContext context) {
+    return buildCardWidget(Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Text('About App',
+          style: TextStyle(
+            fontSize: 24,
+            color: Theme.of(context).primaryColor)
+        ),
+        Container(
+          height: 40,
+        ),
+        Center(
+          child: Text('Developed by'.toUpperCase(),
+            style: TextStyle(
+              color: Colors.grey.shade600,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 1)
+          ),
+        ),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+            child: Text(
+              'Bigto Chan',
+              style: TextStyle(
+                fontSize: 24
+              ),
+            ),
+          )
+        ),
+        Container(
+          alignment: Alignment.center,
+          child: OutlineButton.icon(
+            icon: Icon(Icons.code),
+            label: Text('GITHUB',
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                letterSpacing: 1,
+                color: Colors.grey.shade500)
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16)
+            ),
+            onPressed: openGitHub,
+          ),
+        ),
+        Container(
+          height: 30,
+        ),
+        Center(
+          child: Text('Co-Designer'.toUpperCase(),
+            style: TextStyle(
+              color: Colors.grey.shade600,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 1)
+          ),
+        ),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+            child: Text(
+              'Rita vv',
+              style: TextStyle(
+                fontSize: 24
+              ),
+            ),
+          )
+        ),
+        Container(
+          height: 30,
+        ),
+        Center(
+          child: Text('Made With'.toUpperCase(),
+            style: TextStyle(
+              color: Colors.grey.shade600,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 1)
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                FlutterLogo(
+                  size: 40,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Flutter',
+                    style: TextStyle(
+                      fontFamily: 'ZillaSlab', fontSize: 24),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    ));
   }
 
   void openGitHub() {
