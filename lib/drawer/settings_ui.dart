@@ -4,16 +4,23 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hnotes/drawer/app_repo.dart';
 import 'package:hnotes/util/share_preferences.dart';
-import 'package:hnotes/SplashScreen/count_day_model.dart';
+
+import 'package:hnotes/drawer/app_repo.dart';
+import 'package:hnotes/SplashScreen/days_since_ui.dart';
 
 // ignore: must_be_immutable
 class SettingsPage extends StatefulWidget {
   Function(Brightness brightness) changeTheme;
-  SettingsPage({Key key, Function(Brightness brightness) changeTheme})
+  bool onlySetDate;
+  SettingsPage({
+    Key key,
+    Function(Brightness brightness) changeTheme,
+    bool onlySetDate
+  })
     : super(key: key) {
     this.changeTheme = changeTheme;
+    this.onlySetDate = onlySetDate;
   }
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -32,6 +39,7 @@ class _SettingsPageState extends State<SettingsPage> {
         selectedTheme = 'light';
       }
     });
+
     return Scaffold(
       body: ListView(
         physics: BouncingScrollPhysics(),
@@ -43,12 +51,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
-                    Navigator.pop(context);
+                    handleBack();
                   },
                   child: Container(
-                    padding:
-                    const EdgeInsets.only(top: 24, left: 24, right: 24),
-                    child: Icon(Icons.arrow_back)
+                    padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
+                    child: Icon(Icons.arrow_back),
                   ),
                 ),
                 Padding(
@@ -63,6 +70,17 @@ class _SettingsPageState extends State<SettingsPage> {
         ],
       ),
     );
+  }
+
+  void handleBack() {
+    if (widget.onlySetDate) {
+      Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
+        return new DaySince(isSplash: true, changeTheme: widget.changeTheme);
+      }));
+    }
+    else {
+      Navigator.pop(context);
+    }
   }
 
   Widget buildCardWidget(Widget child) {
@@ -134,13 +152,11 @@ class _SettingsPageState extends State<SettingsPage> {
       lastDate: new DateTime.now()
     );
     if (picked != null) {
+      // Convert selected date to string for showing
       setState(() => _selectedDate = picked.toString().split(" ")[0]);
+      // Write the selected date to system
+      setDateInSharedPref(_selectedDate);
     }
-  }
-
-  void _updateDate(DateTime newDateTime) {
-    print(newDateTime);
-//    startDate = newDateTime;
   }
 
   Widget buildAppThemeChoice(BuildContext context) {

@@ -71,7 +71,7 @@ Widget settings(BuildContext context, Function(Brightness brightness) changeThem
     ),
     onTap: () {
       Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
-        return new SettingsPage(changeTheme: changeTheme);
+        return new SettingsPage(changeTheme: changeTheme, onlySetDate: false);
       }));
     },
   );

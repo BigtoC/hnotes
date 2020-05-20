@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:hnotes/util/theme.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:hnotes/util/share_preferences.dart';
+
+import 'package:hnotes/drawer/settings_ui.dart';
 import 'package:hnotes/SplashScreen/days_since_ui.dart';
 
 void main() {
@@ -18,6 +20,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   ThemeData theme = appThemeLight;
+  bool dateIsSet = false;
+
   @override
   void initState() {
     super.initState();
@@ -32,7 +36,21 @@ class _MyAppState extends State<MyApp> {
       title: 'hNotes',
       theme: theme,
       home: DaySince(isSplash: true, changeTheme: setTheme),
+      // ToDo: Set date first
+//      home: dateIsSet
+//        ? DaySince(isSplash: true, changeTheme: setTheme)
+//        : SettingsPage(changeTheme: setTheme, onlySetDate: true),
     );
+  }
+
+  void getDateSuccess() async{
+    try {
+      await getDateFromSharedPref();
+      dateIsSet = true;
+    }
+    catch (NoSuchMethodError) {
+      dateIsSet = false;
+    }
   }
 
   setTheme(Brightness brightness) {
