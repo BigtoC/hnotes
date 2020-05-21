@@ -1,9 +1,15 @@
+import 'dart:async';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'note_cards.dart';
+import 'package:hnotes/util/fade_route.dart';
 import 'package:hnotes/util/theme.dart';
-import 'file:///F:/OneDrive%20-%20City%20University%20of%20Hong%20Kong/coding/Android/hnotes/lib/NoteServices/edit.dart';
+import 'package:hnotes/NoteServices/edit.dart';
 import 'package:hnotes/drawer/drawer_ui.dart';
 import 'package:hnotes/NoteServices/fetch_all_notes.dart';
+
 
 // ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
@@ -26,13 +32,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    noteBloc.getAllNotes();
+    getAllNotes();
   }
 
   getAllNotes() async {
-    var fetchedNotes = noteBloc.getAllNotes();
+    var fs = await notesBloc.getAllNotes;
     setState(() {
-      notesList = fetchedNotes;
+      notesList.addAll(fs);
     });
   }
 
@@ -59,7 +65,13 @@ class _MyHomePageState extends State<MyHomePage> {
               Container(height: 32),
               buildImportantIndicatorText(),
               RefreshIndicator(
-                child: buildNoteComponentsList(),
+                child: ListView(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    ...buildNoteComponentsList()
+                  ],
+                ),
                 onRefresh: _handleRefresh
               ),
               Container(height: 100)
@@ -155,10 +167,16 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget buildNoteComponentsList() {
-    return Container(
+  List<Widget> buildNoteComponentsList() {
+    List<Widget> noteComponentsList = [];
+    notesList.forEach((file) {
+//      print(file.uri.path.split('/').last.replaceAll('.json', "").replaceAll('notes-', ""));
+      noteComponentsList.add(
+        NoteCardComponent(noteData: file, onTapAction: openNoteToRead)
+      );
+    });
 
-    );
+    return noteComponentsList;
   }
 
   Widget buildImportantIndicatorText() {
@@ -180,9 +198,26 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _addNewNotes() {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
-      return new EditorPage();
+    Navigator.of(context).push(new CupertinoPageRoute(builder: (_) {
+      return new EditorPage(noteFile: null,);
     }));
+  }
+
+  openNoteToRead(File noteData) async {
+    setState(() {
+      headerShouldHide = true;
+    });
+    await Future.delayed(Duration(milliseconds: 230), () {});
+    Navigator.push(
+      context,
+      FadeRoute(
+        page: EditorPage(
+          noteFile: noteData)));
+    await Future.delayed(Duration(milliseconds: 300), () {});
+
+    setState(() {
+      headerShouldHide = false;
+    });
   }
 
   void cancelSearch() {
