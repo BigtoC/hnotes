@@ -1,2 +1,2 @@
-export 'divider.dart';
-export 'size_box.dart';
+export '../components/divider.dart';
+export '../components/size_box.dart';

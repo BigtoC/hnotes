@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hnotes/drawer/settings_ui.dart';
-import 'package:hnotes/util/util_collections.dart';
 import 'package:hnotes/SplashScreen/days_since_ui.dart';
+import 'package:hnotes/components/components_collections.dart';
 
 Widget drawer(BuildContext context, Function(Brightness brightness) changeTheme) {
   return new Drawer(
