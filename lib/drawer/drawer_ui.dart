@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'package:hnotes/util/theme.dart';
 import 'package:hnotes/drawer/settings_ui.dart';
 import 'package:hnotes/SplashScreen/days_since_ui.dart';
 import 'package:hnotes/components/components_collections.dart';
@@ -25,7 +27,7 @@ final itemFontWeight = FontWeight.w400;
 Widget header() {
   return DrawerHeader(
     decoration: BoxDecoration(
-      color: Colors.blueAccent,
+      color: primaryColor,
     ),
     child: Center(
       child: const Text(
@@ -42,7 +44,10 @@ Widget header() {
 
 Widget daySince(BuildContext context) {
   return ListTile(
-    leading: Icon(Icons.favorite),
+    leading: Icon(
+      Icons.favorite,
+      color: primaryColor,
+    ),
     title: Text(
       'Day Counts',
       style: TextStyle(
@@ -61,7 +66,10 @@ Widget daySince(BuildContext context) {
 
 Widget settings(BuildContext context, Function(Brightness brightness) changeTheme) {
   return ListTile(
-    leading: Icon(Icons.settings),
+    leading: Icon(
+      Icons.settings,
+      color: btnColor,
+    ),
     title: Text(
       'Settings',
       style: TextStyle(

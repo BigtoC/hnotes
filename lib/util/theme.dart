@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
 
-Color primaryColor = Colors.blueAccent;
+List<Color> colorList = [
+  Colors.indigo,
+  Colors.blue,
+  Colors.cyan,
+  Colors.green,
+  Colors.teal,
+  Colors.amber.shade900,
+  Colors.deepOrange,
+  Colors.red,
+];
+
+Color primaryColor = Colors.pinkAccent;
+Color btnColor = Colors.blueAccent;
 Color reallyLightGrey = Colors.grey.withAlpha(25);
-//String fontFamily = 'ZillaSlab';
+
 ThemeData appThemeLight = ThemeData.light().copyWith(
   primaryColor: primaryColor,
   textTheme: ThemeData.light().textTheme.apply(
@@ -10,10 +22,10 @@ ThemeData appThemeLight = ThemeData.light().copyWith(
   ),
 );
 ThemeData appThemeDark = ThemeData.dark().copyWith(
-  primaryColor: Colors.white,
+  primaryColor: primaryColor,
   toggleableActiveColor: primaryColor,
   accentColor: primaryColor,
-  buttonColor: primaryColor,
+  buttonColor: btnColor,
   textSelectionColor: primaryColor,
   textSelectionHandleColor: primaryColor,
   textTheme: ThemeData.dark().textTheme.apply(

@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
+
+import 'package:hnotes/util/theme.dart';
 import 'package:hnotes/HomePage/home_ui.dart';
 import 'package:hnotes/NoteServices/fetch_all_notes.dart';
 import 'package:hnotes/SplashScreen/count_day_model.dart';
@@ -140,7 +142,7 @@ class _DaySince extends State<DaySince> {
           }
         },
         padding: EdgeInsets.all(12),
-        color: Colors.blueAccent.withOpacity(0.35),
+        color: btnColor.withOpacity(0.35),
         child: Text(
           'Love You~',
           style: TextStyle(color: Colors.white)

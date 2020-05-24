@@ -8,6 +8,7 @@ import 'package:hnotes/util/share_preferences.dart';
 
 import 'package:hnotes/drawer/app_repo.dart';
 import 'package:hnotes/SplashScreen/days_since_ui.dart';
+import 'package:hnotes/util/theme.dart';
 
 // ignore: must_be_immutable
 class SettingsPage extends StatefulWidget {
@@ -106,10 +107,10 @@ class _SettingsPageState extends State<SettingsPage> {
       child: Text(
         'Settings',
         style: TextStyle(
-          fontFamily: 'ZillaSlab',
           fontWeight: FontWeight.w700,
           fontSize: 36,
-          color: Theme.of(context).primaryColor),
+          color: Theme.of(context).primaryColor,
+        ),
       ),
     );
   }
@@ -121,7 +122,8 @@ class _SettingsPageState extends State<SettingsPage> {
         Text(
           'Love Start Date',
           style: TextStyle(
-            fontSize: 24
+            fontSize: 24,
+            color: Theme.of(context).primaryColor,
           )
         ),
         Container(
@@ -134,8 +136,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 onPressed: _selectDate,
                 child: new Text(
                   _selectedDate == '' ? 'Select Your Date' : _selectedDate,
-                  style: TextStyle(fontSize: 18)
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                  )
                 ),
+                color: btnColor,
               )
             ],
           ),
@@ -165,7 +171,8 @@ class _SettingsPageState extends State<SettingsPage> {
       children: <Widget>[
         Text('App Theme',
           style: TextStyle(
-            fontSize: 24
+            fontSize: 24,
+            color: Theme.of(context).primaryColor,
           )
         ),
         Container(

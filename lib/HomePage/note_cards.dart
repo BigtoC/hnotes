@@ -2,17 +2,7 @@ import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
-List<Color> colorList = [
-  Colors.indigo,
-  Colors.blue,
-  Colors.cyan,
-  Colors.green,
-  Colors.teal,
-  Colors.amber.shade900,
-  Colors.deepOrange,
-  Colors.red,
-];
-
+import 'package:hnotes/util/theme.dart';
 
 class NoteCardComponent extends StatelessWidget {
   const NoteCardComponent({

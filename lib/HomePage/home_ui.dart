@@ -82,9 +82,15 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _addNewNotes,
-        label: Text('Add note'.toUpperCase()),
-        icon: Icon(Icons.add),
-        backgroundColor: primaryColor,
+        label: Text(
+          'Add note'.toUpperCase(),
+          style: TextStyle(color: Colors.white),
+        ),
+        icon: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        backgroundColor: btnColor,
       ),
     );
   }
@@ -110,11 +116,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: isFlagOn ? Colors.white : Colors.grey.shade300,
               ),
               decoration: BoxDecoration(
-                color: isFlagOn ? Colors.blue : Colors.transparent,
+                color: isFlagOn ? btnColor : Colors.transparent,
                 border: Border.all(
                   width: isFlagOn ? 2 : 1,
                   color:
-                  isFlagOn ? Colors.blue.shade700 : Colors.grey.shade300,
+                  isFlagOn ? btnColor : Colors.grey.shade300,
                 ),
                 borderRadius: BorderRadius.all(Radius.circular(16))),
             ),
@@ -197,13 +203,11 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Text(
           'Only showing notes marked important'.toUpperCase(),
           style: TextStyle(
-            fontSize: 12, color: Colors.blue, fontWeight: FontWeight.w500
+            fontSize: 12, color: btnColor, fontWeight: FontWeight.w500
           ),
         ),
       ),
-      secondChild: Container(
-        height: 2,
-      ),
+      secondChild: Container(height: 1,),
       crossFadeState:
       isFlagOn ? CrossFadeState.showFirst : CrossFadeState.showSecond,
     );
