@@ -3,38 +3,38 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
 List<Color> colorList = [
-  Colors.blue,
-  Colors.green,
   Colors.indigo,
-  Colors.red,
+  Colors.blue,
   Colors.cyan,
+  Colors.green,
   Colors.teal,
   Colors.amber.shade900,
-  Colors.deepOrange
+  Colors.deepOrange,
+  Colors.red,
 ];
 
-String noteContents = '';
 
 class NoteCardComponent extends StatelessWidget {
   const NoteCardComponent({
-    this.noteData,
+    this.noteFile,
+    this.noteContents,
     this.onTapAction,
     Key key
   }) : super(key: key);
 
-  final File noteData;
+  final File noteFile;
+  final String noteContents;
   final Function(File noteData) onTapAction;
 
   @override
   Widget build(BuildContext context) {
-    print(noteContents);
-    print(getStrFromNoteDate());
+
     bool isImportant = false;
 
-    String title = noteContents.split(" ")[0];
-    int dateFromFileName = int.parse(noteData.uri.path.split('/').last.replaceAll('.json', "").replaceAll('notes-', ""));
+    String title = noteContents.toString().split(" ")[1];
+    int dateFromFileName = int.parse(noteFile.uri.path.split('/').last.replaceAll('.json', "").replaceAll('notes-', ""));
     String neatDate = DateFormat.yMMMd().add_jm().format(DateTime.fromMillisecondsSinceEpoch(dateFromFileName)).toString();
-    Color color = colorList.elementAt(noteData.length.call().toString().length % colorList.length);
+    Color color = colorList.elementAt(noteContents.length % colorList.length);
 
     return Container(
       margin: EdgeInsets.fromLTRB(10, 8, 10, 8),
@@ -50,7 +50,7 @@ class NoteCardComponent extends StatelessWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
           onTap: () {
-            onTapAction(noteData);
+            onTapAction(noteFile);
           },
           splashColor: color.withAlpha(20),
           highlightColor: color.withAlpha(10),
@@ -62,7 +62,6 @@ class NoteCardComponent extends StatelessWidget {
                 Text(
                   '${title.length <= 20 ? title : title.substring(0, 20) + '...'}',
                   style: TextStyle(
-                    fontFamily: 'ZillaSlab',
                     fontSize: 20,
                     fontWeight: isImportant
                       ? FontWeight.w800
@@ -71,7 +70,11 @@ class NoteCardComponent extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(top: 8),
                   child: Text(
-                    '${noteContents.trim().split('\n').first.length <= 30 ? noteContents.trim().split('\n').first : noteContents.trim().split('\n').first.substring(0, 30) + '...'}',
+                    '${
+                      noteContents.trim().split('\n').first.length <= 30
+                      ? noteContents.trim().split('\n').first
+                      : noteContents.trim().split('\n').first.substring(0, 30) + '...'
+                    }',
                     style:
                     TextStyle(fontSize: 14, color: Colors.grey.shade400),
                   ),
@@ -112,38 +115,16 @@ class NoteCardComponent extends StatelessWidget {
           ? Colors.black.withAlpha(100)
           : Colors.black.withAlpha(10),
         blurRadius: 8,
-        offset: Offset(0, 8));
+        offset: Offset(0, 8)
+      );
     }
     return BoxShadow(
       color: isImportant == true
         ? color.withAlpha(60)
         : color.withAlpha(25),
       blurRadius: 8,
-      offset: Offset(0, 8));
-  }
-
-  Future<void> getStrFromNoteDate() async {
-    final noteContent = await noteData.readAsString();
-    await new Future.delayed(new Duration(milliseconds: 500));
-    final String contents = noteContent.toString();
-    await new Future.delayed(new Duration(milliseconds: 500));
-    noteContents = contents;
-    await new Future.delayed(new Duration(milliseconds: 500));
-    extraRealContents();
-  }
-
-  void extraRealContents() {
-    RegExp exp = new RegExp(r"([\u4e00-\u9fa5_a-zA-Z0-9]+)");
-    Iterable<Match> matches = exp.allMatches(noteContents);
-    String info = "";
-    for (Match m in matches) {
-      String match = m.group(0);
-      info += match + " ";
-    }
-
-    noteContents = info.replaceAll("insert", "")
-      .replaceAll("delete", "").replaceAll("retain", "");
-    print(noteContents);
+      offset: Offset(0, 8)
+    );
   }
 
 }

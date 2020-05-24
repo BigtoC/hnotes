@@ -11,12 +11,24 @@ import 'package:hnotes/util/theme.dart';
 import 'package:quill_delta/quill_delta.dart';
 import 'dart:convert'; // access to jsonEncode()
 
+// ignore: must_be_immutable
 class EditorPage extends StatefulWidget {
+  File noteFile;
+
+  EditorPage({
+    File noteFile,
+    Key key
+  }) : super(key: key) {
+    this.noteFile = noteFile;
+  }
+
   @override
   EditorPageState createState() => EditorPageState();
 }
 
 class EditorPageState extends State<EditorPage> {
+
+
   /// Allows to control the editor and the document.
   ZefyrController _controller;
 
@@ -28,16 +40,28 @@ class EditorPageState extends State<EditorPage> {
   @override
   void initState() {
     super.initState();
-    // Here we must load the document and pass it to Zefyr controller.
-    final document = _loadDocument();
-    _controller = ZefyrController(document);
     _focusNode = FocusNode();
+    _loadDocument().then((document) {
+      setState(() {
+        _controller = ZefyrController(document);
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     // Note that the editor requires special `ZefyrScaffold` widget to be
     // one of its parents.
+    final Widget body = (_controller == null)
+      ? Center(child: CircularProgressIndicator())
+      : ZefyrScaffold(
+          child: ZefyrEditor(
+            padding: EdgeInsets.all(16),
+            controller: _controller,
+            focusNode: _focusNode,
+          ),
+      );
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Take Notes"),
@@ -57,22 +81,20 @@ class EditorPageState extends State<EditorPage> {
           ),
         ],
       ),
-      body: ZefyrScaffold(
-        child: ZefyrEditor(
-          padding: EdgeInsets.all(16),
-          controller: _controller,
-          focusNode: _focusNode,
-        ),
-      ),
-
+      body: body,
     );
   }
 
   /// Loads the document to be edited in Zefyr.
-  NotusDocument _loadDocument() {
+  Future<NotusDocument> _loadDocument() async {
     // For simplicity we hardcode a simple document with one line of text
     // saying "Zefyr Quick Start".
     // (Note that delta must always end with newline.)
+    final file = widget.noteFile;
+    if (file != null && await file.exists()) {
+      final contents = await file.readAsString();
+      return NotusDocument.fromJson(jsonDecode(contents));
+    }
     final Delta delta = Delta()..insert("爱你哟\n");
     return NotusDocument.fromDelta(delta);
   }
@@ -92,7 +114,6 @@ class EditorPageState extends State<EditorPage> {
 
     // Get file path
     final path = await _localPath;
-    print(path);
     final file = File('$path/notes-$timestampStr.json');
 
     // Write file and show a snack bar on success.

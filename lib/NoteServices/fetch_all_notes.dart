@@ -1,13 +1,15 @@
-import 'package:path_provider/path_provider.dart';
 import 'dart:io'; // access to File and Directory classes
+import 'package:path_provider/path_provider.dart';
 
 class NotesListBloc {
-  List<File> allNoteFiles;
 
-  getAllNotes() async {
+  Future<List<File>> get getAllNotes async {
     final directory = await getApplicationDocumentsDirectory();
     var _localPath = directory.path;
     final path = _localPath;
+
+    List<File> allNoteFiles = [];
+
     directory.list().forEach((element) {
       String fileName = element.path.toString();
       if (fileName.contains(".json")) {
@@ -15,9 +17,10 @@ class NotesListBloc {
         allNoteFiles.add(aFile);
       }
     });
+    await new Future.delayed(new Duration(milliseconds: 100));
+
     return allNoteFiles;
   }
-
 }
 
-final noteBloc = new NotesListBloc();
+final notesBloc = new NotesListBloc();
