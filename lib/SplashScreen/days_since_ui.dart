@@ -19,6 +19,8 @@ class DaySince extends StatefulWidget {
 
 class _DaySince extends State<DaySince> {
   static int daySince = CountDayModel.daysSince;
+  static String startDateStr = CountDayModel.startDateStr;
+
   @override
   void initState() {
     super.initState();
@@ -31,12 +33,24 @@ class _DaySince extends State<DaySince> {
 
   Widget showDays() {
     return Center(
-      child: Text(
-        "在一起已经${daySince.toString()}天了呢",
-        style: TextStyle(
-          fontSize: 36,
-          color: Colors.black87,
-        ),
+      child: Column(
+        children: <Widget>[
+          Text(
+            "${daySince.toString()}",
+            style: TextStyle(
+              fontSize: 90,
+              color: Colors.white,
+            ),
+          ),
+          Container(height: 30,),
+          Text(
+            "Start Date: $startDateStr",
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -66,7 +80,7 @@ class _DaySince extends State<DaySince> {
         padding: EdgeInsets.all(12),
         color: Colors.blueAccent,
         child: Text(
-          '爱你哟~',
+          'Love You~',
           style: TextStyle(color: Colors.white)
         ),
       ),
@@ -80,8 +94,8 @@ class _DaySince extends State<DaySince> {
         children: <Widget>[
           Center(
             child: new Image.asset(
-              'assets/Images/splash-bg.png',
-              fit: BoxFit.cover,
+              'assets/Images/sun-bg.jpg',
+              fit: BoxFit.fitHeight,
               height: 2000,
             ),
           ),

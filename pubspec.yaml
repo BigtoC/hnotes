@@ -55,7 +55,11 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - "assets/Images/splash-bg.png"
+    - "assets/Images/sun-bg.jpg"
+#    - "assets/Images/splash-bg.png"
+#    - "assets/Images/heart-bg.png"
+#    - "assets/Images/aurora-kiss-bg.png"
+#    - "assets/Images/deers-bg.jpg"
 
   # To add assets to your application, add an assets section, like this:
   # assets:
