@@ -1,10 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:hnotes/util/theme.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:hnotes/util/share_preferences.dart';
 
-import 'package:hnotes/drawer/settings_ui.dart';
+import 'package:hnotes/util/theme.dart';
+import 'package:hnotes/util/share_preferences.dart';
 import 'package:hnotes/SplashScreen/days_since_ui.dart';
 
 void main() {

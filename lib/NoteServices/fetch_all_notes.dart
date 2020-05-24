@@ -5,8 +5,6 @@ class NotesListBloc {
 
   Future<List<File>> get getAllNotes async {
     final directory = await getApplicationDocumentsDirectory();
-    var _localPath = directory.path;
-    final path = _localPath;
 
     List<File> allNoteFiles = [];
 
