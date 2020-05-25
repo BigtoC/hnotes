@@ -219,7 +219,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }));
   }
 
-  openNoteToRead(File noteData) async {
+  openNoteToRead(File noteFile) async {
     setState(() {
       headerShouldHide = true;
     });
@@ -228,7 +228,8 @@ class _MyHomePageState extends State<MyHomePage> {
       context,
       FadeRoute(
         page: EditorPage(
-          noteFile: noteData)));
+          noteFile: noteFile)
+      ));
     await Future.delayed(Duration(milliseconds: 300), () {});
 
     setState(() {
