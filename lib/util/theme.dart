@@ -11,7 +11,7 @@ List<Color> colorList = [
   Colors.red,
 ];
 
-Color primaryColor = Colors.pinkAccent;
+Color primaryColor = Colors.pink.shade400;
 Color btnColor = Colors.blueAccent;
 Color reallyLightGrey = Colors.grey.withAlpha(25);
 

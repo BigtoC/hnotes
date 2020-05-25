@@ -56,7 +56,7 @@ flutter:
   uses-material-design: true
   assets:
     - "assets/Images/sun-bg.jpg"
-#    - "assets/Images/splash-bg.png"
+    - "assets/Images/splash-bg.png"
 #    - "assets/Images/heart-bg.png"
 #    - "assets/Images/aurora-kiss-bg.png"
 #    - "assets/Images/deers-bg.jpg"
