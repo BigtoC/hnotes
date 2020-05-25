@@ -35,7 +35,6 @@ class EditorPageState extends State<EditorPage> {
   /// Zefyr editor like any other input field requires a focus node.
   FocusNode _focusNode;
 
-  bool isNoteNew = true;
 
   @override
   void initState() {
@@ -70,7 +69,7 @@ class EditorPageState extends State<EditorPage> {
           Builder(
             builder: (context) => IconButton(
               icon: Icon(Icons.delete_outline),
-              onPressed: () => _handleDelete(),
+              onPressed: () => _handleDelete(context),
             ),
           ),
           Builder(
@@ -104,17 +103,29 @@ class EditorPageState extends State<EditorPage> {
     return directory.path;
   }
 
-  void _handleSave(BuildContext context) async{
+  Future<File> _getCurrentFile() async {
+    // Take timestamp as file name
+    final timestampStr = new DateTime.now().millisecondsSinceEpoch;
+    File file;
+
+    if (null == widget.noteFile) {
+      // Get file path
+      final path = await _localPath;
+      file = File('$path/notes-$timestampStr.json');
+    }
+    else {
+      file = widget.noteFile;
+    }
+
+    return file;
+  }
+
+  void _handleSave(BuildContext context) async {
     // Notus documents can be easily serialized to JSON by passing to
     // `jsonEncode` directly
     final contents = jsonEncode(_controller.document);
 
-    // Take timestamp as file name
-    final timestampStr = new DateTime.now().millisecondsSinceEpoch;
-
-    // Get file path
-    final path = await _localPath;
-    final file = File('$path/notes-$timestampStr.json');
+    File file = await _getCurrentFile();
 
     // Write file and show a snack bar on success.
     file.writeAsString(contents).then((_) {
@@ -122,11 +133,16 @@ class EditorPageState extends State<EditorPage> {
     });
   }
 
-  void _handleDelete() {
-
+  void _handleDelete(BuildContext context) async {
+    File file = await _getCurrentFile();
+    file.delete(recursive: false).then((_) async {
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text("Delete Success.")));
+      await new Future.delayed(new Duration(milliseconds: 500));
+      _handleBack(context);
+    });
   }
 
-  void _handleBack() {
+  void _handleBack(BuildContext context) {
     Navigator.pop(context);
   }
 }
