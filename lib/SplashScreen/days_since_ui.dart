@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:hnotes/util/theme.dart';
 import 'package:hnotes/HomePage/home_ui.dart';
-import 'package:hnotes/NoteServices/fetch_all_notes.dart';
+import 'package:hnotes/NoteServices/notes_bloc.dart';
 import 'package:hnotes/SplashScreen/count_day_model.dart';
 
 // ignore: must_be_immutable
@@ -142,7 +142,7 @@ class _DaySince extends State<DaySince> {
           }
         },
         padding: EdgeInsets.all(12),
-        color: btnColor.withOpacity(0.35),
+        color: primaryColor.withOpacity(0.3),
         child: Text(
           'Love You~',
           style: TextStyle(color: Colors.white)
