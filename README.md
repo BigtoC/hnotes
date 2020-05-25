@@ -14,12 +14,13 @@ A Flutter notes app with blockchain storage.
 - [x] Show how many days we've been together
 - [x] Switch light/dark themes
 - [x] Rich text editor
-- [ ] Take notes and local storage
-- [ ] Share notes
+- [x] Take notes and local storage
+- [ ] Show notes in an appropriate way
 
 ### Stage 2
 
 > Smart contracts and blockchain related developments
+> No target due day
 
 - [ ] Develop smart contract on AntFin blockchain system ([蚂蚁金服 - 蚂蚁区块链](https://tech.antfin.com/blockchain))
 - [ ] Integrate with blockchain storage
@@ -28,6 +29,7 @@ A Flutter notes app with blockchain storage.
 
 > More enhancements
 
+- [ ]  Share notes
 - [ ]  Biometric authentications
 - [ ]  Share notes content in a picture
 - [ ]  More functions welcome pull requests and create issues
