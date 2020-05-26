@@ -61,9 +61,9 @@ class NoteCardComponent extends StatelessWidget {
                   margin: EdgeInsets.only(top: 8),
                   child: Text(
                     '${
-                      noteContents.trim().split('\n').first.length <= 30
-                      ? noteContents.trim().split('\n').first
-                      : noteContents.trim().split('\n').first.substring(0, 30) + '...'
+                      noteContents.trim().length <= 25
+                      ? noteContents.trim()
+                      : noteContents.trim().substring(0, 25) + '...'
                     }',
                     style:
                     TextStyle(fontSize: 14, color: Colors.grey.shade400),
