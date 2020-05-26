@@ -27,7 +27,7 @@ class EditorPage extends StatefulWidget {
 }
 
 class EditorPageState extends State<EditorPage> {
-
+  bool isDirty = false;
 
   /// Allows to control the editor and the document.
   ZefyrController _controller;
@@ -40,10 +40,18 @@ class EditorPageState extends State<EditorPage> {
   void initState() {
     super.initState();
     _focusNode = FocusNode();
+    _focusNode.addListener(() => _onControllerChange());
+//    _controller.addListener(() => _onControllerChange());
     _loadDocument().then((document) {
       setState(() {
         _controller = ZefyrController(document);
       });
+    });
+  }
+
+  void _onControllerChange() {
+    setState(() {
+      isDirty = !isDirty;
     });
   }
 
@@ -58,29 +66,119 @@ class EditorPageState extends State<EditorPage> {
             padding: EdgeInsets.all(16),
             controller: _controller,
             focusNode: _focusNode,
+            autofocus: false,
           ),
       );
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Take Notes"),
-        backgroundColor: primaryColor,
+      appBar: appBar(context),
+      body: body,
+    );
+  }
+
+  Widget appBar(BuildContext context) {
+    return PreferredSize(
+      preferredSize: Size.fromHeight(50.0), // here the desired height
+      child: AppBar(
+        backgroundColor: Theme.of(context).canvasColor,
+        elevation: 0.0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: primaryColor),
+          onPressed: () => _handleBack(context),
+        ),
         actions: <Widget>[
           Builder(
             builder: (context) => IconButton(
-              icon: Icon(Icons.delete_outline),
+              icon: Icon(
+                Icons.delete_outline,
+                color: primaryColor,
+              ),
               onPressed: () => _handleDelete(context),
             ),
           ),
           Builder(
-            builder: (context) => IconButton(
-              icon: Icon(Icons.save),
-              onPressed: () => _handleSave(context),
+            builder: (context) => AnimatedContainer(
+              margin: EdgeInsets.only(left: 10),
+              duration: Duration(milliseconds: 100),
+              width: isDirty ? 100 : 0,
+              height: 42,
+              curve: Curves.decelerate,
+              child: RaisedButton.icon(
+                color: primaryColor,
+                textColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(100),
+                    bottomLeft: Radius.circular(100)
+                  )
+                ),
+                icon: Icon(Icons.done),
+                label: Text(
+                  'SAVE',
+                  style: TextStyle(letterSpacing: 0),
+                ),
+                onPressed: () => _handleSave(context),
+              ),
             ),
           ),
         ],
-      ),
-      body: body,
+      )
+    );
+  }
+
+  Widget beautyAppBar(BuildContext context) {
+    return ClipRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+        child: Container(
+          height: 80,
+          color: Theme.of(context).canvasColor.withOpacity(0.3),
+          child: SafeArea(
+            child: Row(
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () => _handleBack(context),
+                ),
+                Spacer(),
+//                IconButton(
+//                  tooltip: 'Mark note as important',
+//                  icon: Icon(isImportant
+//                    ? Icons.flag
+//                    : Icons.outlined_flag),
+//                  onPressed: contentController.text.trim().isNotEmpty
+//                    ? markImportantAsDirty
+//                    : null,
+//                ),
+                IconButton(
+                  icon: Icon(Icons.delete_outline),
+                  onPressed: () => _handleDelete(context),
+                ),
+                AnimatedContainer(
+                  margin: EdgeInsets.only(left: 10),
+                  duration: Duration(milliseconds: 200),
+                  width: isDirty ? 100 : 0,
+                  height: 42,
+                  curve: Curves.decelerate,
+                  child: RaisedButton.icon(
+                    color: Theme.of(context).accentColor,
+                    textColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(100),
+                        bottomLeft: Radius.circular(100))),
+                    icon: Icon(Icons.done),
+                    label: Text(
+                      'SAVE',
+                      style: TextStyle(letterSpacing: 1),
+                    ),
+                    onPressed: () => _handleSave(context),
+                  ),
+                )
+              ],
+            ),
+          ),
+        )),
     );
   }
 
@@ -120,7 +218,17 @@ class EditorPageState extends State<EditorPage> {
     return file;
   }
 
+  void markContentAsDirty(String content) {
+    setState(() {
+      isDirty = true;
+    });
+  }
+
   void _handleSave(BuildContext context) async {
+    setState(() {
+      isDirty = false;
+    });
+
     // Notus documents can be easily serialized to JSON by passing to
     // `jsonEncode` directly
     final contents = jsonEncode(_controller.document);
