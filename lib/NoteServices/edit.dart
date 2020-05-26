@@ -206,7 +206,7 @@ class EditorPageState extends State<EditorPage> {
     final timestampStr = new DateTime.now().millisecondsSinceEpoch;
     File file;
 
-    if (null == widget.noteFile) {
+    if (null == widget.noteFile) {  // A new note
       // Get file path
       final path = await _localPath;
       file = File('$path/notes-$timestampStr.json');
@@ -242,12 +242,52 @@ class EditorPageState extends State<EditorPage> {
   }
 
   void _handleDelete(BuildContext context) async {
-    File file = await _getCurrentFile();
-    file.delete(recursive: false).then((_) async {
-      Scaffold.of(context).showSnackBar(SnackBar(content: Text("Delete Success.")));
-      await new Future.delayed(new Duration(milliseconds: 500));
+    if (null == widget.noteFile) {  // A new note
       _handleBack(context);
-    });
+    }
+    else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8)),
+            title: Text('Delete Note'),
+            content: Text('This note will be deleted permanently'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('DELETE',
+                  style: prefix0.TextStyle(
+                    color: Colors.redAccent,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1)
+                ),
+                onPressed: () async {
+                  File file = await _getCurrentFile();
+                  file.delete(recursive: false).then((_) async {
+
+                    await new Future.delayed(new Duration(milliseconds: 500));
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  });
+                },
+              ),
+              FlatButton(
+                child: Text(
+                  'CANCEL',
+                  style: TextStyle(
+                    color: btnColor,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1)),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ]
+          );
+        }
+      );
+    }
   }
 
   void _handleBack(BuildContext context) {
