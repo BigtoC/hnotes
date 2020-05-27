@@ -2,21 +2,21 @@ import 'dart:io';
 import 'package:hnotes/home_page/note_cards.dart';
 import 'package:flutter/material.dart';
 
-import 'package:hnotes/util/theme.dart';
 import 'package:hnotes/note_services/notes_bloc.dart';
 import 'package:hnotes/note_services/note_model.dart';
 
 class NoteCardsList extends StatelessWidget {
   const NoteCardsList({
     this.onTapAction,
+    this.isSearching,
     Key key
   }) : super(key: key);
 
   final Function(File noteData) onTapAction;
+  final bool isSearching;
 
   @override
   Widget build(BuildContext context) {
-    notesBloc.fetchAllNotes();
     return StreamBuilder(
       stream: notesBloc.noteFiles,
       builder: (context, AsyncSnapshot<NoteModel> snapshot) {
@@ -57,6 +57,11 @@ class NoteCardsList extends StatelessWidget {
             onTapAction: onTapAction,
           );
         }
+      );
+    }
+    else if (isSearching && itemCount == 0) {
+      return new Center(
+        child: new Text("Note(s) not found.")
       );
     }
     else {

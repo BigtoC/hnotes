@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:hnotes/requester/repository.dart';
@@ -13,6 +14,20 @@ class NotesListBloc {
     NoteModel noteModel = await _repository.fetchAllNotes();
     await new Future.delayed(new Duration(milliseconds: 500));
     _allNotesList.sink.add(noteModel);
+  }
+
+  searchNotes(String keywords) async {
+    List<File> tmpFileList = [];
+    NoteModel noteModel = await _repository.fetchAllNotes();
+    await new Future.delayed(new Duration(milliseconds: 500));
+    for (int i = 0; i < noteModel.noteContentsList.length; i++) {
+      String content = noteModel.noteContentsList[i];
+      if (content.contains(keywords)) {
+        tmpFileList.add(noteModel.noteFilesList[i]);
+      }
+    }
+    _allNotesList.sink.add(NoteModel.fromList(tmpFileList));
+
   }
 
   bool isDispose = false;

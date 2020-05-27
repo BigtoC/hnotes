@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:hnotes/note_services/notes_bloc.dart';
 
 import 'note_cards_list.dart';
 import 'package:hnotes/util/theme.dart';
@@ -30,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isFlagOn = false;
   bool headerShouldHide = false;
   TextEditingController searchController = TextEditingController();
-  bool isSearchEmpty = true;
+  bool isSearching = false;
 
   @override
   void initState() {
@@ -132,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       controller: searchController,
                       maxLines: 1,
                       onChanged: (value) {
-                        handleSearch(value);
+                        _handleSearch(value);
                       },
                       autofocus: false,
                       keyboardType: TextInputType.text,
@@ -151,7 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   IconButton(
                     icon: Icon(
-                      isSearchEmpty ? Icons.search : Icons.cancel,
+                      isSearching ? Icons.cancel : Icons.search,
                       color: Colors.grey.shade300
                     ),
                     onPressed: cancelSearch,
@@ -166,8 +167,16 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget buildNoteComponentsList() {
+    if (!isSearching) {
+      notesBloc.fetchAllNotes();
+    }
+    if (isSearching) {
+      String keywords = searchController.text;
+      notesBloc.searchNotes(keywords);
+    }
     return new NoteCardsList(
       onTapAction: openNoteToRead,
+      isSearching: isSearching,
     );
   }
 
@@ -216,18 +225,18 @@ class _MyHomePageState extends State<MyHomePage> {
     FocusScope.of(context).requestFocus(new FocusNode());
     setState(() {
       searchController.clear();
-      isSearchEmpty = true;
+      isSearching = false;
     });
   }
 
-  void handleSearch(String value) {
+  void _handleSearch(String value) {
     if (value.isNotEmpty) {
       setState(() {
-        isSearchEmpty = false;
+        isSearching = true;
       });
     } else {
       setState(() {
-        isSearchEmpty = true;
+        isSearching = false;
       });
     }
   }
@@ -235,7 +244,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _handleRefresh() async {
     setState(() {
       isFlagOn = false;
-      isSearchEmpty = true;
+      isSearching = false;
       searchController.clear();
     });
   }

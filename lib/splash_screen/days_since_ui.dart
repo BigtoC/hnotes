@@ -1,10 +1,7 @@
-import 'dart:io';
-import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:hnotes/util/theme.dart';
 import 'package:hnotes/home_page/home_ui.dart';
-import 'package:hnotes/note_services/notes_bloc.dart';
 import 'package:hnotes/splash_screen/count_day_model.dart';
 
 // ignore: must_be_immutable
