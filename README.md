@@ -16,6 +16,7 @@ A Flutter notes app with blockchain storage.
 - [x] Rich text editor
 - [x] Take notes and local storage
 - [ ] Show notes in an appropriate way
+- [ ] Search notes
 
 ### Stage 2
 
@@ -24,14 +25,15 @@ A Flutter notes app with blockchain storage.
 
 - [ ] Develop smart contract on AntFin blockchain system ([蚂蚁金服 - 蚂蚁区块链](https://tech.antfin.com/blockchain))
 - [ ] Integrate with blockchain storage
+- [ ] Mark and show important notes
 
 ### Stage 3
 
-> More enhancements
+> More enhancements (and some fun functions)
 
-- [ ]  Share notes
-- [ ]  Biometric authentications
+- [ ]  Share notes text contents
 - [ ]  Share notes content in a picture
+- [ ]  Biometric authentications (Finger print, face unlock)
 - [ ]  More functions welcome pull requests and create issues
 
 ## References
