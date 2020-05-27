@@ -192,7 +192,7 @@ class EditorPageState extends State<EditorPage> {
       final contents = await file.readAsString();
       return NotusDocument.fromJson(jsonDecode(contents));
     }
-    final Delta delta = Delta()..insert("");
+    final Delta delta = Delta()..insert("\n");
     return NotusDocument.fromDelta(delta);
   }
 
