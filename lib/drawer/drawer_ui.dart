@@ -104,7 +104,7 @@ Widget version() {
   return Expanded(
     child: Align(
       alignment: Alignment.bottomLeft,
-      child: Text('\n  0.0.1 Dev\n'),
+      child: Text('\n  v1.0.1 \n'),
     ),
   );
 }
