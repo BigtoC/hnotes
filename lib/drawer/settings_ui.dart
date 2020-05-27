@@ -151,6 +151,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future _selectDate() async {
+    // ToDo: select date in the first time
     DateTime picked = await showDatePicker(
       context: context,
       initialDate: new DateTime.now(),
