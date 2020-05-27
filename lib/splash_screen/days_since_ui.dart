@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:hnotes/util/theme.dart';
-import 'package:hnotes/HomePage/home_ui.dart';
-import 'package:hnotes/NoteServices/notes_bloc.dart';
-import 'package:hnotes/SplashScreen/count_day_model.dart';
+import 'package:hnotes/home_page/home_ui.dart';
+import 'package:hnotes/note_services/notes_bloc.dart';
+import 'package:hnotes/splash_screen/count_day_model.dart';
 
 // ignore: must_be_immutable
 class DaySince extends StatefulWidget {
@@ -25,70 +25,10 @@ class DaySince extends StatefulWidget {
 class _DaySince extends State<DaySince> {
   static int daySince = CountDayModel.daysSince;
   static String startDateStr = CountDayModel.startDateStr;
-  List<File> noteFilesList = [];
-  List<String> noteContentsList = [];
 
   @override
   void initState() {
     super.initState();
-    if (widget.isSplash) {
-      // Read note data file after opening the splash page in the first time
-      getAllNoteFiles();
-    }
-
-  }
-
-  Future<void> getAllNoteFiles() async {
-    var fs = await notesBloc.getAllNotes;
-    await new Future.delayed(new Duration(milliseconds: 105));
-    List<File> tmpList = [];
-    tmpList.addAll(fs);
-    tmpList.sort((a, b) {
-      return b.lastModifiedSync().compareTo(a.lastModifiedSync());
-    });
-
-    setState(() {
-      noteFilesList = tmpList;
-    });
-    await new Future.delayed(new Duration(milliseconds: 150));
-
-    await getStrFromNoteDate();
-  }
-
-  Future<void> getStrFromNoteDate() async {
-    List<String> tmpList = [];
-
-    noteFilesList.forEach((file) async {
-      final noteContent = await file.readAsString();
-      await new Future.delayed(new Duration(milliseconds: 150));
-      final String contents = noteContent.toString();
-      await new Future.delayed(new Duration(milliseconds: 150));
-      tmpList.add(extractContents(contents));
-    });
-    await new Future.delayed(new Duration(milliseconds: 305));
-
-    setState(() {
-      noteContentsList = tmpList;
-    });
-  }
-
-  String extractContents(String contents) {
-    contents = contents.replaceAll("\\n", "");
-    RegExp exp = new RegExp(r"([\u4e00-\u9fa5_a-zA-Z0-9]+)");
-    Iterable<Match> matches = exp.allMatches(contents);
-    String info = "";
-    for (Match m in matches) {
-      String match = m.group(0);
-      info += match + " ";
-    }
-    String extractedContents = info.replaceAll("insert", "")
-      .replaceAll("delete", "")
-      .replaceAll("retain", "")
-      .replaceAll("heading", "")
-      .replaceAll("block", "")
-      .replaceAll("embed", "");
-
-    return extractedContents;
   }
 
   Widget showDays() {
@@ -131,8 +71,6 @@ class _DaySince extends State<DaySince> {
               MaterialPageRoute(builder: (context) =>
                 MyHomePage(
                   changeTheme: widget.changeTheme,
-                  noteFilesList: noteFilesList,
-                  noteContentsList: noteContentsList,
                 )
               ),
                 (Route<dynamic> route) => false);

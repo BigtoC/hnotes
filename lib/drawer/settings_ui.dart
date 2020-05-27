@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:hnotes/util/share_preferences.dart';
 
 import 'package:hnotes/drawer/app_repo.dart';
-import 'package:hnotes/SplashScreen/days_since_ui.dart';
+import 'package:hnotes/splash_screen/days_since_ui.dart';
 import 'package:hnotes/util/theme.dart';
 
 // ignore: must_be_immutable

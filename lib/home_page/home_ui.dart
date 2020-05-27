@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'note_cards.dart';
+import 'note_cards_list.dart';
 import 'package:hnotes/util/theme.dart';
 import 'package:hnotes/drawer/drawer_ui.dart';
-import 'package:hnotes/NoteServices/edit.dart';
+import 'package:hnotes/note_services/edit_ui.dart';
 import 'package:hnotes/components/components_collections.dart';
 
 
@@ -15,18 +15,12 @@ class MyHomePage extends StatefulWidget {
   MyHomePage({
     Key key,
     Function(Brightness brightness) changeTheme,
-    List<File> noteFilesList,
-    List<String> noteContentsList,
   })
     : super(key: key) {
     this.changeTheme = changeTheme;
-    this.noteFilesList = noteFilesList;
-    this.noteContentsList = noteContentsList;
   }
 
   Function(Brightness brightness) changeTheme;
-  List<File> noteFilesList;
-  List<String> noteContentsList;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -70,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   children: <Widget>[
-                    ...buildNoteComponentsList()
+                    buildNoteComponentsList()
                   ],
                 ),
                 onRefresh: _handleRefresh
@@ -177,23 +171,10 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  List<Widget> buildNoteComponentsList() {
-    List<Widget> noteCardsList = [];
-    int index = 0;
+  Widget buildNoteComponentsList() {
+    return new NoteCardsList();
 
-    widget.noteFilesList.forEach((file) {
-      String contents = widget.noteContentsList[index];
-      noteCardsList.add(
-        NoteCardComponent(
-          noteFile: file,
-          noteContents: contents,
-          onTapAction: openNoteToRead
-        )
-      );
-      index += 1;
-    });
 
-    return noteCardsList;
   }
 
   Widget buildImportantIndicatorText() {
