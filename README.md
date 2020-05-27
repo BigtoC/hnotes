@@ -9,14 +9,15 @@ A Flutter notes app with blockchain storage.
 ### Stage 1
 
 > Basic notes mobile app developments  
-> Target finish before 2020/05/22
+> Target finish before 2020-05-22  
+> Finished on 2020-05-27
 
 - [x] Show how many days we've been together
 - [x] Switch light/dark themes
 - [x] Rich text editor
 - [x] Take notes and local storage
 - [x] Show notes in an appropriate way
-- [ ] Search notes
+- [x] Search notes
 
 ### Stage 2
 
