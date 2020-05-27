@@ -1,4 +1,3 @@
-import 'dart:io'; // access to File and Directory classes
 import 'package:rxdart/rxdart.dart';
 
 import 'package:hnotes/requester/repository.dart';
@@ -12,7 +11,7 @@ class NotesListBloc {
 
   fetchAllNotes() async {
     NoteModel noteModel = await _repository.fetchAllNotes();
-    await new Future.delayed(new Duration(milliseconds: 305));
+    await new Future.delayed(new Duration(milliseconds: 500));
     _allNotesList.sink.add(noteModel);
   }
 

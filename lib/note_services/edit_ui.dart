@@ -267,8 +267,8 @@ class EditorPageState extends State<EditorPage> {
                   file.delete(recursive: false).then((_) async {
                     await new Future.delayed(new Duration(milliseconds: 500));
                     Navigator.pop(context);
-                    Navigator.pop(context);
                   });
+                  Navigator.pop(context);
                 },
               ),
               FlatButton(

@@ -15,7 +15,7 @@ A Flutter notes app with blockchain storage.
 - [x] Switch light/dark themes
 - [x] Rich text editor
 - [x] Take notes and local storage
-- [ ] Show notes in an appropriate way
+- [x] Show notes in an appropriate way
 - [ ] Search notes
 
 ### Stage 2

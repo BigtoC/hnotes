@@ -60,13 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Container(height: 32),
               buildImportantIndicatorText(),
               RefreshIndicator(
-                child: ListView(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  children: <Widget>[
-                    buildNoteComponentsList()
-                  ],
-                ),
+                child: buildNoteComponentsList(),
                 onRefresh: _handleRefresh
               ),
               Container(height: 100)
@@ -172,9 +166,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget buildNoteComponentsList() {
-    return new NoteCardsList();
-
-
+    return new NoteCardsList(
+      onTapAction: openNoteToRead,
+    );
   }
 
   Widget buildImportantIndicatorText() {
@@ -241,6 +235,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _handleRefresh() async {
     setState(() {
       isFlagOn = false;
+      isSearchEmpty = true;
       searchController.clear();
     });
   }

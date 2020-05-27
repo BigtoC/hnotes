@@ -8,12 +8,14 @@ class NoteCardComponent extends StatelessWidget {
   const NoteCardComponent({
     this.noteFile,
     this.noteContents,
+    this.timestamp,
     this.onTapAction,
     Key key
   }) : super(key: key);
 
   final File noteFile;
   final String noteContents;
+  final int timestamp;
   final Function(File noteData) onTapAction;
 
   @override
@@ -22,8 +24,8 @@ class NoteCardComponent extends StatelessWidget {
     bool isImportant = false;
 
     String title = noteContents.toString().split(" ")[1];
-    int dateFromFileName = int.parse(noteFile.uri.path.split('/').last.replaceAll('.json', "").replaceAll('notes-', ""));
-    String neatDate = DateFormat.yMMMd().add_jm().format(DateTime.fromMillisecondsSinceEpoch(dateFromFileName)).toString();
+    String neatDate = DateFormat.yMMMd().add_jm().format(
+      DateTime.fromMillisecondsSinceEpoch(timestamp)).toString();
     Color color = colorList.elementAt(noteContents.length % colorList.length);
 
     return Container(

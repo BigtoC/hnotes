@@ -6,6 +6,7 @@ class NoteApiProvider {
 
   Future<NoteModel> getAllNotes() async {
     final directory = await getApplicationDocumentsDirectory();
+    await new Future.delayed(new Duration(milliseconds: 100));
     List<File> tmpList = [];
 
     directory.list().forEach((element) {
@@ -19,8 +20,8 @@ class NoteApiProvider {
     tmpList.sort((a, b) {
       return b.lastModifiedSync().compareTo(a.lastModifiedSync());
     });
-
-    return NoteModel.fromJson(tmpList);
+    await new Future.delayed(new Duration(milliseconds: 100));
+    return NoteModel.fromList(tmpList);
   }
 
 }

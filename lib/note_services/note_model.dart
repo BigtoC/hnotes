@@ -11,20 +11,21 @@ class NoteModel {
     this.noteTimestampsList,
   });
 
-  factory NoteModel.fromJson (List<File> fileList) {
+  factory NoteModel.fromList (List<File> fileList) {
     List<File> files = fileList;
-    List<String> contentsList;
-    List<int> timestamps;
+    List<String> contentsList = new List<String>();
+    List<int> timestamps = new List<int>();
 
     files.forEach((file) async {
       // Get timestamp from file path (filePath = "xxx/xxx/notes-<timestamp>.json")
-      timestamps.add(int.parse(file.uri.path.split('/').last.replaceAll('.json', "").replaceAll('notes-', "")));
+      int thisTime = int.parse(file.uri.path.split('/').last.replaceAll('.json', "").replaceAll('notes-', ""));
+      timestamps.add(thisTime);
 
       // Extract note contents from file data
       final noteContent = await file.readAsString();
-      await new Future.delayed(new Duration(milliseconds: 150));
+      await new Future.delayed(new Duration(milliseconds: 100));
       final String contents = noteContent.toString();
-      await new Future.delayed(new Duration(milliseconds: 150));
+      await new Future.delayed(new Duration(milliseconds: 100));
       contentsList.add(_extractContents(contents));
     });
 
@@ -51,7 +52,9 @@ String _extractContents(String contents) {
     .replaceAll("retain", "")
     .replaceAll("heading", "")
     .replaceAll("block", "")
-    .replaceAll("embed", "");
+    .replaceAll("embed", "")
+    .replaceAll("attributes", "")
+    .replaceAll("ul", "");
 
   return extractedContents;
 }
