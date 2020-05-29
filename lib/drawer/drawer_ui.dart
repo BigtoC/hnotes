@@ -104,7 +104,10 @@ Widget version() {
   return Expanded(
     child: Align(
       alignment: Alignment.bottomLeft,
-      child: Text('\n  v1.0.1 \n'),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text('\n  v1.1.0 \n'),
+      ),
     ),
   );
 }

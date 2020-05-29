@@ -13,6 +13,7 @@ class NotesListBloc {
   fetchAllNotes() async {
     NoteModel noteModel = await _repository.fetchAllNotes();
     await new Future.delayed(new Duration(milliseconds: 500));
+
     _allNotesList.sink.add(noteModel);
   }
 
@@ -20,10 +21,10 @@ class NotesListBloc {
     List<File> tmpFileList = [];
     NoteModel noteModel = await _repository.fetchAllNotes();
     await new Future.delayed(new Duration(milliseconds: 500));
-    for (int i = 0; i < noteModel.noteContentsList.length; i++) {
-      String content = noteModel.noteContentsList[i];
+    for (int i = 0; i < noteModel.noteKeyValueList.length; i++) {
+      String content = noteModel.noteKeyValueList[i]["Contents"];
       if (content.contains(keywords)) {
-        tmpFileList.add(noteModel.noteFilesList[i]);
+        tmpFileList.add(noteModel.noteKeyValueList[i]["File"]);
       }
     }
     _allNotesList.sink.add(NoteModel.fromList(tmpFileList));

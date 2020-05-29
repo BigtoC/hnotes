@@ -1,38 +1,38 @@
+import 'dart:collection';
 import 'dart:io';
 
 class NoteModel {
-  final List<File> noteFilesList;
-  final List<String> noteContentsList;
-  final List<int> noteTimestampsList;
+  final List<HashMap<String, dynamic>> noteKeyValueList;
 
   NoteModel({
-    this.noteFilesList,
-    this.noteContentsList,
-    this.noteTimestampsList,
+    this.noteKeyValueList,
   });
 
   factory NoteModel.fromList (List<File> fileList) {
-    List<File> files = fileList;
-    List<String> contentsList = new List<String>();
-    List<int> timestamps = new List<int>();
+    var tmpKeyValueList = new List<HashMap<String, dynamic>>();
 
-    files.forEach((file) async {
-      // Get timestamp from file path (filePath = "xxx/xxx/notes-<timestamp>.json")
-      int thisTime = int.parse(file.uri.path.split('/').last.replaceAll('.json', "").replaceAll('notes-', ""));
-      timestamps.add(thisTime);
+    fileList.forEach((file) async {
+      var tmpMap = new HashMap<String, dynamic>();
+
+      // Add the file instance
+      tmpMap["File"] = file;
 
       // Extract note contents from file data
       final noteContent = await file.readAsString();
       await new Future.delayed(new Duration(milliseconds: 100));
       final String contents = noteContent.toString();
       await new Future.delayed(new Duration(milliseconds: 100));
-      contentsList.add(_extractContents(contents));
+      tmpMap["Contents"] = _extractContents(contents);
+
+      tmpKeyValueList.add(tmpMap);
+    });
+
+    tmpKeyValueList.sort((a, b) {
+      return a["File"]..lastModifiedSync().compareTo(b["File"]..lastModifiedSync());
     });
 
     return new NoteModel(
-      noteFilesList: files,
-      noteContentsList: contentsList,
-      noteTimestampsList: timestamps
+      noteKeyValueList: tmpKeyValueList,
     );
   }
 }

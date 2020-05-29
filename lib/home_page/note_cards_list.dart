@@ -40,10 +40,8 @@ class NoteCardsList extends StatelessWidget {
     AsyncSnapshot<NoteModel> snapshot,
     Function(File noteData) onTapAction
     ) {
-    final int itemCount = snapshot.data.noteContentsList.length;
-    final List<File> noteFilesList = snapshot.data.noteFilesList;
-    final List<String> noteContentsList = snapshot.data.noteContentsList;
-    final List<int> noteTimestampsList = snapshot.data.noteTimestampsList;
+    final int itemCount = snapshot.data.noteKeyValueList.length;
+    List<Map<String, dynamic>> notesList = snapshot.data.noteKeyValueList;
 
     if (itemCount > 0) {
       return ListView.builder(
@@ -51,9 +49,8 @@ class NoteCardsList extends StatelessWidget {
         itemCount: itemCount,
         itemBuilder: (context, index) {
           return new NoteCardComponent(
-            noteFile: noteFilesList[index],
-            noteContents: noteContentsList[index],
-            timestamp: noteTimestampsList[index],
+            noteFile: notesList[index]["File"],
+            noteContents: notesList[index]["Contents"],
             onTapAction: onTapAction,
           );
         }
