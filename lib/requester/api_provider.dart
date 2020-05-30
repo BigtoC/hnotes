@@ -1,13 +1,16 @@
 import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
-import 'package:encrypt/encrypt.dart';
-import 'package:pointycastle/asymmetric/api.dart';
+import 'package:convert/convert.dart';
 import 'package:http/http.dart' as http;
-import 'package:steel_crypt/steel_crypt.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
+import 'package:crypto/crypto.dart';
+import "package:pointycastle/api.dart";
+import "package:pointycastle/digests/sha256.dart";
+
+import 'package:hnotes/requester/rsa_utils.dart';
 import 'package:hnotes/note_services/note_model.dart';
 
 class NoteApiProvider {
@@ -20,8 +23,8 @@ class NoteApiProvider {
   String clientId = "";
   String myKmsKeyId = "";
   String accAddress = "";
-  var privateKey;
-  var publicKey;
+  String publicKeyString;
+  String privateKeyString;
 
   readKeys() async {
     String keyString = await rootBundle.loadString(keysFilePath);
@@ -30,11 +33,8 @@ class NoteApiProvider {
     String publicKeyString = await rootBundle.loadString(publicKeyPath);
     await new Future.delayed(new Duration(milliseconds: 200));
     publicKeyString = "-----BEGIN PUBLIC KEY-----\n$publicKeyString\n-----END PUBLIC KEY-----";
-    publicKey = RSAKeyParser().parse(publicKeyString);
 
-    final String privateKeyString = await rootBundle.loadString(privateKeyPath);
-    privateKey = RSAKeyParser().parse(privateKeyString);
-//    privateKey = RsaCrypt().parseKeyFromString(privateKeyString);
+    privateKeyString = await rootBundle.loadString(privateKeyPath);
 
     accessId = keysJson["access-id"];
 
@@ -60,12 +60,10 @@ class NoteApiProvider {
 
   String _sign(String timestamp) {
     final String message = accessId + timestamp;
-    final signer = Signer(RSASigner(
-      RSASignDigest.SHA256, publicKey: publicKey, privateKey: privateKey
-    ));
+    var digest = sha256.convert(utf8.encode(message)).bytes;
+    var rsa = RSAUtils.getInstance(publicKeyString, privateKeyString);
 
-    final String secret = signer.sign(message).base64;
-
+    String secret = hex.encode(rsa.encryptByPrivateKey(digest));
     return secret;
   }
 

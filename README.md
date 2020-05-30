@@ -42,6 +42,7 @@ A Flutter notes app with blockchain storage.
 
 * [roshanrahman/flutter-notes-app](https://github.com/roshanrahman/flutter-notes-app)
 * Rich text editor: [Zefyr Editor](https://zefyr-editor.gitbook.io/docs/quick-start)
+* RSA Encryption: [flutter RSA 加解密](https://blog.csdn.net/rznice/article/details/104486712)
 
 ## Getting Started with Flutter
 

@@ -28,8 +28,8 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     updateThemeFromSharedPref();
     createFolderInAppDocDir("hnotes");
-//    apiProvider.readKeys();
-//    apiProvider.handShake();
+    apiProvider.readKeys();
+    apiProvider.handShake();
   }
 
   @override
