@@ -121,7 +121,7 @@ class RSAUtils {
       }
       return list;
     } catch (e) {
-      print(e.toString());
+      print("Encrypt By Private Key Error: ${e.toString()}");
     }
   }
 
@@ -305,7 +305,7 @@ class RSAUtils {
   }
 
   ASN1Sequence _pkcs8PrivateSequence(ASN1Sequence sequence) {
-    final ASN1BitString bitString = sequence.elements[2];
+    final bitString = sequence.elements[2];
     final bytes = bitString.valueBytes();
     final parser = ASN1Parser(bytes);
 

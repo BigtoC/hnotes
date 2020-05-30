@@ -1,14 +1,11 @@
 import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
+import 'package:crypto/crypto.dart';
 import 'package:convert/convert.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart' show rootBundle;
-
-import 'package:crypto/crypto.dart';
-import "package:pointycastle/api.dart";
-import "package:pointycastle/digests/sha256.dart";
 
 import 'package:hnotes/requester/rsa_utils.dart';
 import 'package:hnotes/note_services/note_model.dart';
@@ -30,20 +27,17 @@ class NoteApiProvider {
     String keyString = await rootBundle.loadString(keysFilePath);
     Map<String, dynamic> keysJson = jsonDecode(keyString);
 
-    String publicKeyString = await rootBundle.loadString(publicKeyPath);
-    await new Future.delayed(new Duration(milliseconds: 200));
-    publicKeyString = "-----BEGIN PUBLIC KEY-----\n$publicKeyString\n-----END PUBLIC KEY-----";
-
+    String tmpPublicKeyString = await rootBundle.loadString(publicKeyPath);
+    publicKeyString = "-----BEGIN PUBLIC KEY-----\n$tmpPublicKeyString\n-----END PUBLIC KEY-----";
     privateKeyString = await rootBundle.loadString(privateKeyPath);
 
     accessId = keysJson["access-id"];
-
     myKmsKeyId = keysJson["myKmsKeyId"];
     accAddress = keysJson["account-address"];
   }
 
   handShake() async {
-    await new Future.delayed(new Duration(milliseconds: 2000));
+    await new Future.delayed(new Duration(milliseconds: 1000));
     String timestamp = new DateTime.now().millisecondsSinceEpoch.toString();
     String secret = _sign(timestamp);
 
@@ -60,10 +54,12 @@ class NoteApiProvider {
 
   String _sign(String timestamp) {
     final String message = accessId + timestamp;
-    var digest = sha256.convert(utf8.encode(message)).bytes;
-    var rsa = RSAUtils.getInstance(publicKeyString, privateKeyString);
+    var messageDigest = sha256.convert(utf8.encode(message)).bytes;
 
-    String secret = hex.encode(rsa.encryptByPrivateKey(digest));
+    var rsa = RSAUtils.getInstance(publicKeyString, privateKeyString);
+    final encryptedMessage = rsa.encryptByPrivateKey(messageDigest);
+
+    String secret = hex.encode(encryptedMessage);
     return secret;
   }
 
