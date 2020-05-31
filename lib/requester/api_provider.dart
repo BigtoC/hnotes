@@ -6,9 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-import 'package:hnotes/crypto/pem.dart';
-import 'package:hnotes/crypto/rsa.dart';
-import 'package:hnotes/crypto/rsa_sign.dart';
+import 'package:hnotes/google_crypto/google_crypto_collections.dart';
+import 'package:hnotes/util/share_preferences.dart';
 import 'package:hnotes/note_services/note_model.dart';
 
 class NoteApiProvider {
@@ -55,7 +54,8 @@ class NoteApiProvider {
       headers: {'Content-type': 'application/json'},
       body: requestBody,
     );
-    print("response.body: ${response.body}");
+    final String token = jsonDecode(response.body)['data'];
+    setTokenInSharedPref(token);
   }
 
   String _sign(String timestamp) {
