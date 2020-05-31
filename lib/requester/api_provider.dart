@@ -1,13 +1,14 @@
 import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
-import 'package:crypto/crypto.dart';
 import 'package:convert/convert.dart';
+import 'package:hnotes/crypto/rsa.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
-import 'package:hnotes/requester/rsa_utils.dart';
+import 'package:hnotes/crypto/pem.dart';
+import 'package:hnotes/crypto/rsa_sign.dart';
 import 'package:hnotes/note_services/note_model.dart';
 
 class NoteApiProvider {
@@ -22,6 +23,7 @@ class NoteApiProvider {
   String accAddress = "";
   String publicKeyString;
   String privateKeyString;
+  RSAPrivateKey privateKey;
 
   readKeys() async {
     String keyString = await rootBundle.loadString(keysFilePath);
@@ -30,6 +32,7 @@ class NoteApiProvider {
     String tmpPublicKeyString = await rootBundle.loadString(publicKeyPath);
     publicKeyString = "-----BEGIN PUBLIC KEY-----\n$tmpPublicKeyString\n-----END PUBLIC KEY-----";
     privateKeyString = await rootBundle.loadString(privateKeyPath);
+    privateKey = keyFromString(privateKeyString);
 
     accessId = keysJson["access-id"];
     myKmsKeyId = keysJson["myKmsKeyId"];
@@ -37,29 +40,31 @@ class NoteApiProvider {
   }
 
   handShake() async {
-    await new Future.delayed(new Duration(milliseconds: 1000));
+    await new Future.delayed(new Duration(milliseconds: 650));
     String timestamp = new DateTime.now().millisecondsSinceEpoch.toString();
-    String secret = _sign(timestamp);
+    final String secret = _sign(timestamp);
+
+    final requestBody = jsonEncode({
+      "accessId": "$accessId",
+      "time": "$timestamp",
+      "secret": "$secret"
+    });
 
     final response = await client.post(
       "$baasUrl/shakeHand",
-      body: {
-        "accessId": accessId,
-        "time": timestamp,
-        "secret": secret
-      }
+      headers: {'Content-type': 'application/json'},
+      body: requestBody,
     );
     print("response.body: ${response.body}");
   }
 
   String _sign(String timestamp) {
-    final String message = accessId + timestamp;
-    var messageDigest = sha256.convert(utf8.encode(message)).bytes;
+    final String _message = accessId + timestamp;
+    List<int> bytesMessage = ascii.encode(_message);
+    final RS256Signer _signer = new RS256Signer(privateKey);
+    final signature = _signer.sign(bytesMessage);
 
-    var rsa = RSAUtils.getInstance(publicKeyString, privateKeyString);
-    final encryptedMessage = rsa.encryptByPrivateKey(messageDigest);
-
-    String secret = hex.encode(encryptedMessage);
+    final String secret = hex.encode(signature);
     return secret;
   }
 
