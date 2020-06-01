@@ -53,22 +53,22 @@ class _MyHomePageState extends State<MyHomePage> {
           FocusScope.of(context).requestFocus(new FocusNode());
         },
         child: AnimatedContainer(
-          duration: Duration(milliseconds: 200),
-          child: ListView(
-            physics: BouncingScrollPhysics(),
-            children: <Widget>[
-              buildButtonRow(),
-              Container(height: 32),
-              buildImportantIndicatorText(),
-              RefreshIndicator(
-                child: buildNoteComponentsList(),
-                onRefresh: _handleRefresh
-              ),
-              Container(height: 100)
-            ],
+            duration: Duration(milliseconds: 200),
+            child: ListView(
+              physics: BouncingScrollPhysics(),
+              children: <Widget>[
+                buildButtonRow(),
+                Container(height: 32),
+                buildImportantIndicatorText(),
+                RefreshIndicator(
+                  child: buildNoteComponentsList(),
+                  onRefresh: _handleRefresh
+                ),
+                Container(height: 100)
+              ],
+            ),
           ),
         ),
-      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _addNewNotes,
         label: Text(

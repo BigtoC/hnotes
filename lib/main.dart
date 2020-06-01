@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:hnotes/util/theme.dart';
-import 'package:hnotes/requester/api_provider.dart';
+import 'package:hnotes/requester/repository.dart';
 import 'package:hnotes/util/share_preferences.dart';
 import 'package:hnotes/splash_screen/days_since_ui.dart';
 
@@ -21,15 +21,16 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   ThemeData theme = appThemeLight;
   bool dateIsSet = false;
-  NoteApiProvider apiProvider = new NoteApiProvider();
+  Repository repository = new Repository();
 
   @override
   void initState() {
     super.initState();
     updateThemeFromSharedPref();
     createFolderInAppDocDir("hnotes");
-    apiProvider.readKeys();
-    apiProvider.handShake();
+    repository.chainCall().readKeys();
+    repository.chainCall().handShake();
+    repository.chainCallQuery().queryBlockHeight();
   }
 
   @override
