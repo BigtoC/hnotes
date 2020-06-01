@@ -6,8 +6,6 @@ import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:hnotes/util/common_data.dart';
 import 'package:hnotes/util/share_preferences.dart';
-import 'package:hnotes/chain_call/chain_call_query.dart';
-import 'package:hnotes/chain_call/chain_call_transaction.dart';
 import 'package:hnotes/chain_call/google_crypto/google_crypto_collections.dart';
 
 class ChainCall {
@@ -34,6 +32,7 @@ class ChainCall {
   }
 
   handShake() async {
+    await readKeys();
     await new Future.delayed(new Duration(milliseconds: 1000));
     String timestamp = new DateTime.now().millisecondsSinceEpoch.toString();
     final String _message = accessId + timestamp;
@@ -54,6 +53,7 @@ class ChainCall {
       body: requestBody,
     );
 
+
     if (phraseStatusCode(response.body) == "200") {
       token = phraseResponse(response.body);
       setTokenInSharedPref(token);
@@ -63,13 +63,33 @@ class ChainCall {
     }
   }
 
-  ChainCallTransaction chainCallTx() => ChainCallTransaction.getInstance(
-    token, accessId, accAddress, myKmsKeyId, privateKey
-  );
+  Future<String> queryBlockHeight() async {
+    await new Future.delayed(new Duration(milliseconds: 2000));
+    print("$accessId, $token");
+    final requestBody = jsonEncode({
+      "bizid": "a00e36c5",
+      "method": "QUERYLASTBLOCK",
+      "accessId": "$accessId",
+      "token": "$token"
+    });
 
-  ChainCallQuery chainCallQuery() => ChainCallQuery.getInstance(
-    token, accessId, accAddress, myKmsKeyId, privateKey
-  );
+    final response = await client.post(
+      "$baasUrl/shakeHand",
+      headers: requestHeaders,
+      body: requestBody,
+    );
+
+    if (phraseStatusCode(response.body) == "200") {
+      print(response.body);
+      return phraseResponse(response.body);
+    }
+    else {
+      final String errorMsg = "Query Block Height failed: " + response.body;
+      print(errorMsg);
+      return errorMsg;
+    }
+
+  }
 
 
 }

@@ -4,16 +4,12 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
 import 'package:hnotes/note_services/note_model.dart';
-import 'package:hnotes/chain_call/chain_call_collections.dart';
+import 'package:hnotes/chain_call/chain_call.dart';
 
 class NoteApiProvider {
   var client = http.Client();
 
   final chainCall = ChainCall();
-
-  final chainCallTx = ChainCall().chainCallTx;
-
-  final chainCallQuery = ChainCall().chainCallQuery;
 
   Future<NoteModel> getAllNotes() async {
     final directory = await getApplicationDocumentsDirectory();

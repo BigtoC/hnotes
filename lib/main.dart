@@ -28,9 +28,8 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     updateThemeFromSharedPref();
     createFolderInAppDocDir("hnotes");
-    repository.chainCall().readKeys();
     repository.chainCall().handShake();
-    repository.chainCallQuery().queryBlockHeight();
+    repository.chainCall().queryBlockHeight();
   }
 
   @override
