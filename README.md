@@ -40,10 +40,10 @@ A Flutter notes app with blockchain storage.
 
 ## References
 
-* [roshanrahman/flutter-notes-app](https://github.com/roshanrahman/flutter-notes-app)
+* App interface: [roshanrahman/flutter-notes-app](https://github.com/roshanrahman/flutter-notes-app)
 * Rich text editor: [Zefyr Editor](https://zefyr-editor.gitbook.io/docs/quick-start)
 * RSA Encryption: [flutter RSA 加解密](https://blog.csdn.net/rznice/article/details/104486712)
-* [googleapis auth](https://github.com/dart-lang/googleapis_auth)
+* Sign for handshake: [googleapis auth](https://github.com/dart-lang/googleapis_auth)
 
 ## Getting Started with Flutter
 
