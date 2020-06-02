@@ -8,10 +8,6 @@ final String publicKeyPath = "assets/secrets/client.key";
 final String privateKeyPath = "assets/secrets/access.key";
 
 
-String phraseResponse(String body) {
-  return jsonDecode(body)['data'];
-}
-
-String phraseStatusCode(String body) {
-  return jsonDecode(body)['code'];
+String phraseResponseData(String body, String key) {
+  return jsonDecode(body)[key];
 }
