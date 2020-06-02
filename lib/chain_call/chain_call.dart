@@ -29,14 +29,16 @@ class ChainCall {
     accessId = keysJson["access-id"];
     myKmsKeyId = keysJson["myKmsKeyId"];
     accAddress = keysJson["account-address"];
+    await new Future.delayed(new Duration(milliseconds: 1000));
   }
 
   handShake() async {
     await readKeys();
-    await new Future.delayed(new Duration(milliseconds: 1000));
+
     String timestamp = new DateTime.now().millisecondsSinceEpoch.toString();
     final String _message = accessId + timestamp;
-    List<int> bytesMessage = ascii.encode(_message);
+    List<int> bytesMessage = _message.codeUnits;
+
     final RS256Signer _signer = new RS256Signer(privateKey);
     final signature = _signer.sign(bytesMessage);
     final String secret = hex.encode(signature);
@@ -48,14 +50,12 @@ class ChainCall {
     });
 
     final response = await client.post(
-      "$baasUrl/chainCall",
+      "$baasUrl/shakeHand",
       headers: {'Content-type': 'application/json'},
       body: requestBody,
     );
-
-
-    if (phraseStatusCode(response.body) == "200") {
-      token = phraseResponse(response.body);
+    if (phraseResponseData(response.body, 'code') == "200") {
+      token = phraseResponseData(response.body, 'data');
       setTokenInSharedPref(token);
     }
     else {
@@ -63,9 +63,11 @@ class ChainCall {
     }
   }
 
-  Future<String> queryBlockHeight() async {
-    await new Future.delayed(new Duration(milliseconds: 2000));
-    print("$accessId, $token");
+  // 查询最新块高
+  Future<String> queryLatestBlock() async {
+    while (null == token) {
+      await new Future.delayed(new Duration(milliseconds: 500));
+    }
     final requestBody = jsonEncode({
       "bizid": "a00e36c5",
       "method": "QUERYLASTBLOCK",
@@ -74,23 +76,50 @@ class ChainCall {
     });
 
     final response = await client.post(
-      "$baasUrl/shakeHand",
+      "$baasUrl/chainCall",
       headers: requestHeaders,
       body: requestBody,
     );
 
-    if (phraseStatusCode(response.body) == "200") {
-      print(response.body);
-      return phraseResponse(response.body);
+    if (phraseResponseData(response.body, 'code') == "200") {
+      final data = phraseResponseData(response.body, 'data');
+      final blockHeader = jsonDecode(data)["block"]["blockHeader"];
+      return blockHeader;
     }
     else {
       final String errorMsg = "Query Block Height failed: " + response.body;
-      print(errorMsg);
       return errorMsg;
     }
-
   }
 
+  // 查询账户
+  Future<String> queryAccount() async {
+    while (null == token) {
+      await new Future.delayed(new Duration(milliseconds: 500));
+    }
+    final requestBody = jsonEncode({
+      "bizid": "a00e36c5",
+      "method": "QUERYACCOUNT",
+      "requestStr": "{'queryAccount': 'bigto-hnotes'}",
+      "accessId": "$accessId",
+      "token": "$token"
+    });
+
+    final response = await client.post(
+      "$baasUrl/chainCall",
+      headers: requestHeaders,
+      body: requestBody,
+    );
+
+    if (phraseResponseData(response.body, 'code') == "200") {
+      final accountData = phraseResponseData(response.body, 'data');
+      return accountData;
+    }
+    else {
+      final String errorMsg = "Query Block Height failed: " + response.body;
+      return errorMsg;
+    }
+  }
 
 }
 

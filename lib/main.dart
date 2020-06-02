@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
     updateThemeFromSharedPref();
     createFolderInAppDocDir("hnotes");
     repository.chainCall().handShake();
-    repository.chainCall().queryBlockHeight();
+    repository.chainCall().queryAccount();
   }
 
   @override
