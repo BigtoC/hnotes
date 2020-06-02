@@ -216,13 +216,15 @@ class _SettingsPageState extends State<SettingsPage> {
           Text('About App',
             style: TextStyle(
               fontSize: 24,
-              color: Theme.of(context).primaryColor)
+              color: Theme.of(context).primaryColor
+            )
           ),
           Container(
             height: 40,
           ),
           Center(
-            child: Text('Developed by'.toUpperCase(),
+            child: Text(
+              'Developed by'.toUpperCase(),
               style: TextStyle(
                 color: Colors.grey.shade600,
                 fontWeight: FontWeight.w500,
@@ -248,7 +250,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   letterSpacing: 1,
-                  color: Colors.grey.shade500)
+                  color: Colors.grey.shade500
+                )
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16)
@@ -260,7 +263,8 @@ class _SettingsPageState extends State<SettingsPage> {
             height: 30,
           ),
           Center(
-            child: Text('Co-Designer'.toUpperCase(),
+            child: Text(
+              'Co-Designer'.toUpperCase(),
               style: TextStyle(
                 color: Colors.grey.shade600,
                 fontWeight: FontWeight.w500,
@@ -282,7 +286,8 @@ class _SettingsPageState extends State<SettingsPage> {
             height: 30,
           ),
           Center(
-            child: Text('Made With'.toUpperCase(),
+            child: Text(
+              'Made With'.toUpperCase(),
               style: TextStyle(
                 color: Colors.grey.shade600,
                 fontWeight: FontWeight.w500,
@@ -316,7 +321,8 @@ class _SettingsPageState extends State<SettingsPage> {
             height: 30,
           ),
           Center(
-            child: Text('Blockchain Platform'.toUpperCase(),
+            child: Text(
+              'Blockchain Platform'.toUpperCase(),
               style: TextStyle(
                 color: Colors.grey.shade600,
                 fontWeight: FontWeight.w500,
@@ -331,7 +337,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Image.asset(
-                    "assets/Images/ant-baas-logo-blue.png",
+                    Theme.of(context).brightness == Brightness.light
+                      ? "assets/Images/ant-baas-logo-blue.png"
+                      : "assets/Images/ant-baas-logo-white.png",
                     height: 50,
                   ),
                 ],
