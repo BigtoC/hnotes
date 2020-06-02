@@ -286,7 +286,8 @@ class _SettingsPageState extends State<SettingsPage> {
               style: TextStyle(
                 color: Colors.grey.shade600,
                 fontWeight: FontWeight.w500,
-                letterSpacing: 1)
+                letterSpacing: 1
+              )
             ),
           ),
           Padding(
@@ -303,12 +304,42 @@ class _SettingsPageState extends State<SettingsPage> {
                     child: Text(
                       'Flutter',
                       style: TextStyle(
-                        fontFamily: 'ZillaSlab', fontSize: 24),
+                        fontFamily: 'ZillaSlab', fontSize: 24
+                      ),
                     ),
                   )
                 ],
               ),
             ),
+          ),
+          Container(
+            height: 30,
+          ),
+          Center(
+            child: Text('Blockchain Platform'.toUpperCase(),
+              style: TextStyle(
+                color: Colors.grey.shade600,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 1
+              )
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    "assets/Images/ant-baas-logo-blue.png",
+                    height: 50,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Container(
+            height: 30,
           ),
         ],
       )

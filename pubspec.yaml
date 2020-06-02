@@ -61,6 +61,8 @@ flutter:
   assets:
     - "assets/Images/sun-bg.jpg"
     - "assets/Images/splash-bg.png"
+    - "assets/Images/ant-baas-logo-blue.png"
+    - "assets/Images/ant-baas-logo-white.png"
     - "assets/secrets/my-keys.key"  # secret keys file
     - "assets/secrets/client.key"  # public key
     - "assets/secrets/access.key"  # private key
