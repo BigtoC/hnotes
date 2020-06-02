@@ -309,7 +309,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     child: Text(
                       'Flutter',
                       style: TextStyle(
-                        fontFamily: 'ZillaSlab', fontSize: 24
+                        fontSize: 24
                       ),
                     ),
                   )
@@ -341,6 +341,15 @@ class _SettingsPageState extends State<SettingsPage> {
                       ? "assets/Images/ant-baas-logo-blue.png"
                       : "assets/Images/ant-baas-logo-white.png",
                     height: 50,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      '蚂蚁区块链',
+                      style: TextStyle(
+                        fontSize: 24
+                      ),
+                    ),
                   ),
                 ],
               ),
