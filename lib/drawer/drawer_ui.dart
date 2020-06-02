@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:hnotes/util/theme.dart';
-import 'file:///F:/OneDrive%20-%20City%20University%20of%20Hong%20Kong/coding/Android/hnotes/lib/drawer/setting_page/settings_ui.dart';
-import 'file:///F:/OneDrive%20-%20City%20University%20of%20Hong%20Kong/coding/Android/hnotes/lib/drawer/chain_info/chain_info_ui.dart';
 import 'package:hnotes/splash_screen/days_since_ui.dart';
 import 'package:hnotes/splash_screen/count_day_model.dart';
+import 'package:hnotes/drawer/chain_info/chain_info_ui.dart';
+import 'package:hnotes/drawer/setting_page/settings_ui.dart';
 import 'package:hnotes/components/components_collections.dart';
 
 Widget drawer(BuildContext context, Function(Brightness brightness) changeTheme) {

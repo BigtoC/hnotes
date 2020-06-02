@@ -6,9 +6,9 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:hnotes/util/theme.dart';
-import 'file:///F:/OneDrive%20-%20City%20University%20of%20Hong%20Kong/coding/Android/hnotes/lib/drawer/setting_page/app_repo.dart';
 import 'package:hnotes/util/build_card_widget.dart';
 import 'package:hnotes/util/share_preferences.dart';
+import 'package:hnotes/drawer/setting_page/app_repo.dart';
 
 // ignore: must_be_immutable
 class ChainInfoPage extends StatefulWidget {
