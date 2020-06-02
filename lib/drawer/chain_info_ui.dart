@@ -9,26 +9,14 @@ import 'package:hnotes/util/theme.dart';
 import 'package:hnotes/drawer/app_repo.dart';
 import 'package:hnotes/util/build_card_widget.dart';
 import 'package:hnotes/util/share_preferences.dart';
-import 'package:hnotes/splash_screen/days_since_ui.dart';
 
 // ignore: must_be_immutable
-class SettingsPage extends StatefulWidget {
-  Function(Brightness brightness) changeTheme;
-  bool onlySetDate;
-  SettingsPage({
-    Key key,
-    Function(Brightness brightness) changeTheme,
-    bool onlySetDate
-  })
-    : super(key: key) {
-    this.changeTheme = changeTheme;
-    this.onlySetDate = onlySetDate;
-  }
+class ChainInfoPage extends StatefulWidget {
   @override
-  _SettingsPageState createState() => _SettingsPageState();
+  _ChainInfoPageState createState() => _ChainInfoPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _ChainInfoPageState extends State<ChainInfoPage> {
   String selectedTheme;
   String _selectedDate = '';
 
@@ -65,7 +53,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: buildHeaderWidget(),
                 ),
                 buildDatePicker(context),
-                buildAppThemeChoice(context),
                 buildAboutApp(context),
               ],
             ))
@@ -75,14 +62,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void handleBack() {
-    if (widget.onlySetDate) {
-      Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
-        return new DaySince(isSplash: true, changeTheme: widget.changeTheme);
-      }));
-    }
-    else {
-      Navigator.pop(context);
-    }
+    Navigator.pop(context);
   }
 
   Widget buildHeaderWidget() {
@@ -152,69 +132,16 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 
-  Widget buildAppThemeChoice(BuildContext context) {
-    return buildCardWidget(context, Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text('App Theme',
-          style: TextStyle(
-            fontSize: 24,
-            color: Theme.of(context).primaryColor,
-          )
-        ),
-        Container(
-          height: 20,
-        ),
-        Row(
-          children: <Widget>[
-            Radio(
-              value: 'light',
-              groupValue: selectedTheme,
-              onChanged: handleThemeSelection,
-            ),
-            Text(
-              'Light theme',
-              style: TextStyle(fontSize: 18),
-            )
-          ],
-        ),
-        Row(
-          children: <Widget>[
-            Radio(
-              value: 'dark',
-              groupValue: selectedTheme,
-              onChanged: handleThemeSelection,
-            ),
-            Text(
-              'Dark theme',
-              style: TextStyle(fontSize: 18),
-            )
-          ],
-        ),
-      ],
-    ));
-  }
-
-  void handleThemeSelection(String value) {
-    setState(() {
-      selectedTheme = value;
-    });
-    if (value == 'light') {
-      widget.changeTheme(Brightness.light);
-    } else {
-      widget.changeTheme(Brightness.dark);
-    }
-    setThemeInSharedPref(value);
-  }
-
   Widget buildAboutApp(BuildContext context) {
     return buildCardWidget(context, Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Text('About App',
+        Text(
+          'About App',
           style: TextStyle(
             fontSize: 24,
-            color: Theme.of(context).primaryColor)
+            color: Theme.of(context).primaryColor
+          )
         ),
         Container(
           height: 40,
@@ -224,7 +151,8 @@ class _SettingsPageState extends State<SettingsPage> {
             style: TextStyle(
               color: Colors.grey.shade600,
               fontWeight: FontWeight.w500,
-              letterSpacing: 1)
+              letterSpacing: 1
+            )
           ),
         ),
         Center(
@@ -242,11 +170,13 @@ class _SettingsPageState extends State<SettingsPage> {
           alignment: Alignment.center,
           child: OutlineButton.icon(
             icon: Icon(Icons.code),
-            label: Text('GITHUB',
+            label: Text(
+              'GITHUB',
               style: TextStyle(
                 fontWeight: FontWeight.w500,
                 letterSpacing: 1,
-                color: Colors.grey.shade500)
+                color: Colors.grey.shade500
+              )
             ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16)
@@ -262,7 +192,8 @@ class _SettingsPageState extends State<SettingsPage> {
             style: TextStyle(
               color: Colors.grey.shade600,
               fontWeight: FontWeight.w500,
-              letterSpacing: 1)
+              letterSpacing: 1
+            )
           ),
         ),
         Center(
@@ -280,11 +211,13 @@ class _SettingsPageState extends State<SettingsPage> {
           height: 30,
         ),
         Center(
-          child: Text('Made With'.toUpperCase(),
+          child: Text(
+            'Made With'.toUpperCase(),
             style: TextStyle(
               color: Colors.grey.shade600,
               fontWeight: FontWeight.w500,
-              letterSpacing: 1)
+              letterSpacing: 1
+            )
           ),
         ),
         Padding(
@@ -293,15 +226,14 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                FlutterLogo(
-                  size: 40,
-                ),
+
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     'Flutter',
                     style: TextStyle(
-                      fontFamily: 'ZillaSlab', fontSize: 24),
+                      fontFamily: 'ZillaSlab', fontSize: 24
+                    ),
                   ),
                 )
               ],
