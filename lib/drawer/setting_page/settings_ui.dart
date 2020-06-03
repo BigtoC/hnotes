@@ -5,10 +5,10 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:hnotes/util/theme.dart';
-import 'package:hnotes/drawer/setting_page/app_repo.dart';
-import 'package:hnotes/util/build_card_widget.dart';
 import 'package:hnotes/util/share_preferences.dart';
 import 'package:hnotes/splash_screen/days_since_ui.dart';
+import 'package:hnotes/components/build_card_widget.dart';
+import 'package:hnotes/drawer/setting_page/app_repo.dart';
 
 // ignore: must_be_immutable
 class SettingsPage extends StatefulWidget {

@@ -1,14 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 
-import 'package:hnotes/util/theme.dart';
 import 'package:hnotes/util/common_data.dart';
-import 'package:hnotes/util/build_card_widget.dart';
+import 'package:hnotes/components/build_card_widget.dart';
 import 'package:hnotes/drawer/chain_info/chain_info_bloc.dart';
 
 // ignore: must_be_immutable
