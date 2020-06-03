@@ -1,34 +1,13 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-// Set theme when app start up
-void setThemeInSharedPref(String val) async {
+// Set data in shared preferences
+void setDataInSharedPref(String key, String val) async {
   SharedPreferences sharedPref = await SharedPreferences.getInstance();
-  sharedPref.setString('theme', val);
+  sharedPref.setString(key, val);
 }
 
-Future<String> getThemeFromSharedPref() async {
+// Get data from shared preferences
+Future<String> getDataFromSharedPref(String key) async {
   SharedPreferences sharedPref = await SharedPreferences.getInstance();
-  return sharedPref.getString('theme');
-}
-
-// Set date
-void setDateInSharedPref(String val) async {
-  SharedPreferences sharedPref = await SharedPreferences.getInstance();
-  sharedPref.setString('startDate', val);
-}
-
-Future<String> getDateFromSharedPref() async {
-  SharedPreferences sharedPref = await SharedPreferences.getInstance();
-  return sharedPref.getString('startDate');
-}
-
-// Store the token
-void setTokenInSharedPref(String val) async {
-  SharedPreferences sharedPref = await SharedPreferences.getInstance();
-  sharedPref.setString('token', val);
-}
-
-Future<String> getTokenFromSharedPref() async {
-  SharedPreferences sharedPref = await SharedPreferences.getInstance();
-  return sharedPref.getString('token');
+  return sharedPref.getString(key);
 }
