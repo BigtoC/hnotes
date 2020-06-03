@@ -10,12 +10,7 @@ import 'package:hnotes/chain_call/google_crypto/google_crypto_collections.dart';
 
 class ChainCall {
   final client = http.Client();
-
-  String accessId;
-  String accAddress;
-  String myKmsKeyId;
   RSAPrivateKey privateKey;
-  String token;
 
   readKeys() async {
     String keyString = await rootBundle.loadString(keysFilePath);
@@ -26,15 +21,19 @@ class ChainCall {
     final String privateKeyString = await rootBundle.loadString(privateKeyPath);
     privateKey = keyFromString(privateKeyString);
 
-    accessId = keysJson["access-id"];
-    myKmsKeyId = keysJson["myKmsKeyId"];
-    accAddress = keysJson["account-address"];
+    String accessId = keysJson["access-id"];
+    String myKmsKeyId = keysJson["myKmsKeyId"];
+    String accAddress = keysJson["account-address"];
     await new Future.delayed(new Duration(milliseconds: 1000));
+    setDataInSharedPref("accessId", accessId);
+    setDataInSharedPref("myKmsKeyId", myKmsKeyId);
+    setDataInSharedPref("accAddress", accAddress);
   }
 
   handShake() async {
     await readKeys();
 
+    String accessId = await getDataFromSharedPref("accessId");
     String timestamp = new DateTime.now().millisecondsSinceEpoch.toString();
     final String _message = accessId + timestamp;
     List<int> bytesMessage = _message.codeUnits;
@@ -55,8 +54,8 @@ class ChainCall {
       body: requestBody,
     );
     if (phraseResponseData(response.body, 'code') == "200") {
-      token = phraseResponseData(response.body, 'data');
-      setTokenInSharedPref(token);
+      String token = phraseResponseData(response.body, 'data');
+      setDataInSharedPref('token', token);
     }
     else {
       print("Shake Hand failed: " + response.body);
@@ -64,10 +63,10 @@ class ChainCall {
   }
 
   // 查询最新块高
-  Future<String> queryLatestBlock() async {
-    while (null == token) {
-      await new Future.delayed(new Duration(milliseconds: 500));
-    }
+  Future<Map<String, dynamic>> queryLatestBlock() async {
+    String token = await getDataFromSharedPref('token');
+    String accessId = await getDataFromSharedPref("accessId");
+
     final requestBody = jsonEncode({
       "bizid": "a00e36c5",
       "method": "QUERYLASTBLOCK",
@@ -88,19 +87,20 @@ class ChainCall {
     }
     else {
       final String errorMsg = "Query Block Height failed: " + response.body;
-      return errorMsg;
+      print(errorMsg);
+      return jsonDecode(response.body);
     }
   }
 
   // 查询账户
-  Future<String> queryAccount() async {
-    while (null == token) {
-      await new Future.delayed(new Duration(milliseconds: 500));
-    }
+  Future<Map<String, dynamic>> queryAccount() async {
+    String token = await getDataFromSharedPref('token');
+    String accessId = await getDataFromSharedPref("accessId");
+
     final requestBody = jsonEncode({
       "bizid": "a00e36c5",
       "method": "QUERYACCOUNT",
-      "requestStr": "{'queryAccount': 'bigto-hnotes'}",
+      "requestStr": "{'queryAccount': '$queryAccountName'}",
       "accessId": "$accessId",
       "token": "$token"
     });
@@ -113,11 +113,12 @@ class ChainCall {
 
     if (phraseResponseData(response.body, 'code') == "200") {
       final accountData = phraseResponseData(response.body, 'data');
-      return accountData;
+      print(accountData);
+      return jsonDecode(accountData);
     }
     else {
       final String errorMsg = "Query Block Height failed: " + response.body;
-      return errorMsg;
+      return jsonDecode(response.body);
     }
   }
 

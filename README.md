@@ -25,7 +25,7 @@ A Flutter notes app with blockchain storage.
 > No target due day
 
 - [x] Make hand shake with the blockchain platform  
-- [ ] Show some blockchain information  
+- [x] Show some blockchain information  
 - [ ] Develop smart contract on AntFin blockchain system ([蚂蚁金服 - 蚂蚁区块链](https://tech.antfin.com/blockchain))  
 - [ ] Integrate with blockchain storage  
 - [ ] Mark and show important notes  
