@@ -61,7 +61,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 16, top: 36, right: 24),
-                  child: buildHeaderWidget(),
+                  child: buildHeaderWidget('Settings'),
                 ),
                 buildDatePicker(),
                 buildAppThemeChoice(),
@@ -84,32 +84,12 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 
-  Widget buildHeaderWidget() {
-    return Container(
-      margin: EdgeInsets.only(top: 8, bottom: 16, left: 8),
-      child: Text(
-        'Settings',
-        style: TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 36,
-          color: Theme.of(context).primaryColor,
-        ),
-      ),
-    );
-  }
-
   Widget buildDatePicker() {
     return buildCardWidget(context,
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            'Love Start Date',
-            style: TextStyle(
-              fontSize: 24,
-              color: Theme.of(context).primaryColor,
-            )
-          ),
+          cardTitle('Love Start Date'),
           Container(
             height: 20,
           ),
@@ -156,12 +136,7 @@ class _SettingsPageState extends State<SettingsPage> {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('App Theme',
-            style: TextStyle(
-              fontSize: 24,
-              color: Theme.of(context).primaryColor,
-            )
-          ),
+          cardTitle('App Theme'),
           Container(
             height: 20,
           ),
@@ -209,44 +184,23 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget buildAboutApp() {
-    return buildCardWidget(context,
+    return buildCardWidget(
+      context,
       Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Text('About App',
-            style: TextStyle(
-              fontSize: 24,
-              color: Theme.of(context).primaryColor
-            )
-          ),
+          cardTitle('About App'),
           Container(
             height: 40,
           ),
-          Center(
-            child: Text(
-              'Developed by'.toUpperCase(),
-              style: TextStyle(
-                color: Colors.grey.shade600,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 1)
-            ),
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
-              child: Text(
-                'Bigto Chan',
-                style: TextStyle(
-                  fontSize: 24
-                ),
-              ),
-            )
-          ),
+          cardContentTitle('Developed by'),
+          cardContent('Bigto Chan'),
           Container(
             alignment: Alignment.center,
             child: OutlineButton.icon(
               icon: Icon(Icons.code),
-              label: Text('GITHUB',
+              label: Text(
+                'GITHUB',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   letterSpacing: 1,
@@ -262,39 +216,12 @@ class _SettingsPageState extends State<SettingsPage> {
           Container(
             height: 30,
           ),
-          Center(
-            child: Text(
-              'Co-Designer'.toUpperCase(),
-              style: TextStyle(
-                color: Colors.grey.shade600,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 1)
-            ),
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
-              child: Text(
-                'Rita vv',
-                style: TextStyle(
-                  fontSize: 24
-                ),
-              ),
-            )
-          ),
+          cardContentTitle('Co-Designer'),
+          cardContent('Rita vv'),
           Container(
             height: 30,
           ),
-          Center(
-            child: Text(
-              'Made With'.toUpperCase(),
-              style: TextStyle(
-                color: Colors.grey.shade600,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 1
-              )
-            ),
-          ),
+          cardContentTitle('Made With'),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
@@ -320,16 +247,7 @@ class _SettingsPageState extends State<SettingsPage> {
           Container(
             height: 30,
           ),
-          Center(
-            child: Text(
-              'Blockchain Platform'.toUpperCase(),
-              style: TextStyle(
-                color: Colors.grey.shade600,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 1
-              )
-            ),
-          ),
+          cardContentTitle('Blockchain Platform'),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(

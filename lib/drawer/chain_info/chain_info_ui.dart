@@ -50,7 +50,7 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 16, top: 36, right: 24),
-                  child: buildHeaderWidget(),
+                  child: buildHeaderWidget('Blockchain Info'),
                 ),
                 buildDatePicker(context),
                 buildAboutApp(context),
@@ -65,32 +65,12 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
     Navigator.pop(context);
   }
 
-  Widget buildHeaderWidget() {
-    return Container(
-      margin: EdgeInsets.only(top: 8, bottom: 16, left: 8),
-      child: Text(
-        'Blockchain Info',
-        style: TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 36,
-          color: Theme.of(context).primaryColor,
-        ),
-      ),
-    );
-  }
-
   Widget buildDatePicker(BuildContext context) {
     return buildCardWidget(context,
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            'Love Start Date',
-            style: TextStyle(
-              fontSize: 24,
-              color: Theme.of(context).primaryColor,
-            )
-          ),
+          cardTitle('Latest Block Info'),
           Container(
             height: 20,
           ),
