@@ -74,15 +74,19 @@ Widget cardContent(String contentText) {
   );
 }
 
+Widget cardContentGap() {
+  return Container(
+    height: 30,
+  );
+}
+
 Widget buildTitleAndContent(var streamData, String title, String content) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
       cardContentTitle(title),
       blockInfoStreamBuilder(streamData, content),
-      Container(
-        height: 30,
-      ),
+      cardContentGap(),
     ],
   );
 }

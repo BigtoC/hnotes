@@ -6,6 +6,7 @@ final requestHeaders = {'Content-type': 'application/json'};
 final String keysFilePath = "assets/secrets/my-keys.key";
 final String publicKeyPath = "assets/secrets/client.key";
 final String privateKeyPath = "assets/secrets/access.key";
+final String queryAccountName = "bigto-hnotes";
 
 
 String phraseResponseData(String body, String key) {

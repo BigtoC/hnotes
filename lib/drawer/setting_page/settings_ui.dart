@@ -213,14 +213,10 @@ class _SettingsPageState extends State<SettingsPage> {
               onPressed: openGitHub,
             ),
           ),
-          Container(
-            height: 30,
-          ),
+          cardContentGap(),
           cardContentTitle('Co-Designer'),
           cardContent('Rita vv'),
-          Container(
-            height: 30,
-          ),
+          cardContentGap(),
           cardContentTitle('Made With'),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -273,9 +269,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
           ),
-          Container(
-            height: 30,
-          ),
+          cardContentGap(),
         ],
       )
     );
