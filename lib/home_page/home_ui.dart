@@ -33,6 +33,8 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController searchController = TextEditingController();
   bool isSearching = false;
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
@@ -41,12 +43,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Home",
-        ),
-        backgroundColor: primaryColor,
-      ),
+      key: _scaffoldKey,
+//      appBar: AppBar(
+//        title: Text(
+//          "Home",
+//        ),
+//        backgroundColor: primaryColor,
+//      ),
       drawer: drawer(context, widget.changeTheme),
       body: GestureDetector(
         onTap: () {
@@ -57,6 +60,27 @@ class _MyHomePageState extends State<MyHomePage> {
             child: ListView(
               physics: BouncingScrollPhysics(),
               children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () {
+                        _scaffoldKey.currentState.openDrawer();
+                      },
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 200),
+                        padding: EdgeInsets.only(top: 16, bottom: 10, right: 20),
+                        alignment: Alignment.centerRight,
+                        child: Icon(
+                          Icons.menu,
+                          color: primaryColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                buildHeaderWidget(context),
                 buildButtonRow(),
                 Container(height: 32),
                 buildImportantIndicatorText(),
@@ -81,6 +105,29 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         backgroundColor: btnColor,
       ),
+    );
+  }
+
+  Widget buildHeaderWidget(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        AnimatedContainer(
+          duration: Duration(milliseconds: 200),
+          curve: Curves.easeIn,
+          margin: EdgeInsets.only(top: 0, bottom: 10, left: 20),
+          width: headerShouldHide ? 0 : 200,
+          child: Text(
+            'Notes',
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 36,
+              color: primaryColor
+            ),
+            overflow: TextOverflow.clip,
+            softWrap: false,
+          ),
+        ),
+      ],
     );
   }
 

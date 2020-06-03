@@ -29,7 +29,6 @@ class _MyAppState extends State<MyApp> {
     updateThemeFromSharedPref();
     createFolderInAppDocDir("hnotes");
     repository.chainCall().handShake();
-    repository.chainCall().queryAccount();
   }
 
   @override
@@ -48,7 +47,7 @@ class _MyAppState extends State<MyApp> {
 
   void getDateSuccess() async{
     try {
-      await getDateFromSharedPref();
+      await getDataFromSharedPref('startDate');
       dateIsSet = true;
     }
     catch (NoSuchMethodError) {
@@ -69,7 +68,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void updateThemeFromSharedPref() async {
-    String themeText = await getThemeFromSharedPref();
+    String themeText = await getDataFromSharedPref('theme');
     if (themeText == 'light') {
       setTheme(Brightness.light);
     } else {
