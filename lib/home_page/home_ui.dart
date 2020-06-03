@@ -2,12 +2,12 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:hnotes/note_services/notes_bloc.dart';
 
 import 'note_cards_list.dart';
 import 'package:hnotes/util/theme.dart';
 import 'package:hnotes/drawer/drawer_ui.dart';
 import 'package:hnotes/note_services/edit_ui.dart';
+import 'package:hnotes/note_services/notes_bloc.dart';
 import 'package:hnotes/components/components_collections.dart';
 
 
@@ -44,12 +44,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-//      appBar: AppBar(
-//        title: Text(
-//          "Home",
-//        ),
-//        backgroundColor: primaryColor,
-//      ),
       drawer: drawer(context, widget.changeTheme),
       body: GestureDetector(
         onTap: () {
@@ -257,10 +251,8 @@ class _MyHomePageState extends State<MyHomePage> {
     await Future.delayed(Duration(milliseconds: 230), () {});
     Navigator.push(
       context,
-      FadeRoute(
-        page: EditorPage(
-          noteFile: noteFile)
-      ));
+      FadeRoute(page: EditorPage(noteFile: noteFile))
+    );
     await Future.delayed(Duration(milliseconds: 300), () {});
 
     setState(() {

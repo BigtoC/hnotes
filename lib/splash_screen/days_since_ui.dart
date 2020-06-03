@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:hnotes/util/theme.dart';
 import 'package:hnotes/home_page/home_ui.dart';
+import 'package:hnotes/components/fade_route.dart';
 import 'package:hnotes/splash_screen/count_day_model.dart';
 
 // ignore: must_be_immutable
@@ -65,10 +66,8 @@ class _DaySince extends State<DaySince> {
         onPressed: () {
           if (widget.isSplash) {
             Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) =>
-                MyHomePage(
-                  changeTheme: widget.changeTheme,
-                )
+              FadeRoute(
+                page: MyHomePage(changeTheme: widget.changeTheme)
               ),
                 (Route<dynamic> route) => false);
           }

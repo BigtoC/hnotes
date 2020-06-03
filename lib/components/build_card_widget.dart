@@ -80,18 +80,18 @@ Widget cardContentGap() {
   );
 }
 
-Widget buildTitleAndContent(var streamData, String title, String content) {
+Widget buildTitleAndContent(BuildContext context, var streamData, String title, String content) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
       cardContentTitle(title),
-      blockInfoStreamBuilder(streamData, content),
+      blockInfoStreamBuilder(context, streamData, content),
       cardContentGap(),
     ],
   );
 }
 
-Widget blockInfoStreamBuilder(var streamData, String valueKey) {
+Widget blockInfoStreamBuilder(BuildContext context, var streamData, String valueKey) {
   return StreamBuilder(
     stream: streamData,
     builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
@@ -103,7 +103,9 @@ Widget blockInfoStreamBuilder(var streamData, String valueKey) {
         case ConnectionState.waiting:
           return Center(
             child: CircularProgressIndicator(
-              backgroundColor: btnColor,
+              backgroundColor: Theme.of(context).brightness == Brightness.dark
+                ? btnColor
+                : primaryColor,
             )
           );
         case ConnectionState.active:

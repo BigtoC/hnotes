@@ -1,9 +1,7 @@
-import 'dart:async';
-import 'dart:convert';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:hnotes/util/common_data.dart';
 import 'package:hnotes/components/build_card_widget.dart';
@@ -51,7 +49,8 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
                 buildLatestBlockInfo(context),
                 buildAccountInfo(context),
               ],
-            ))
+            )
+          )
         ],
       ),
     );
@@ -72,18 +71,20 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
             height: 40,
           ),
           buildTitleAndContent(
+            context,
             chainInfoBloc.blockHeaderData,
             "Block Height", "number"
           ),
           buildTitleAndContent(
+            context,
             chainInfoBloc.blockHeaderData,
             "Gas Used", "gasUsed"
           ),
           buildTitleAndContent(
+            context,
             chainInfoBloc.blockHeaderData,
             "Confirmed Time", "timestamp"
           ),
-
         ],
       )
     );
@@ -103,10 +104,12 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
         cardContent(queryAccountName),
         cardContentGap(),
         buildTitleAndContent(
+          context,
           chainInfoBloc.accountData,
           "Gas Balance", "balance"
         ),
         buildTitleAndContent(
+          context,
           chainInfoBloc.accountData,
           "Account Address", "id"
         ),

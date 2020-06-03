@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:hnotes/util/theme.dart';
 import 'package:hnotes/splash_screen/days_since_ui.dart';
@@ -94,7 +95,7 @@ Widget chainInfo(BuildContext context) {
       ),
     ),
     onTap: () {
-      Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
+      Navigator.of(context).push(new CupertinoPageRoute(builder: (_) {
         return new ChainInfoPage();
       }));
     },
@@ -115,7 +116,7 @@ Widget settings(BuildContext context, Function(Brightness brightness) changeThem
       ),
     ),
     onTap: () {
-      Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
+      Navigator.of(context).push(new CupertinoPageRoute(builder: (_) {
         return new SettingsPage(changeTheme: changeTheme, onlySetDate: false);
       }));
     },
