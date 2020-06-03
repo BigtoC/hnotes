@@ -10,4 +10,3 @@ class Repository {
   ChainCall chainCall() => apiProvider.chainCall;
 
 }
-
