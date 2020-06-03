@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
 import 'package:hnotes/util/theme.dart';
@@ -66,9 +67,57 @@ Widget cardContent(String contentText) {
       child: Text(
         contentText,
         style: TextStyle(
-          fontSize: 24
+          fontSize: 24,
         ),
       ),
     )
   );
+}
+
+Widget buildTitleAndContent(var streamData, String title, String content) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: <Widget>[
+      cardContentTitle(title),
+      blockInfoStreamBuilder(streamData, content),
+      Container(
+        height: 40,
+      ),
+    ],
+  );
+}
+
+Widget blockInfoStreamBuilder(var streamData, String valueKey) {
+  return StreamBuilder(
+    stream: streamData,
+    builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+      if (snapshot.hasError)
+        return Text('Error: ${snapshot.error}');
+      switch (snapshot.connectionState) {
+        case ConnectionState.none:
+          return cardContent('Query data filed...');
+        case ConnectionState.waiting:
+          return Center(
+            child: CircularProgressIndicator(
+              backgroundColor: btnColor,
+            )
+          );
+        case ConnectionState.active:
+          String showData = snapshot.data[valueKey].toString();
+          if (valueKey == 'timestamp') {
+            showData = convertTime(showData);
+          }
+          return cardContent(showData);
+        case ConnectionState.done:
+          print("done");
+      }
+      return null;
+    },
+  );
+}
+
+String convertTime(String timestamp) {
+  String neatDate = DateFormat.yMMMd().add_jm().format(
+    DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp))).toString();
+  return neatDate;
 }
