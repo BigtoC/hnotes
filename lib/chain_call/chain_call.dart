@@ -80,7 +80,14 @@ class ChainCall {
       body: requestBody,
     );
 
-    if (phraseResponseData(response.body, 'code') == "200") {
+    String statusCode = phraseResponseData(response.body, 'code');
+
+    while (statusCode == "202") {
+      handShake();
+      queryAccount();
+    }
+
+    if (statusCode == "200") {
       final data = phraseResponseData(response.body, 'data');
       final blockHeader = jsonDecode(data)["block"]["blockHeader"];
       return blockHeader;
@@ -111,9 +118,15 @@ class ChainCall {
       body: requestBody,
     );
 
-    if (phraseResponseData(response.body, 'code') == "200") {
+    String statusCode = phraseResponseData(response.body, 'code');
+
+    while (statusCode == "202") {
+      handShake();
+      queryAccount();
+    }
+
+    if (statusCode == "200") {
       final accountData = phraseResponseData(response.body, 'data');
-      print(accountData);
       return jsonDecode(accountData);
     }
     else {
