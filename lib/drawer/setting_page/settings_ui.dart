@@ -127,7 +127,7 @@ class _SettingsPageState extends State<SettingsPage> {
       // Convert selected date to string for showing
       setState(() => _selectedDate = picked.toString().split(" ")[0]);
       // Write the selected date to system
-      setDateInSharedPref(_selectedDate);
+      setDataInSharedPref('startDate', _selectedDate);
     }
   }
 
@@ -180,7 +180,7 @@ class _SettingsPageState extends State<SettingsPage> {
     } else {
       widget.changeTheme(Brightness.dark);
     }
-    setThemeInSharedPref(value);
+    setDataInSharedPref('theme', value);
   }
 
   Widget buildAboutApp() {

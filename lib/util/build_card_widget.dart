@@ -81,7 +81,7 @@ Widget buildTitleAndContent(var streamData, String title, String content) {
       cardContentTitle(title),
       blockInfoStreamBuilder(streamData, content),
       Container(
-        height: 40,
+        height: 30,
       ),
     ],
   );
