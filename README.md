@@ -45,6 +45,7 @@ A Flutter notes app with blockchain storage.
 * Rich text editor: [Zefyr Editor](https://zefyr-editor.gitbook.io/docs/quick-start)
 * RSA Encryption: [flutter RSA 加解密](https://blog.csdn.net/rznice/article/details/104486712)
 * Sign for handshake: [googleapis auth](https://github.com/dart-lang/googleapis_auth)
+* More page route transitions: [掘金 - 关于 Flutter 页面路由过渡动画，你所需要知道的一切](https://juejin.im/post/5ceb6179f265da1bc23f55d0)
 
 ## Getting Started with Flutter
 
