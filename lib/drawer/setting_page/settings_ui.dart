@@ -253,7 +253,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Image.asset(
                     Theme.of(context).brightness == Brightness.light
                       ? "assets/Images/ant-baas-logo-blue.png"
-                      : "assets/Images/ant-baas-logo-white.png",
+                      : "assets/Images/ant-baas-logo-blue-white.png",
                     height: 50,
                   ),
                   Padding(

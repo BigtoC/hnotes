@@ -84,8 +84,8 @@ Widget daySince(BuildContext context) {
 Widget chainInfo(BuildContext context) {
   return ListTile(
     leading: Icon(
-      Icons.info,
-      color: Colors.orange,
+      Icons.cloud,
+      color: Colors.yellowAccent,
     ),
     title: Text(
       'Chain Info',

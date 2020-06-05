@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(color: Colors.white),
         ),
         icon: Icon(
-          Icons.add,
+          Icons.create,
           color: Colors.white,
         ),
         backgroundColor: btnColor,
