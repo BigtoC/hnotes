@@ -129,7 +129,7 @@ Widget version() {
       alignment: Alignment.bottomLeft,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text('\n  v1.1.0 \n'),
+        child: Text('\n  v1.5.2 \n'),
       ),
     ),
   );
