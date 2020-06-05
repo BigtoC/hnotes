@@ -43,7 +43,7 @@ class NoteCardsList extends StatelessWidget {
     final int itemCount = snapshot.data.noteKeyValueList.length;
     List<Map<String, dynamic>> notesList = snapshot.data.noteKeyValueList;
 
-    if (itemCount > 0) {
+    if (!isSearching) {
       return ListView.builder(
         shrinkWrap: true,
         itemCount: itemCount,
@@ -56,7 +56,7 @@ class NoteCardsList extends StatelessWidget {
         }
       );
     }
-    else if (isSearching && itemCount == 0) {
+    else if (isSearching) {
       return new Center(
         child: new Text("Note(s) not found.")
       );
