@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/rendering.dart';
 
 import 'note_cards_list.dart';
 import 'package:hnotes/util/theme.dart';
@@ -27,16 +28,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool isExtend = true;
   bool isFlagOn = false;
-  bool headerShouldHide = false;
-  TextEditingController searchController = TextEditingController();
   bool isSearching = false;
+  bool headerShouldHide = false;
+  ScrollController _scrollController = new ScrollController();
+  TextEditingController searchController = TextEditingController();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
+    _handleScroll();
   }
 
   @override
@@ -52,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
             duration: Duration(milliseconds: 200),
             child: ListView(
               physics: BouncingScrollPhysics(),
+//              controller: _scrollController,
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -86,18 +91,35 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _addNewNotes,
-        label: Text(
-          'Add note'.toUpperCase(),
-          style: TextStyle(color: Colors.white),
-        ),
-        icon: Icon(
-          Icons.create,
-          color: Colors.white,
-        ),
-        backgroundColor: btnColor,
+      floatingActionButton: isExtend
+        ? addNoteButtonExtend()
+        : addNoteButtonNormal(),
+    );
+  }
+
+  Widget addNoteButtonExtend() {
+    return FloatingActionButton.extended(
+      onPressed: _addNewNotes,
+      label: Text(
+        'Add note'.toUpperCase(),
+        style: TextStyle(color: Colors.white),
       ),
+      icon: Icon(
+        Icons.create,
+        color: Colors.white,
+      ),
+      backgroundColor: btnColor,
+    );
+  }
+
+  Widget addNoteButtonNormal() {
+    return FloatingActionButton(
+      onPressed: _addNewNotes,
+      child: Icon(
+        Icons.create,
+        color: Colors.white,
+      ),
+      backgroundColor: btnColor,
     );
   }
 
@@ -284,6 +306,23 @@ class _MyHomePageState extends State<MyHomePage> {
       isFlagOn = false;
       isSearching = false;
       searchController.clear();
+    });
+  }
+
+  void _handleScroll() {
+    _scrollController.addListener(() {
+      if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
+        setState(() {
+          isExtend = false;
+        });
+      }
+      if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.forward) {
+        setState(() {
+          isExtend = true;
+        });
+      }
     });
   }
 }

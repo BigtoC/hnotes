@@ -40,7 +40,7 @@ class NoteCardsList extends StatelessWidget {
     Function(File noteData) onTapAction
     ) {
     final int itemCount = snapshot.data.noteKeyValueList.length;
-    List<Map<String, dynamic>> notesList = snapshot.data.noteKeyValueList;
+    final List<Map<String, dynamic>> notesList = snapshot.data.noteKeyValueList;
 
     if (!isSearching) {
       return ListView.builder(
