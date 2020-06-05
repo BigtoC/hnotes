@@ -6,9 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'note_cards_list.dart';
 import 'package:hnotes/util/theme.dart';
 import 'package:hnotes/drawer/drawer_ui.dart';
-import 'package:hnotes/note_services/edit_ui.dart';
-import 'package:hnotes/note_services/notes_bloc.dart';
 import 'package:hnotes/components/components_collections.dart';
+import 'package:hnotes/note_services/notes_services_collections.dart';
 
 
 // ignore: must_be_immutable

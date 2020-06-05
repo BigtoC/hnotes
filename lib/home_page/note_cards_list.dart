@@ -1,9 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:hnotes/home_page/note_cards.dart';
 
-import 'package:hnotes/note_services/notes_bloc.dart';
-import 'package:hnotes/note_services/note_model.dart';
+import 'package:hnotes/home_page/note_cards.dart';
+import 'package:hnotes/note_services/notes_services_collections.dart';
 
 class NoteCardsList extends StatelessWidget {
   const NoteCardsList({
