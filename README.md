@@ -10,7 +10,7 @@ A Flutter notes app with blockchain storage.
 
 > Basic notes mobile app developments  
 > Target finish before 2020-05-22  
-> Finished on 2020-05-27
+> Finished on 2020-05-08
 
 - [x] Show how many days we've been together
 - [x] Switch light/dark themes
@@ -18,6 +18,7 @@ A Flutter notes app with blockchain storage.
 - [x] Take notes and local storage
 - [x] Show notes in an appropriate way
 - [x] Search notes
+- [x] Set the love start date first for the first time open this app  
 
 ### Stage 2
 
