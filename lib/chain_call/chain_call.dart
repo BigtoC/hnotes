@@ -17,7 +17,7 @@ class ChainCall {
     Map<String, dynamic> keysJson = jsonDecode(keyString);
 
     String tmpPublicKeyString = await rootBundle.loadString(publicKeyPath);
-    final String publicKeyString = "-----BEGIN PUBLIC KEY-----\n$tmpPublicKeyString\n-----END PUBLIC KEY-----";
+//    final String publicKeyString = "-----BEGIN PUBLIC KEY-----\n$tmpPublicKeyString\n-----END PUBLIC KEY-----";
     final String privateKeyString = await rootBundle.loadString(privateKeyPath);
     privateKey = keyFromString(privateKeyString);
 
@@ -131,6 +131,7 @@ class ChainCall {
     }
     else {
       final String errorMsg = "Query Block Height failed: " + response.body;
+      print(errorMsg);
       return jsonDecode(response.body);
     }
   }

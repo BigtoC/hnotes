@@ -95,8 +95,9 @@ Widget blockInfoStreamBuilder(BuildContext context, var streamData, String value
   return StreamBuilder(
     stream: streamData,
     builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
-      if (snapshot.hasError)
+      if (snapshot.hasError) {
         return Text('Error: ${snapshot.error}');
+      }
       switch (snapshot.connectionState) {
         case ConnectionState.none:
           return cardContent('Query data filed...');

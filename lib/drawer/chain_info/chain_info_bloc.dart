@@ -17,12 +17,9 @@ class ChainInfoBloc {
     _accountData.sink.add(accountDataRaw);
   }
 
-  bool _isDispose = false;
-
   void dispose() {
     _blockHeaderData.close();
     _accountData.close();
-    _isDispose = true;
   }
 
 }
