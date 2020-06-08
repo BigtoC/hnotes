@@ -5,7 +5,7 @@ void setDataInSharedPref(String key, String val) async {
   SharedPreferences sharedPref = await SharedPreferences.getInstance();
 
   while (null == sharedPref) {
-    await new Future.delayed(new Duration(milliseconds: 100));
+    await new Future.delayed(new Duration(milliseconds: 50));
   }
 
   sharedPref.setString(key, val);
@@ -17,7 +17,7 @@ Future<String> getDataFromSharedPref(String key) async {
   var rtnVal = sharedPref.getString(key);
 
   while (null == rtnVal) {
-    await new Future.delayed(new Duration(milliseconds: 100));
+    await new Future.delayed(new Duration(milliseconds: 50));
   }
 
   return rtnVal;

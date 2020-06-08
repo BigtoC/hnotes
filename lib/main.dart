@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:hnotes/util/theme.dart';
+import 'drawer/setting_page/settings_ui.dart';
 import 'package:hnotes/requester/repository.dart';
 import 'package:hnotes/util/share_preferences.dart';
 import 'package:hnotes/splash_screen/days_since_ui.dart';
@@ -37,11 +38,10 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'hNotes',
       theme: theme,
-      home: DaySince(isSplash: true, changeTheme: setTheme),
-      // ToDo: Set date first
-//      home: dateIsSet
-//        ? DaySince(isSplash: true, changeTheme: setTheme)
-//        : SettingsPage(changeTheme: setTheme, onlySetDate: true),
+//      home: DaySince(isSplash: true, changeTheme: setTheme),
+      home: dateIsSet
+        ? DaySince(isSplash: true, changeTheme: setTheme)
+        : SettingsPage(changeTheme: setTheme, onlySetDate: true),
     );
   }
 

@@ -5,6 +5,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:hnotes/util/theme.dart';
+import 'package:hnotes/util/common_data.dart';
 import 'package:hnotes/util/share_preferences.dart';
 import 'package:hnotes/splash_screen/days_since_ui.dart';
 import 'package:hnotes/components/build_card_widget.dart';
@@ -29,7 +30,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   String selectedTheme;
-  String _selectedDate = '';
+  String _selectedDate = globalLoveStartDate;
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +100,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 new RaisedButton(
                   onPressed: _selectDate,
                   child: new Text(
-                    _selectedDate == '' ? 'Select Your Date' : _selectedDate,
+                    _selectedDate == " " ? 'Select Your Date' : _selectedDate,
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.white,
@@ -116,7 +117,6 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future _selectDate() async {
-    // ToDo: select date in the first time
     DateTime picked = await showDatePicker(
       context: context,
       initialDate: new DateTime.now(),

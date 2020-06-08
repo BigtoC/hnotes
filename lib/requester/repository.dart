@@ -9,4 +9,6 @@ class Repository {
 
   ChainCall chainCall() => apiProvider.chainCall;
 
+  Future<String> fetchLoveStartDate() => apiProvider.getLoveStartDate();
+
 }

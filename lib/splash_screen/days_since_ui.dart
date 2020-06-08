@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hnotes/util/theme.dart';
 import 'package:hnotes/home_page/home_ui.dart';
 import 'package:hnotes/components/fade_route.dart';
-import 'package:hnotes/splash_screen/count_day_model.dart';
+import 'package:hnotes/splash_screen/splash_collections.dart';
 
 // ignore: must_be_immutable
 class DaySince extends StatefulWidget {
@@ -21,36 +21,52 @@ class DaySince extends StatefulWidget {
 }
 
 class _DaySince extends State<DaySince> {
-  static int daySince = CountDayModel.daysSince;
-  static String startDateStr = CountDayModel.startDateStr;
 
   @override
   void initState() {
     super.initState();
+
   }
 
   Widget showDays() {
-    return Center(
-      child: Column(
-        children: <Widget>[
-          Text(
-            "${daySince.toString()}",
-            style: TextStyle(
-              fontSize: 90,
-              color: Colors.white,
+    daysBloc.fetchLoveStartDate();
+    return StreamBuilder(
+      stream: daysBloc.dayModel,
+      builder: (context, AsyncSnapshot<CountDayModel> snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+        if (snapshot.hasData) {
+          int daySince = snapshot.data.dayCount;
+          String startDateStr = snapshot.data.loveStartDate;
+          return Center(
+            child: Column(
+              children: <Widget>[
+                Text(
+                  "${daySince.toString()}",
+                  style: TextStyle(
+                    fontSize: 90,
+                    color: Colors.white,
+                  ),
+                ),
+                Container(height: 30,),
+                Text(
+                  "Start Date: $startDateStr",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
-          ),
-          Container(height: 30,),
-          Text(
-            "Start Date: $startDateStr",
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-            ),
-          ),
-        ],
-      ),
+          );
+        }
+        return Center(
+          child: CircularProgressIndicator()
+        );
+      }
     );
+
   }
 
   Widget loveUBtn() {

@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:hnotes/util/theme.dart';
+import 'package:hnotes/util/common_data.dart';
 import 'package:hnotes/splash_screen/days_since_ui.dart';
-import 'package:hnotes/splash_screen/count_day_model.dart';
 import 'package:hnotes/drawer/chain_info/chain_info_ui.dart';
 import 'package:hnotes/drawer/setting_page/settings_ui.dart';
+import 'package:hnotes/splash_screen/splash_collections.dart';
 import 'package:hnotes/components/components_collections.dart';
 
 Widget drawer(BuildContext context, Function(Brightness brightness) changeTheme) {
@@ -30,7 +31,7 @@ final double subtitleFontSize = 18.0;
 final itemFontWeight = FontWeight.w400;
 
 Widget header(BuildContext context) {
-  int dayCount = CountDayModel.daysSince;
+  daysBloc.fetchLoveStartDate();
   return DrawerHeader(
     decoration: BoxDecoration(
       image: DecorationImage(
@@ -47,7 +48,7 @@ Widget header(BuildContext context) {
       },
       child: Center(
         child: Text(
-          "$dayCount",
+          "$globalDayCount",
           style: TextStyle(
             fontSize: 60.0,
             fontWeight: FontWeight.w500,
@@ -55,7 +56,7 @@ Widget header(BuildContext context) {
           ),
         ),
       ),
-    ),
+    )
   );
 }
 
