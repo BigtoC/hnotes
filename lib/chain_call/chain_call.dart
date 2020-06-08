@@ -16,8 +16,9 @@ class ChainCall {
     String keyString = await rootBundle.loadString(keysFilePath);
     Map<String, dynamic> keysJson = jsonDecode(keyString);
 
-    String tmpPublicKeyString = await rootBundle.loadString(publicKeyPath);
+//    String tmpPublicKeyString = await rootBundle.loadString(publicKeyPath);
 //    final String publicKeyString = "-----BEGIN PUBLIC KEY-----\n$tmpPublicKeyString\n-----END PUBLIC KEY-----";
+
     final String privateKeyString = await rootBundle.loadString(privateKeyPath);
     privateKey = keyFromString(privateKeyString);
 
