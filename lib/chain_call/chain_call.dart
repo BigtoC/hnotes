@@ -12,12 +12,13 @@ class ChainCall {
   final client = http.Client();
   RSAPrivateKey privateKey;
 
+  /// Read necessary keys
   readKeys() async {
     String keyString = await rootBundle.loadString(keysFilePath);
     Map<String, dynamic> keysJson = jsonDecode(keyString);
 
-//    String tmpPublicKeyString = await rootBundle.loadString(publicKeyPath);
-//    final String publicKeyString = "-----BEGIN PUBLIC KEY-----\n$tmpPublicKeyString\n-----END PUBLIC KEY-----";
+    // String tmpPublicKeyString = await rootBundle.loadString(publicKeyPath);
+    // final String publicKeyString = "-----BEGIN PUBLIC KEY-----\n$tmpPublicKeyString\n-----END PUBLIC KEY-----";
 
     final String privateKeyString = await rootBundle.loadString(privateKeyPath);
     privateKey = keyFromString(privateKeyString);
@@ -26,13 +27,16 @@ class ChainCall {
     String myKmsKeyId = keysJson["myKmsKeyId"];
     String accAddress = keysJson["account-address"];
     String tenantid = keysJson["tenantid"];
+    String orderId = keysJson["orderId"];
     await new Future.delayed(new Duration(milliseconds: 1000));
     setDataInSharedPref("accessId", accessId);
     setDataInSharedPref("myKmsKeyId", myKmsKeyId);
     setDataInSharedPref("accAddress", accAddress);
     setDataInSharedPref("tenantid", tenantid);
+    setDataInSharedPref("orderId", orderId);
   }
 
+  /// Shake hand with blockchain system
   handShake() async {
     await readKeys();
 
@@ -46,9 +50,9 @@ class ChainCall {
     final String secret = hex.encode(signature);
 
     final requestBody = jsonEncode({
-      "accessId": "$accessId",
-      "time": "$timestamp",
-      "secret": "$secret"
+      "accessId": accessId,
+      "time": timestamp,
+      "secret": secret
     });
 
     final response = await client.post(
@@ -65,16 +69,16 @@ class ChainCall {
     }
   }
 
-  // 查询最新块高
+  /// 查询最新块高
   Future<Map<String, dynamic>> queryLatestBlock() async {
     String token = await getDataFromSharedPref('token');
     String accessId = await getDataFromSharedPref("accessId");
 
     final requestBody = jsonEncode({
-      "bizid": "a00e36c5",
+      "bizid": bizid,
       "method": "QUERYLASTBLOCK",
-      "accessId": "$accessId",
-      "token": "$token"
+      "accessId": accessId,
+      "token": token
     });
 
     final response = await client.post(
@@ -86,8 +90,8 @@ class ChainCall {
     String statusCode = phraseResponseData(response.body, 'code');
 
     while (statusCode == "202") {
-      handShake();
-      queryAccount();
+      await handShake();
+      await queryAccount();
     }
 
     if (statusCode == "200") {
@@ -102,17 +106,17 @@ class ChainCall {
     }
   }
 
-  // 查询账户
+  /// 查询账户
   Future<Map<String, dynamic>> queryAccount() async {
     String token = await getDataFromSharedPref('token');
     String accessId = await getDataFromSharedPref("accessId");
 
     final requestBody = jsonEncode({
-      "bizid": "a00e36c5",
+      "bizid": bizid,
       "method": "QUERYACCOUNT",
       "requestStr": "{'queryAccount': '$queryAccountName'}",
-      "accessId": "$accessId",
-      "token": "$token"
+      "accessId": accessId,
+      "token": token
     });
 
     final response = await client.post(
@@ -124,8 +128,8 @@ class ChainCall {
     String statusCode = phraseResponseData(response.body, 'code');
 
     while (statusCode == "202") {
-      handShake();
-      queryAccount();
+      await handShake();
+      await queryAccount();
     }
 
     if (statusCode == "200") {
@@ -137,6 +141,59 @@ class ChainCall {
       print(errorMsg);
       return jsonDecode(response.body);
     }
+  }
+
+  /// Upload note content data to blockchain
+  Future<bool> uploadNoteDataToChain(String inputParamListStr) async {
+    String orderId = await getDataFromSharedPref('orderId');
+    String myKmsKeyId = await getDataFromSharedPref("myKmsKeyId");
+    String accessId = await getDataFromSharedPref("accessId");
+    String token = await getDataFromSharedPref('token');
+    String tenantid = await getDataFromSharedPref('tenantid');
+
+    final requestBody = jsonEncode({
+      "orderId": orderId,
+      "bizid": bizid,
+      "account": queryAccountName,
+      "contractName": contractName,
+      "methodSignature": "get()",
+      "mykmsKeyId": myKmsKeyId,
+      "method": "CALLCONTRACTBIZASYNC",
+      "inputParamListStr": inputParamListStr,
+      "outTypes": "[]",
+      "accessId": accessId,
+      "token": token,
+      "gas": 10000000,
+      "tenantid": tenantid
+    });
+
+    final response = await client.post(
+      "$baasUrl/chainCallForBiz",
+      headers: requestHeaders,
+      body: requestBody,
+    );
+
+    String statusCode = phraseResponseData(response.body, 'code');
+
+    while (statusCode == "202") {
+      handShake();
+      await uploadNoteDataToChain(inputParamListStr);
+    }
+
+    if (statusCode == "200") {
+      return true;
+    }
+    else {
+      final String errorMsg = "Upload Note failed: " + response.body;
+      print(errorMsg);
+      return false;
+    }
+
+  }
+
+  /// Modify the existing note content data
+  updateNoteContent(String noteId) async {
+
   }
 
 }

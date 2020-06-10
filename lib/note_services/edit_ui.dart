@@ -1,15 +1,17 @@
 import 'dart:ui';
 import 'dart:io'; // access to File and Directory classes
+import 'dart:convert'; // access to jsonEncode()
+import 'package:zefyr/zefyr.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:quill_delta/quill_delta.dart';
 import 'package:flutter/painting.dart' as prefix0;
 import 'package:path_provider/path_provider.dart';
 
-import 'package:zefyr/zefyr.dart';
 import 'package:hnotes/util/theme.dart';
-import 'package:quill_delta/quill_delta.dart';
-import 'dart:convert'; // access to jsonEncode()
+import 'package:hnotes/util/common_data.dart';
+import 'package:hnotes/requester/repository.dart';
 
 // ignore: must_be_immutable
 class EditorPage extends StatefulWidget {
@@ -28,6 +30,7 @@ class EditorPage extends StatefulWidget {
 
 class EditorPageState extends State<EditorPage> {
   bool isDirty = false;
+  bool isImportant = false;
 
   /// Allows to control the editor and the document.
   ZefyrController _controller;
@@ -84,16 +87,30 @@ class EditorPageState extends State<EditorPage> {
         elevation: 0.0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: primaryColor),
-          onPressed: () => _handleBack(context),
+          onPressed: () => _handleBack(),
         ),
         actions: <Widget>[
+          Builder(
+            builder: (context) => IconButton(
+              tooltip: 'Mark note as important',
+              icon: Icon(
+                isImportant
+                  ? Icons.flag
+                  : Icons.outlined_flag,
+                color: primaryColor,
+              ),
+              onPressed: _controller.document.toString().trim().isNotEmpty
+                ? markImportantAsDirty
+                : null,
+            ),
+          ),
           Builder(
             builder: (context) => IconButton(
               icon: Icon(
                 Icons.delete_outline,
                 color: primaryColor,
               ),
-              onPressed: () => _handleDelete(context),
+              onPressed: () => _handleDelete(),
             ),
           ),
           Builder(
@@ -123,62 +140,6 @@ class EditorPageState extends State<EditorPage> {
           ),
         ],
       )
-    );
-  }
-
-  Widget beautyAppBar(BuildContext context) {
-    return ClipRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-        child: Container(
-          height: 80,
-          color: Theme.of(context).canvasColor.withOpacity(0.3),
-          child: SafeArea(
-            child: Row(
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.arrow_back),
-                  onPressed: () => _handleBack(context),
-                ),
-                Spacer(),
-//                IconButton(
-//                  tooltip: 'Mark note as important',
-//                  icon: Icon(isImportant
-//                    ? Icons.flag
-//                    : Icons.outlined_flag),
-//                  onPressed: contentController.text.trim().isNotEmpty
-//                    ? markImportantAsDirty
-//                    : null,
-//                ),
-                IconButton(
-                  icon: Icon(Icons.delete_outline),
-                  onPressed: () => _handleDelete(context),
-                ),
-                AnimatedContainer(
-                  margin: EdgeInsets.only(left: 10),
-                  duration: Duration(milliseconds: 200),
-                  width: isDirty ? 100 : 0,
-                  height: 42,
-                  curve: Curves.decelerate,
-                  child: RaisedButton.icon(
-                    color: Theme.of(context).accentColor,
-                    textColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(100),
-                        bottomLeft: Radius.circular(100))),
-                    icon: Icon(Icons.done),
-                    label: Text(
-                      'SAVE',
-                      style: TextStyle(letterSpacing: 1),
-                    ),
-                    onPressed: () => _handleSave(context),
-                  ),
-                )
-              ],
-            ),
-          ),
-        )),
     );
   }
 
@@ -241,9 +202,40 @@ class EditorPageState extends State<EditorPage> {
     });
   }
 
-  void _handleDelete(BuildContext context) async {
+  void _handleSaveAndUpload(BuildContext context) async {
+    final Repository _repository = new Repository();
+
+    String contentType = "note";
+    String content = _controller.document.toString();
+    String isImportant = "f";
+
+    String inputParamListStr = phraseInputParamListStr(contentType, content, isImportant);
+
+    bool saved = await _repository.apiProvider.chainCall.uploadNoteDataToChain(inputParamListStr);
+
+    if (saved) {
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text("Saved.")));
+    }
+    else {
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text("Save failed.")));
+    }
+
+  }
+
+  void _handleModify() async {
+
+  }
+
+  void markImportantAsDirty() {
+    setState(() {
+      isImportant = !isImportant;
+    });
+    _handleSave(context);
+  }
+
+  void _handleDelete() async {
     if (null == widget.noteFile) {  // A new note
-      _handleBack(context);
+      _handleBack();
     }
     else {
       showDialog(
@@ -289,7 +281,7 @@ class EditorPageState extends State<EditorPage> {
     }
   }
 
-  void _handleBack(BuildContext context) {
+  void _handleBack() {
     Navigator.pop(context);
   }
 }
