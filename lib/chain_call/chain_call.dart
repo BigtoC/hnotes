@@ -25,10 +25,12 @@ class ChainCall {
     String accessId = keysJson["access-id"];
     String myKmsKeyId = keysJson["myKmsKeyId"];
     String accAddress = keysJson["account-address"];
+    String tenantid = keysJson["tenantid"];
     await new Future.delayed(new Duration(milliseconds: 1000));
     setDataInSharedPref("accessId", accessId);
     setDataInSharedPref("myKmsKeyId", myKmsKeyId);
     setDataInSharedPref("accAddress", accAddress);
+    setDataInSharedPref("tenantid", tenantid);
   }
 
   handShake() async {

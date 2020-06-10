@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:hnotes/util/common_data.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:hnotes/util/theme.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   ThemeData theme = appThemeLight;
-  bool dateIsSet = false;
+  bool dateIsSet;
   Repository repository = new Repository();
 
   @override
@@ -30,6 +31,7 @@ class _MyAppState extends State<MyApp> {
     updateThemeFromSharedPref();
     createFolderInAppDocDir("hnotes");
     repository.chainCall().handShake();
+    getDateSuccess();
   }
 
   @override
@@ -46,12 +48,15 @@ class _MyAppState extends State<MyApp> {
   }
 
   void getDateSuccess() async{
-    try {
-      await getDataFromSharedPref('startDate');
-      dateIsSet = true;
+    if (globalLoveStartDate != " ") {
+      setState(() {
+        dateIsSet = true;
+      });
     }
-    catch (NoSuchMethodError) {
-      dateIsSet = false;
+    else {
+      setState(() {
+        dateIsSet = false;
+      });
     }
   }
 

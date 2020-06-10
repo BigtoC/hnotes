@@ -8,7 +8,7 @@ final String publicKeyPath = "assets/secrets/client.key";
 final String privateKeyPath = "assets/secrets/access.key";
 final String queryAccountName = "bigto-hnotes";
 
-String globalLoveStartDate = " ";
+String globalLoveStartDate = "2019-08-31";
 int globalDayCount;
 
 
