@@ -73,6 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Icon(
                           Icons.menu,
                           color: primaryColor,
+                          size: 31,
                         ),
                       ),
                     ),
