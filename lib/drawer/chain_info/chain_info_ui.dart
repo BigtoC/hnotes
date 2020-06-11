@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hnotes/util/common_data.dart';
 import 'package:hnotes/components/build_card_widget.dart';
 import 'package:hnotes/drawer/chain_info/chain_info_bloc.dart';
+import 'package:hnotes/util/theme.dart';
 
 // ignore: must_be_immutable
 class ChainInfoPage extends StatefulWidget {
@@ -46,8 +47,9 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
                   padding: const EdgeInsets.only(left: 16, top: 36, right: 24),
                   child: buildHeaderWidget('Blockchain Info'),
                 ),
-                buildLatestBlockInfo(context),
-                buildAccountInfo(context),
+                buildNetworkStatus(),
+                buildLatestBlockInfo(),
+                buildAccountInfo(),
               ],
             )
           )
@@ -60,9 +62,33 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
     Navigator.pop(context);
   }
 
-  Widget buildLatestBlockInfo(BuildContext context) {
+  Widget buildNetworkStatus() {
+    return buildCardWidget(
+      context,
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          cardTitle("Blockchain Network"),
+          Container(
+            height: 40,
+          ),
+          cardContentTitle('Network Status'),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
+              child: chainInfoBloc.blockHeaderData.isEmpty != null
+                ? cardContent(context, "Normal", btnColor)
+                : cardContent(context, "Error", Colors.red)
+            )
+          )
+        ],
+      ),
+    );
+  }
 
-    return buildCardWidget(context,
+  Widget buildLatestBlockInfo() {
+    return buildCardWidget(
+      context,
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -73,24 +99,24 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
           buildTitleAndContent(
             context,
             chainInfoBloc.blockHeaderData,
-            "Block Height", "number"
+            "Block Height", "number", null
           ),
           buildTitleAndContent(
             context,
             chainInfoBloc.blockHeaderData,
-            "Gas Used", "gasUsed"
+            "Gas Used", "gasUsed", null
           ),
           buildTitleAndContent(
             context,
             chainInfoBloc.blockHeaderData,
-            "Confirmed Time", "timestamp"
+            "Confirmed Time", "timestamp", null
           ),
         ],
       )
     );
   }
 
-  Widget buildAccountInfo(BuildContext context) {
+  Widget buildAccountInfo() {
     return buildCardWidget(
       context,
       Column(
@@ -101,17 +127,17 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
           height: 40,
         ),
         cardContentTitle("Account Name"),
-        cardContent(queryAccountName),
+        cardContent(context, queryAccountName, null),
         cardContentGap(),
         buildTitleAndContent(
           context,
           chainInfoBloc.accountData,
-          "Gas Balance", "balance"
+          "Gas Balance", "balance", null
         ),
         buildTitleAndContent(
           context,
           chainInfoBloc.accountData,
-          "Account Address", "id"
+          "Account Address", "id", null
         ),
       ],
     ));

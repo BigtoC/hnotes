@@ -60,7 +60,7 @@ Widget cardContentTitle(String cardContentTitle) {
   );
 }
 
-Widget cardContent(String contentText) {
+Widget cardContent(BuildContext context, String contentText, Color textColor) {
   return Center(
     child: Padding(
       padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
@@ -68,6 +68,9 @@ Widget cardContent(String contentText) {
         contentText,
         style: TextStyle(
           fontSize: 24,
+          color: textColor != null
+            ? textColor
+            : Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white
         ),
       ),
     )
@@ -80,18 +83,18 @@ Widget cardContentGap() {
   );
 }
 
-Widget buildTitleAndContent(BuildContext context, var streamData, String title, String content) {
+Widget buildTitleAndContent(BuildContext context, var streamData, String title, String content, Color textColor) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
       cardContentTitle(title),
-      blockInfoStreamBuilder(context, streamData, content),
+      blockInfoStreamBuilder(context, streamData, content, textColor),
       cardContentGap(),
     ],
   );
 }
 
-Widget blockInfoStreamBuilder(BuildContext context, var streamData, String valueKey) {
+Widget blockInfoStreamBuilder(BuildContext context, var streamData, String valueKey, Color textColor) {
   return StreamBuilder(
     stream: streamData,
     builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
@@ -100,7 +103,7 @@ Widget blockInfoStreamBuilder(BuildContext context, var streamData, String value
       }
       switch (snapshot.connectionState) {
         case ConnectionState.none:
-          return cardContent('Query data filed...');
+          return cardContent(context, 'Query data filed...', textColor);
         case ConnectionState.waiting:
           return Center(
             child: CircularProgressIndicator(
@@ -114,7 +117,7 @@ Widget blockInfoStreamBuilder(BuildContext context, var streamData, String value
           if (valueKey == 'timestamp') {
             showData = convertTime(showData);
           }
-          return cardContent(showData);
+          return cardContent(context, showData, textColor);
         case ConnectionState.done:
           print("done");
       }
