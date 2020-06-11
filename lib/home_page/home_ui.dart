@@ -56,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
             duration: Duration(milliseconds: 200),
             child: ListView(
               physics: BouncingScrollPhysics(),
-//              controller: _scrollController,
+              // controller: _scrollController,
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: Icon(
                           Icons.menu,
                           color: primaryColor,
-                          size: 31,
+                          size: 31,  /// 彩蛋
                         ),
                       ),
                     ),
@@ -130,7 +130,9 @@ class _MyHomePageState extends State<MyHomePage> {
         AnimatedContainer(
           duration: Duration(milliseconds: 200),
           curve: Curves.easeIn,
-          margin: EdgeInsets.only(top: 0, bottom: 10, left: 20),
+          margin: EdgeInsets.only(
+            top: 8, bottom: 19, left: 20 /// 彩蛋
+          ),
           width: headerShouldHide ? 0 : 200,
           child: Text(
             'Notes',
