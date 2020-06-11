@@ -86,7 +86,7 @@ Widget chainInfo(BuildContext context) {
   return ListTile(
     leading: Icon(
       Icons.cloud,
-      color: Colors.yellowAccent,
+      color: btnColor,
     ),
     title: Text(
       'Chain Info',
@@ -107,7 +107,7 @@ Widget settings(BuildContext context, Function(Brightness brightness) changeThem
   return ListTile(
     leading: Icon(
       Icons.settings,
-      color: btnColor,
+      color: Colors.purpleAccent,
     ),
     title: Text(
       'Settings',
@@ -130,7 +130,7 @@ Widget version() {
       alignment: Alignment.bottomLeft,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text('\n  v1.6.1 \n'),
+        child: Text('\n  v1.7.0 \n'),
       ),
     ),
   );
