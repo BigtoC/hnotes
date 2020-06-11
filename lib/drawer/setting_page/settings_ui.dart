@@ -270,6 +270,9 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
           cardContentGap(),
+          cardContentTitle('Version'),
+          cardContent(context, versionNumber.replaceAll("v", ""), null),
+          cardContentGap(),
         ],
       )
     );

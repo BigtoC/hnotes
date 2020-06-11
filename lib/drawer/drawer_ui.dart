@@ -130,7 +130,7 @@ Widget version() {
       alignment: Alignment.bottomLeft,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text('\n  v1.7.0 \n'),
+        child: Text('\n  $versionNumber  \n'),
       ),
     ),
   );

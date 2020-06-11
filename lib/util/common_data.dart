@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+final String versionNumber = "v1.7.1 beta";
+
 final String baasUrl = "https://rest.baas.alipay.com/api/contract";
 final requestHeaders = {'Content-type': 'application/json'};
 
