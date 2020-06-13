@@ -25,5 +25,7 @@ String phraseInputParamListStr(String contentType, String content, String isImpo
   String noteId = new DateTime.now().millisecondsSinceEpoch.toString();
   String date = DateTime.now().toString();
   String owner = "b";
-
+  String status = "1";
+  String inputParamListStr = "[$noteId, $date, $owner, $contentType, $content, $isImportant, $status]";
+  return inputParamListStr;
 }
