@@ -198,7 +198,9 @@ class ChainCall {
   }
 
   /// Query all my transactions
+  queryAllNotes() async {
 
+  }
 
 }
 
