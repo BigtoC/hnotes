@@ -20,9 +20,7 @@ class NoteCardsList extends StatelessWidget {
       stream: notesBloc.noteFiles,
       builder: (context, AsyncSnapshot<NoteModel> snapshot) {
         if (snapshot.hasData) {
-          return Scrollbar(
-            child: buildNoteCardList(context, snapshot, onTapAction),
-          );
+          return buildNoteCardList(context, snapshot, onTapAction);
         }
         else if (snapshot.hasError) {
           return Text(snapshot.error.toString());
