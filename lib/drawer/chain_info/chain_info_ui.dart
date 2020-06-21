@@ -77,7 +77,7 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
               child: chainInfoBloc.blockHeaderData.isEmpty != null
-                ? cardContent(context, "Normal", btnColor)
+                ? cardContent(context, "Normal", Colors.greenAccent)
                 : cardContent(context, "Error", Colors.red)
             )
           )
