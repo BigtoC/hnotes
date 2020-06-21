@@ -134,7 +134,6 @@ class ChainCall {
 
     if (statusCode == "200") {
       final accountData = phraseResponseData(response.body, 'data');
-      print(accountData);
       return jsonDecode(accountData);
     }
     else {

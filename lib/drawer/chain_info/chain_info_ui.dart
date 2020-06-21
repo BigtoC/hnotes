@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:hnotes/util/common_data.dart';
 import 'package:hnotes/components/build_card_widget.dart';
 import 'package:hnotes/drawer/chain_info/chain_info_bloc.dart';
-import 'package:hnotes/util/theme.dart';
 
 // ignore: must_be_immutable
 class ChainInfoPage extends StatefulWidget {
