@@ -27,6 +27,9 @@ class _DaySince extends State<DaySince> {
     super.initState();
   }
 
+  //设定Widget的偏移量
+  Offset offset = Offset(20, kToolbarHeight + 100);
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -47,13 +50,42 @@ class _DaySince extends State<DaySince> {
               child: Column(
                 children: <Widget>[
                   showDays(),
-                  loveUBtn()
+                  loveUBtn(),
                 ],
               ),
             ),
-          )
+          ),
+          draggableBtn(),
         ],
       ),
+    );
+  }
+
+  Widget draggableBtn() {
+    return Positioned(
+      left: 100,
+      top: 100,
+      child: Draggable(
+        child: Text("我只是演示使用"),
+        childWhenDragging: Text("我被拉出去了😢"),
+        feedback: Text("我是拉出去的东西"),
+        onDragEnd: (detail) {
+          print(
+            "Draggable onDragEnd ${detail.velocity.toString()} ${detail.offset.toString()}"
+          );
+        },
+        onDragCompleted: () {
+          print("Draggable onDragCompleted");
+        },
+        onDragStarted: () {
+          print("Draggable onDragStarted");
+        },
+        onDraggableCanceled: (Velocity velocity, Offset offset) {
+          print(
+            "Draggable onDraggableCanceled ${velocity.toString()} ${offset.toString()}"
+          );
+        },
+      )
     );
   }
 
@@ -127,13 +159,15 @@ class _DaySince extends State<DaySince> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        onPressed: () {
+        onPressed: () async {
           if (widget.isSplash) {
+            await Future.delayed(Duration(milliseconds: 200), () {});
             Navigator.of(context).pushAndRemoveUntil(
               FadeRoute(
                 page: MyHomePage(changeTheme: widget.changeTheme)
               ),
                 (Route<dynamic> route) => false);
+            await Future.delayed(Duration(milliseconds: 200), () {});
           }
           else {
             Navigator.pop(context);
