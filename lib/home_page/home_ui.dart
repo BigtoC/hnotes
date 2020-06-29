@@ -1,12 +1,15 @@
+import 'dart:collection';
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 
+import 'note_card.dart';
 import 'note_cards_list.dart';
 import 'package:hnotes/util/theme.dart';
 import 'package:hnotes/drawer/drawer_ui.dart';
+import 'package:hnotes/home_page/note_cards_list_widget.dart';
 import 'package:hnotes/components/components_collections.dart';
 import 'package:hnotes/note_services/notes_services_collections.dart';
 
@@ -37,6 +40,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
+  List<HashMap<String, dynamic>> noteContentsList = [];
+  List<Widget> cardList = [];
+
   @override
   void initState() {
     super.initState();
@@ -45,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    _buildNotesList();
     return Scaffold(
       key: _scaffoldKey,
       drawer: drawer(context, widget.changeTheme),
@@ -83,10 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 buildButtonRow(),
                 Container(height: 32),
                 buildImportantIndicatorText(),
-                RefreshIndicator(
-                  child: buildNoteComponentsList(),
-                  onRefresh: _handleRefresh
-                ),
+                ...cardList,
                 Container(height: 100)
               ],
             ),
@@ -231,6 +235,33 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  _buildNotesList() {
+    if (!isSearching) {
+      notesBloc.fetchAllNotes();
+    }
+    if (isSearching) {
+      String keywords = searchController.text;
+      notesBloc.searchNotes(keywords);
+    }
+
+    Stream<NoteModel> noteStream = notesBloc.noteFiles;
+    noteStream.take(1);
+
+    noteStream.listen((element) {
+      element.noteKeyValueList.forEach((noteInstance) {
+        setState(() {
+          cardList.add(NoteCardComponent(
+            noteFile: noteInstance["File"],
+            noteContents: noteInstance["Contents"],
+            onTapAction: openNoteToRead,
+          ));
+        });
+      });
+    }, onDone: () {
+      print("流已完成");
+    });
+  }
+
   Widget buildNoteComponentsList() {
     if (!isSearching) {
       notesBloc.fetchAllNotes();
@@ -272,12 +303,12 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       headerShouldHide = true;
     });
-    await Future.delayed(Duration(milliseconds: 230), () {});
+    await Future.delayed(Duration(milliseconds: 200), () {});
     Navigator.push(
       context,
       FadeRoute(page: EditorPage(noteFile: noteFile))
     );
-    await Future.delayed(Duration(milliseconds: 300), () {});
+    await Future.delayed(Duration(milliseconds: 200), () {});
 
     setState(() {
       headerShouldHide = false;

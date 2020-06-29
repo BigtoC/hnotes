@@ -9,6 +9,7 @@ class NotesListBloc {
   final _allNotesList = new PublishSubject<NoteModel>();
 
   Stream<NoteModel> get noteFiles => _allNotesList.stream;
+  Future<int> get noteListLength => _allNotesList.length;
 
   fetchAllNotes() async {
     NoteModel noteModel = await _repository.fetchAllNotes();
