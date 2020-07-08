@@ -22,11 +22,24 @@ class DaySince extends StatefulWidget {
 
 class _DaySince extends State<DaySince> {
 
+  // a key to set on our Text widget, so we can measure later
+  GlobalKey colorTextKey = GlobalKey();
+  // a RenderBox object to use in state
+  RenderBox colorTextRenderBox;
+
   @override
   void initState() {
     super.initState();
+    // this will be called after first draw, and then call _recordSize() method _recordSize() method
+    WidgetsBinding.instance.addPostFrameCallback((_) => _recordSize());
   }
 
+  void _recordSize() {
+    // now we set the RenderBox and trigger a redraw
+    setState(() {
+      colorTextRenderBox = colorTextKey.currentContext.findRenderObject();
+    });
+  }
   //设定Widget的偏移量
   Offset offset = Offset(20, kToolbarHeight + 100);
 
@@ -35,6 +48,7 @@ class _DaySince extends State<DaySince> {
     double screenHeight = MediaQuery.of(context).size.height;
     double fromTop = screenHeight * 0.31082019;  /// 彩蛋
     return new Scaffold(
+      key: colorTextKey,
       body: Stack(
         children: <Widget>[
           Center(
@@ -55,7 +69,7 @@ class _DaySince extends State<DaySince> {
               ),
             ),
           ),
-          draggableBtn(),
+//          draggableBtn(),
         ],
       ),
     );
@@ -126,12 +140,12 @@ class _DaySince extends State<DaySince> {
             if (snapshot.hasData) {
               String startDateStr = snapshot.data.loveStartDate;
               return Center(
-                child: Text(
-                  "Start Date: $startDateStr",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                  ),
+                child: new Text(
+                  "On $startDateStr, \nthe world became colorful",
+                  textAlign: TextAlign.center,
+                  style: new TextStyle(
+                    fontSize: 20.0,
+                    foreground: Paint()..shader = getTextGradient(colorTextRenderBox)),
                 ),
               );
             }
@@ -147,6 +161,20 @@ class _DaySince extends State<DaySince> {
         ),
       ],
     );
+  }
+
+  Shader getTextGradient(RenderBox renderBox) {
+    if (renderBox == null) return null;
+    return LinearGradient(
+      colors: <Color>[
+        Colors.purpleAccent, Colors.greenAccent, Colors.yellowAccent,
+        Colors.lightBlueAccent, Colors.redAccent, Colors.deepOrange,
+      ],
+    ).createShader(Rect.fromLTWH(
+      renderBox.localToGlobal(Offset.zero).dx,
+      renderBox.localToGlobal(Offset.zero).dy,
+      renderBox.size.width,
+      renderBox.size.height));
   }
 
   Widget loveUBtn() {
