@@ -129,9 +129,8 @@ Widget version() {
       alignment: Alignment.bottomLeft,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text('\n  $versionNumber  \n'),
+        child: Text('\n  ${packageInfo.version}  \n'),
       ),
     ),
   );
 }
-

@@ -18,32 +18,34 @@ A Flutter notes app with blockchain storage.
 - [x] Take notes and local storage
 - [x] Show notes in an appropriate way
 - [x] Search notes
-- [x] Set the love start date first for the first time open this app  
+- [x] Set the love start date first for the first time open this app
 
 ### Stage 2
 
 > New blockchain related developments
 > Target finish before 2022-05-23
 
-- [x] {2.0} Migrate to Flutter 2 and latest Dart version  
-- [ ] {2.1} Switch to Ropsten (Ethereum testnet), and use Alchemy as a blockchain connection service  
-- [ ] {2.2} Make hand shake with the blockchain platform  
+- [x] {2.0} Migrate to Flutter 2 and latest Dart version
+- [x] {2.0.5} Codes clean up and structure enhancements
+- [ ] {2.1} Switch to Ropsten (Ethereum testnet), and use Alchemy as a blockchain connection service
+- [ ] {2.2} Make hand shake with the blockchain platform
 - [ ] {2.3} Show some blockchain information
 
 ### Stage 3
 
 > New features
 
-- [ ] {3.0} Empty for now  
-- [ ] {3.1} Placeholder  
+- [ ] {3.0} Empty for now
+- [ ] {3.1} Placeholder
 
 ### Stage 4
 
 > More enhancements (and some fun functions)
 
-- [ ]  Share notes content in a picture
-- [ ]  Biometric authentications (Finger print, face unlock)
-- [ ]  More functions welcome pull requests and create issues
+- [ ] Further code structure enhancements
+- [ ] Share notes content in a picture
+- [ ] Biometric authentications (Finger print, face unlock)
+- [ ] More functions welcome pull requests and create issues
 
 ## References
 * Alchemy [documents](https://docs.alchemy.com/alchemy/)  

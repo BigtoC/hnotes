@@ -1,6 +1,13 @@
 import 'dart:convert';
+import 'package:package_info_plus/package_info_plus.dart';
 
-final String versionNumber = "v2.0.0-beta";
+PackageInfo packageInfo = PackageInfo(
+  appName: 'Unknown',
+  packageName: 'Unknown',
+  version: 'Unknown',
+  buildNumber: 'Unknown',
+  buildSignature: 'Unknown',
+);
 
 final String baasUrl = "https://rest.baas.alipay.com/api/contract";
 final requestHeaders = {'Content-type': 'application/json'};
@@ -13,7 +20,7 @@ final String queryAccountName = "bigto-hnotes";
 final String contractName = "NoteManager";
 final String bizid = "a00e36c5";
 
-String globalLoveStartDate = "2019-08-31";
+String globalLoveStartDate = " ";
 int globalDayCount = 0;
 
 
