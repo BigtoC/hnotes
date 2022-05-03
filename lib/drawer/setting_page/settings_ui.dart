@@ -83,6 +83,10 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget buildDatePicker() {
+    final ButtonStyle style = ElevatedButton.styleFrom(
+      primary: btnColor,
+    );
+
     return buildCardWidget(context,
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,7 +98,8 @@ class _SettingsPageState extends State<SettingsPage> {
           Center(
             child: new Column(
               children: <Widget>[
-                new RaisedButton(
+                new ElevatedButton(
+                  style: style,
                   onPressed: _selectDate,
                   child: new Text(
                     _selectedDate == " " ? 'Select Your Date' : _selectedDate,
@@ -103,7 +108,6 @@ class _SettingsPageState extends State<SettingsPage> {
                       color: Colors.white,
                     )
                   ),
-                  color: btnColor,
                 )
               ],
             ),
@@ -181,6 +185,12 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget buildAboutApp() {
+    final ButtonStyle style = ElevatedButton.styleFrom(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16)
+      ),
+    );
+
     return buildCardWidget(
       context,
       Column(
@@ -194,7 +204,7 @@ class _SettingsPageState extends State<SettingsPage> {
           cardContent(context, 'Bigto Chan', null),
           Container(
             alignment: Alignment.center,
-            child: OutlineButton.icon(
+            child: OutlinedButton.icon(
               icon: Icon(Icons.code),
               label: Text(
                 'GITHUB',
@@ -204,9 +214,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   color: Colors.grey.shade500
                 )
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16)
-              ),
+              style: style,
               onPressed: openGitHub,
             ),
           ),
@@ -268,7 +276,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           cardContentGap(),
           cardContentTitle('Version'),
-          cardContent(context, versionNumber.replaceAll("v", ""), null),
+          cardContent(context, packageInfo.version, null),
           cardContentGap(),
         ],
       )

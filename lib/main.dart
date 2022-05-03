@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:hnotes/util/theme.dart';
 import 'package:hnotes/util/common_data.dart';
@@ -10,6 +11,7 @@ import 'package:hnotes/splash_screen/days_since_ui.dart';
 import 'package:hnotes/drawer/setting_page/settings_ui.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
@@ -28,9 +30,10 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    _initPackageInfo();
     updateThemeFromSharedPref();
     createFolderInAppDocDir("hnotes");
-    repository.chainCall().handShake();
+    // repository.chainCall().handShake();
     getDateSuccess();
   }
 
@@ -38,7 +41,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'hNotes',
+      title: packageInfo.appName,
       theme: theme,
 //      home: DaySince(isSplash: true, changeTheme: setTheme),
       home: dateIsSet
@@ -99,6 +102,11 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  Future<void> _initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      packageInfo = info;
+    });
+  }
+
 }
-
-

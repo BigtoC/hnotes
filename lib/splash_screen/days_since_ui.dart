@@ -11,7 +11,7 @@ class DaySince extends StatefulWidget {
   DaySince({
     Key? key, required this.isSplash, Function(Brightness brightness)? changeTheme})
     : super(key: key) {
-    this.changeTheme = changeTheme!;
+    this.changeTheme = changeTheme;
   }
 
   final bool isSplash;
@@ -75,34 +75,6 @@ class _DaySince extends State<DaySince> {
     );
   }
 
-  Widget draggableBtn() {
-    return Positioned(
-      left: 100,
-      top: 100,
-      child: Draggable(
-        child: Text("我只是演示使用"),
-        childWhenDragging: Text("我被拉出去了😢"),
-        feedback: Text("我是拉出去的东西"),
-        onDragEnd: (detail) {
-          print(
-            "Draggable onDragEnd ${detail.velocity.toString()} ${detail.offset.toString()}"
-          );
-        },
-        onDragCompleted: () {
-          print("Draggable onDragCompleted");
-        },
-        onDragStarted: () {
-          print("Draggable onDragStarted");
-        },
-        onDraggableCanceled: (Velocity velocity, Offset offset) {
-          print(
-            "Draggable onDraggableCanceled ${velocity.toString()} ${offset.toString()}"
-          );
-        },
-      )
-    );
-  }
-
   Widget showDays() {
     daysBloc.fetchLoveStartDate();
     return Column(
@@ -114,7 +86,7 @@ class _DaySince extends State<DaySince> {
               return Text('Error: ${snapshot.error}');
             }
             if (snapshot.hasData) {
-              int daySince = snapshot.data!.dayCount;
+              int? daySince = snapshot.data?.dayCount;
               return Center(
                 child: Text(
                   "${daySince.toString()}",
@@ -138,7 +110,7 @@ class _DaySince extends State<DaySince> {
               return Text('Error: ${snapshot.error}');
             }
             if (snapshot.hasData) {
-              String startDateStr = snapshot.data!.loveStartDate;
+              String? startDateStr = snapshot.data?.loveStartDate;
               return Center(
                 child: new Text(
                   "On $startDateStr, \nthe world became colorful",
@@ -184,6 +156,7 @@ class _DaySince extends State<DaySince> {
       primary: primaryColor.withOpacity(0.3),
       padding: EdgeInsets.all(12),
     );
+
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: 60.0,
@@ -213,4 +186,3 @@ class _DaySince extends State<DaySince> {
     );
   }
 }
-

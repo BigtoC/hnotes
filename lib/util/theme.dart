@@ -24,12 +24,8 @@ ThemeData appThemeLight = ThemeData.light().copyWith(
 ThemeData appThemeDark = ThemeData.dark().copyWith(
   primaryColor: primaryColor,
   toggleableActiveColor: primaryColor,
-  accentColor: primaryColor,
-  buttonColor: btnColor,
-  textSelectionColor: primaryColor,
-  textSelectionHandleColor: primaryColor,
+  buttonTheme: ButtonThemeData(buttonColor: btnColor),
   textTheme: ThemeData.dark().textTheme.apply(
     fontFamily: 'ZillaSlab',
   ),
 );
-
