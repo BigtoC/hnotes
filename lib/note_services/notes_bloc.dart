@@ -22,10 +22,10 @@ class NotesListBloc {
     List<File> tmpFileList = [];
     NoteModel noteModel = await _repository.fetchAllNotes();
     await new Future.delayed(new Duration(milliseconds: 500));
-    for (int i = 0; i < noteModel.noteKeyValueList.length; i++) {
-      String content = noteModel.noteKeyValueList[i]["Contents"];
+    for (int i = 0; i < noteModel.noteKeyValueList!.length; i++) {
+      String content = noteModel.noteKeyValueList![i]["Contents"];
       if (content.contains(keywords)) {
-        tmpFileList.add(noteModel.noteKeyValueList[i]["File"]);
+        tmpFileList.add(noteModel.noteKeyValueList![i]["File"]);
       }
     }
     _allNotesList.sink.add(NoteModel.fromList(tmpFileList));

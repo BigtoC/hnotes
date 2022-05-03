@@ -10,7 +10,7 @@ import 'package:hnotes/chain_call/google_crypto/google_crypto_collections.dart';
 
 class ChainCall {
   final client = http.Client();
-  RSAPrivateKey privateKey;
+  late RSAPrivateKey privateKey;
 
   /// Read necessary keys
   readKeys() async {
@@ -38,6 +38,7 @@ class ChainCall {
 
   /// Shake hand with blockchain system
   handShake() async {
+    throw Exception("Not implemented yet");
     await readKeys();
 
     String accessId = await getDataFromSharedPref("accessId");
@@ -56,7 +57,7 @@ class ChainCall {
     });
 
     final response = await client.post(
-      "$baasUrl/shakeHand",
+      Uri.parse("$baasUrl/shakeHand"),
       headers: {'Content-type': 'application/json'},
       body: requestBody,
     );
@@ -71,6 +72,7 @@ class ChainCall {
 
   /// 查询最新块高
   Future<Map<String, dynamic>> queryLatestBlock() async {
+    throw Exception("Not implemented yet");
     String token = await getDataFromSharedPref('token');
     String accessId = await getDataFromSharedPref("accessId");
 
@@ -82,7 +84,7 @@ class ChainCall {
     });
 
     final response = await client.post(
-      "$baasUrl/chainCall",
+      Uri.parse("$baasUrl/chainCall"),
       headers: requestHeaders,
       body: requestBody,
     );
@@ -108,6 +110,7 @@ class ChainCall {
 
   /// 查询账户
   Future<Map<String, dynamic>> queryAccount() async {
+    throw Exception("Not implemented yet");
     String token = await getDataFromSharedPref('token');
     String accessId = await getDataFromSharedPref("accessId");
 
@@ -120,7 +123,7 @@ class ChainCall {
     });
 
     final response = await client.post(
-      "$baasUrl/chainCall",
+      Uri.parse("$baasUrl/chainCall"),
       headers: requestHeaders,
       body: requestBody,
     );
@@ -145,6 +148,7 @@ class ChainCall {
 
   /// Upload note content data to blockchain
   Future<bool> uploadNoteDataToChain(String inputParamListStr) async {
+    throw Exception("Not implemented yet");
     String orderId = await getDataFromSharedPref('orderId');
     String myKmsKeyId = await getDataFromSharedPref("myKmsKeyId");
     String accessId = await getDataFromSharedPref("accessId");
@@ -168,7 +172,7 @@ class ChainCall {
     });
 
     final response = await client.post(
-      "$baasUrl/chainCallForBiz",
+      Uri.parse("$baasUrl/chainCallForBiz"),
       headers: requestHeaders,
       body: requestBody,
     );

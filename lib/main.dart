@@ -22,7 +22,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   ThemeData theme = appThemeLight;
-  bool dateIsSet;
+  late bool dateIsSet;
   Repository repository = new Repository();
 
   @override
@@ -42,7 +42,7 @@ class _MyAppState extends State<MyApp> {
       theme: theme,
 //      home: DaySince(isSplash: true, changeTheme: setTheme),
       home: dateIsSet
-        ? DaySince(isSplash: true, changeTheme: setTheme)
+        ? DaySince(isSplash: true, changeTheme: setTheme, key: null,)
         : SettingsPage(changeTheme: setTheme, onlySetDate: true),
     );
   }

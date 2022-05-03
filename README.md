@@ -22,32 +22,34 @@ A Flutter notes app with blockchain storage.
 
 ### Stage 2
 
-> Smart contracts and blockchain related developments
-> No target due day
+> New blockchain related developments
+> Target finish before 2022-05-23
 
-- [x] Make hand shake with the blockchain platform  
-- [x] Show some blockchain information  
-- [ ] Develop smart contract on AntFin blockchain system ([蚂蚁金服 - 蚂蚁区块链](https://tech.antfin.com/blockchain))  
-- [ ] Integrate with blockchain storage  
-- [ ] Mark and show important notes  
+- [x] {2.0} Migrate to Flutter 2 and latest Dart version  
+- [ ] {2.1} Switch to Ropsten (Ethereum testnet), and use Alchemy as a blockchain connection service  
+- [ ] {2.2} Make hand shake with the blockchain platform  
+- [ ] {2.3} Show some blockchain information
 
 ### Stage 3
 
+> New features
+
+- [ ] {3.0} Empty for now  
+- [ ] {3.1} Placeholder  
+
+### Stage 4
+
 > More enhancements (and some fun functions)
 
-- [ ]  Share notes text contents
 - [ ]  Share notes content in a picture
 - [ ]  Biometric authentications (Finger print, face unlock)
 - [ ]  More functions welcome pull requests and create issues
 
 ## References
-
+* Alchemy [documents](https://docs.alchemy.com/alchemy/)  
 * App interface: [roshanrahman/flutter-notes-app](https://github.com/roshanrahman/flutter-notes-app)
-* Rich text editor: [Zefyr Editor](https://zefyr-editor.gitbook.io/docs/quick-start)
-* RSA Encryption: [flutter RSA 加解密](https://blog.csdn.net/rznice/article/details/104486712)
-* Sign for handshake: [googleapis auth](https://github.com/dart-lang/googleapis_auth)
-* More page route transitions: [关于 Flutter 页面路由过渡动画，你所需要知道的一切](https://juejin.im/post/5ceb6179f265da1bc23f55d0)
 * Draggable buttons: [Flutter实战手势番外篇之可拖拽悬浮组件](https://juejin.im/post/5e4b9c74f265da57127e3f63)
+* More page route transitions: [关于 Flutter 页面路由过渡动画，你所需要知道的一切](https://juejin.im/post/5ceb6179f265da1bc23f55d0)
 
 ## Getting Started with Flutter
 

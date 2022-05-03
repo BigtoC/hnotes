@@ -17,14 +17,14 @@ import 'package:hnotes/note_services/notes_services_collections.dart';
 // ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
   MyHomePage({
-    Key key,
-    Function(Brightness brightness) changeTheme,
+    Key? key,
+    Function(Brightness brightness)? changeTheme,
   })
     : super(key: key) {
     this.changeTheme = changeTheme;
   }
 
-  Function(Brightness brightness) changeTheme;
+  Function(Brightness brightness)? changeTheme;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () {
-                        _scaffoldKey.currentState.openDrawer();
+                        _scaffoldKey.currentState!.openDrawer();
                       },
                       child: AnimatedContainer(
                         duration: Duration(milliseconds: 200),
@@ -248,7 +248,7 @@ class _MyHomePageState extends State<MyHomePage> {
     noteStream.take(1);
 
     noteStream.listen((element) {
-      element.noteKeyValueList.forEach((noteInstance) {
+      element.noteKeyValueList?.forEach((noteInstance) {
         setState(() {
           cardList.add(NoteCardComponent(
             noteFile: noteInstance["File"],
@@ -294,25 +294,27 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _addNewNotes() {
-    Navigator.of(context).push(new CupertinoPageRoute(builder: (_) {
-      return new EditorPage(noteFile: null,);
-    }));
+    throw Exception("Not implemented yet");
+    // Navigator.of(context).push(new CupertinoPageRoute(builder: (_) {
+    //   return new EditorPage(noteFile: null, key: null);
+    // }));
   }
 
   openNoteToRead(File noteFile) async {
-    setState(() {
-      headerShouldHide = true;
-    });
-    await Future.delayed(Duration(milliseconds: 200), () {});
-    Navigator.push(
-      context,
-      FadeRoute(page: EditorPage(noteFile: noteFile))
-    );
-    await Future.delayed(Duration(milliseconds: 200), () {});
-
-    setState(() {
-      headerShouldHide = false;
-    });
+    throw Exception("Not implemented yet");
+    // setState(() {
+    //   headerShouldHide = true;
+    // });
+    // await Future.delayed(Duration(milliseconds: 200), () {});
+    // Navigator.push(
+    //   context,
+    //   FadeRoute(page: EditorPage(noteFile: noteFile, key: null,))
+    // );
+    // await Future.delayed(Duration(milliseconds: 200), () {});
+    //
+    // setState(() {
+    //   headerShouldHide = false;
+    // });
   }
 
   void cancelSearch() {

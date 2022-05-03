@@ -6,10 +6,10 @@ import 'package:hnotes/util/theme.dart';
 
 class NoteCardComponent extends StatelessWidget {
   const NoteCardComponent({
-    this.noteFile,
-    this.noteContents,
-    this.onTapAction,
-    Key key
+    required this.noteFile,
+    required this.noteContents,
+    required this.onTapAction,
+    Key? key
   }) : super(key: key);
 
   final File noteFile;

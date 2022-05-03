@@ -1,8 +1,5 @@
 import 'dart:async';
-import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'package:hnotes/util/theme.dart';
 import 'package:hnotes/util/common_data.dart';
@@ -13,12 +10,12 @@ import 'package:hnotes/drawer/setting_page/app_repo.dart';
 
 // ignore: must_be_immutable
 class SettingsPage extends StatefulWidget {
-  Function(Brightness brightness) changeTheme;
-  bool onlySetDate;
+  Function(Brightness brightness)? changeTheme;
+  bool? onlySetDate;
   SettingsPage({
-    Key key,
-    Function(Brightness brightness) changeTheme,
-    bool onlySetDate
+    Key? key,
+    required Function(Brightness brightness)? changeTheme,
+    required bool onlySetDate
   })
     : super(key: key) {
     this.changeTheme = changeTheme;
@@ -29,7 +26,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  String selectedTheme;
+  String? selectedTheme;
   String _selectedDate = globalLoveStartDate;
 
   @override
@@ -75,9 +72,9 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void handleBack() {
-    if (widget.onlySetDate) {
+    if (widget.onlySetDate == true) {
       Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
-        return new DaySince(isSplash: true, changeTheme: widget.changeTheme);
+        return new DaySince(isSplash: true, changeTheme: widget.changeTheme, key: null,);
       }));
     }
     else {
@@ -117,7 +114,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future _selectDate() async {
-    DateTime picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
       context: context,
       initialDate: new DateTime.now(),
       firstDate: new DateTime(1966),
@@ -171,16 +168,16 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  void handleThemeSelection(String value) {
+  void handleThemeSelection(String? value) {
     setState(() {
       selectedTheme = value;
     });
     if (value == 'light') {
-      widget.changeTheme(Brightness.light);
+      widget.changeTheme!(Brightness.light);
     } else {
-      widget.changeTheme(Brightness.dark);
+      widget.changeTheme!(Brightness.dark);
     }
-    setDataInSharedPref('theme', value);
+    setDataInSharedPref('theme', value!);
   }
 
   Widget buildAboutApp() {

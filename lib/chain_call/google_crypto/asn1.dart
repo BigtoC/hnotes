@@ -15,7 +15,7 @@ class ASN1Parser {
   static const OBJECT_ID_TAG = 0x06;
   static const SEQUENCE_TAG = 0x30;
 
-  static ASN1Object parse(Uint8List bytes) {
+  static ASN1Object? parse(Uint8List bytes) {
     invalidFormat(String msg) {
       throw new ArgumentError("Invalid DER encoding: $msg");
     }
@@ -70,7 +70,7 @@ class ASN1Parser {
       }
     }
 
-    ASN1Object decodeObject() {
+    ASN1Object? decodeObject() {
       checkNBytesAvailable(1);
       var tag = bytes[offset++];
       switch (tag) {
@@ -93,7 +93,7 @@ class ASN1Parser {
           }
           int endOfSequence = offset + lengthInBytes;
 
-          var objects = <ASN1Object>[];
+          var objects = <ASN1Object?>[];
           while (offset < endOfSequence) {
             objects.add(decodeObject());
           }
@@ -117,7 +117,7 @@ class ASN1Parser {
 abstract class ASN1Object {}
 
 class ASN1Sequence extends ASN1Object {
-  final List<ASN1Object> objects;
+  final List<ASN1Object?> objects;
   ASN1Sequence(this.objects);
 }
 
