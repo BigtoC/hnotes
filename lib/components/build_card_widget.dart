@@ -60,7 +60,7 @@ Widget cardContentTitle(String cardContentTitle) {
   );
 }
 
-Widget cardContent(BuildContext context, String contentText, Color textColor) {
+Widget cardContent(BuildContext context, String contentText, Color? textColor) {
   return Center(
     child: Padding(
       padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
@@ -68,9 +68,7 @@ Widget cardContent(BuildContext context, String contentText, Color textColor) {
         contentText,
         style: TextStyle(
           fontSize: 24,
-          color: textColor != null
-            ? textColor
-            : Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white
+          color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white
         ),
       ),
     )
@@ -83,7 +81,7 @@ Widget cardContentGap() {
   );
 }
 
-Widget buildTitleAndContent(BuildContext context, var streamData, String title, String content, Color textColor) {
+Widget buildTitleAndContent(BuildContext context, var streamData, String title, String content, Color? textColor) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
@@ -94,7 +92,7 @@ Widget buildTitleAndContent(BuildContext context, var streamData, String title, 
   );
 }
 
-Widget blockInfoStreamBuilder(BuildContext context, var streamData, String valueKey, Color textColor) {
+Widget blockInfoStreamBuilder(BuildContext context, var streamData, String valueKey, Color? textColor) {
   return StreamBuilder(
     stream: streamData,
     builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
@@ -113,7 +111,7 @@ Widget blockInfoStreamBuilder(BuildContext context, var streamData, String value
             )
           );
         case ConnectionState.active:
-          String showData = snapshot.data[valueKey].toString();
+          String showData = snapshot.data![valueKey].toString();
           if (valueKey == 'timestamp') {
             showData = convertTime(showData);
           }
@@ -121,7 +119,7 @@ Widget blockInfoStreamBuilder(BuildContext context, var streamData, String value
         case ConnectionState.done:
           print("done");
       }
-      return null;
+      return SizedBox();
     },
   );
 }

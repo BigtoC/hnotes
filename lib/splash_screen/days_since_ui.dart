@@ -7,11 +7,11 @@ import 'package:hnotes/splash_screen/splash_collections.dart';
 
 // ignore: must_be_immutable
 class DaySince extends StatefulWidget {
-  Function(Brightness brightness) changeTheme;
+  Function(Brightness brightness)? changeTheme;
   DaySince({
-    Key key, this.isSplash, Function(Brightness brightness) changeTheme})
+    Key? key, required this.isSplash, Function(Brightness brightness)? changeTheme})
     : super(key: key) {
-    this.changeTheme = changeTheme;
+    this.changeTheme = changeTheme!;
   }
 
   final bool isSplash;
@@ -25,19 +25,19 @@ class _DaySince extends State<DaySince> {
   // a key to set on our Text widget, so we can measure later
   GlobalKey colorTextKey = GlobalKey();
   // a RenderBox object to use in state
-  RenderBox colorTextRenderBox;
+  late RenderBox colorTextRenderBox;
 
   @override
   void initState() {
     super.initState();
     // this will be called after first draw, and then call _recordSize() method _recordSize() method
-    WidgetsBinding.instance.addPostFrameCallback((_) => _recordSize());
+    WidgetsBinding.instance!.addPostFrameCallback((_) => _recordSize());
   }
 
   void _recordSize() {
     // now we set the RenderBox and trigger a redraw
     setState(() {
-      colorTextRenderBox = colorTextKey.currentContext.findRenderObject();
+      colorTextRenderBox = colorTextKey.currentContext?.findRenderObject()! as RenderBox;
     });
   }
   //设定Widget的偏移量
@@ -114,7 +114,7 @@ class _DaySince extends State<DaySince> {
               return Text('Error: ${snapshot.error}');
             }
             if (snapshot.hasData) {
-              int daySince = snapshot.data.dayCount;
+              int daySince = snapshot.data!.dayCount;
               return Center(
                 child: Text(
                   "${daySince.toString()}",
@@ -138,7 +138,7 @@ class _DaySince extends State<DaySince> {
               return Text('Error: ${snapshot.error}');
             }
             if (snapshot.hasData) {
-              String startDateStr = snapshot.data.loveStartDate;
+              String startDateStr = snapshot.data!.loveStartDate;
               return Center(
                 child: new Text(
                   "On $startDateStr, \nthe world became colorful",
@@ -164,7 +164,6 @@ class _DaySince extends State<DaySince> {
   }
 
   Shader getTextGradient(RenderBox renderBox) {
-    if (renderBox == null) return null;
     return LinearGradient(
       colors: <Color>[
         Colors.purpleAccent, Colors.greenAccent, Colors.yellowAccent,
@@ -178,21 +177,26 @@ class _DaySince extends State<DaySince> {
   }
 
   Widget loveUBtn() {
+    final ButtonStyle style = ElevatedButton.styleFrom(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      primary: primaryColor.withOpacity(0.3),
+      padding: EdgeInsets.all(12),
+    );
     return Padding(
       padding: EdgeInsets.symmetric(
         vertical: 60.0,
         horizontal: 100.0
       ),
-      child: RaisedButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+      child: ElevatedButton(
+        style: style,
         onPressed: () async {
           if (widget.isSplash) {
             await Future.delayed(Duration(milliseconds: 200), () {});
             Navigator.of(context).pushAndRemoveUntil(
               FadeRoute(
-                page: MyHomePage(changeTheme: widget.changeTheme)
+                page: MyHomePage(changeTheme: widget.changeTheme, key: null)
               ),
                 (Route<dynamic> route) => false);
             await Future.delayed(Duration(milliseconds: 200), () {});
@@ -201,8 +205,6 @@ class _DaySince extends State<DaySince> {
             Navigator.pop(context);
           }
         },
-        padding: EdgeInsets.all(12),
-        color: primaryColor.withOpacity(0.3),
         child: Text(
           'Love You~',
           style: TextStyle(color: Colors.white)

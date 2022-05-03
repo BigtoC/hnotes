@@ -42,6 +42,7 @@ Uint8List _getBytesFromPEMString(String pemString) {
 
 /// Helper to decode the ASN.1/DER bytes in [bytes] into an [RSAPrivateKey].
 RSAPrivateKey _extractRSAKeyFromDERBytes(Uint8List bytes) {
+  throw Exception("Not implemented yet");
   // We recognize two formats:
   // Real format:
   //
@@ -82,22 +83,22 @@ RSAPrivateKey _extractRSAKeyFromDERBytes(Uint8List bytes) {
     return key;
   }
 
-  try {
-    var asn = ASN1Parser.parse(bytes);
-    if (asn is ASN1Sequence) {
-      var objects = asn.objects;
-      if (objects.length == 3 && objects[2] is ASN1OctetString) {
-        ASN1OctetString string = objects[2];
-        // Seems like the embedded form.
-        // TODO: Validate that rsa identifier matches!
-        return privateKeyFromSequence(ASN1Parser.parse(string.bytes));
-      }
-    }
-    return privateKeyFromSequence(asn);
-  } catch (error) {
-    throw new ArgumentError(
-      'Error while extracting private key from DER bytes: $error');
-  }
+  // try {
+  //   var asn = ASN1Parser.parse(bytes);
+  //   if (asn is ASN1Sequence) {
+  //     var objects = asn.objects;
+  //     if (objects.length == 3 && objects[2] is ASN1OctetString) {
+  //       ASN1Object? string = objects[2];
+  //       // Seems like the embedded form.
+  //       // TODO: Validate that rsa identifier matches!
+  //       return privateKeyFromSequence(ASN1Parser.parse(string.toString().codeUnits);
+  //     }
+  //   }
+  //   return privateKeyFromSequence(asn);
+  // } catch (error) {
+  //   throw new ArgumentError(
+  //     'Error while extracting private key from DER bytes: $error');
+  // }
 }
 
 /*

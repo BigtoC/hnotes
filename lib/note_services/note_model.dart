@@ -2,14 +2,14 @@ import 'dart:io';
 import 'dart:collection';
 
 class NoteModel {
-  final List<HashMap<String, dynamic>> noteKeyValueList;
+  final List<HashMap<String, dynamic>>? noteKeyValueList;
 
   NoteModel({
     this.noteKeyValueList,
   });
 
   factory NoteModel.fromList (List<File> fileList) {
-    var tmpKeyValueList = new List<HashMap<String, dynamic>>();
+    var tmpKeyValueList = <HashMap<String, dynamic>>[];
 
     fileList.forEach((file) async {
       var tmpMap = new HashMap<String, dynamic>();
@@ -44,8 +44,8 @@ String _extractContents(String contents) {
   Iterable<Match> matches = exp.allMatches(contents);
   String info = "";
   for (Match m in matches) {
-    String match = m.group(0);
-    info += match + " ";
+    String? match = m.group(0);
+    info += match! + " ";
   }
   String extractedContents = info.replaceAll("insert", "")
     .replaceAll("delete", "")

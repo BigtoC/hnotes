@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -10,7 +9,7 @@ import 'package:hnotes/drawer/setting_page/settings_ui.dart';
 import 'package:hnotes/splash_screen/splash_collections.dart';
 import 'package:hnotes/components/components_collections.dart';
 
-Widget drawer(BuildContext context, Function(Brightness brightness) changeTheme) {
+Widget drawer(BuildContext context, Function(Brightness brightness)? changeTheme) {
   return new Drawer(
     child: Column(
       mainAxisSize: MainAxisSize.max,
@@ -103,7 +102,7 @@ Widget chainInfo(BuildContext context) {
   );
 }
 
-Widget settings(BuildContext context, Function(Brightness brightness) changeTheme) {
+Widget settings(BuildContext context, Function(Brightness brightness)? changeTheme) {
   return ListTile(
     leading: Icon(
       Icons.settings,

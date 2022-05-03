@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:io';
 import 'package:flutter/material.dart';
 
@@ -7,9 +6,9 @@ import 'package:hnotes/note_services/notes_services_collections.dart';
 
 class NoteCardsList extends StatelessWidget {
   const NoteCardsList({
-    this.onTapAction,
-    this.isSearching,
-    Key key
+    required this.onTapAction,
+    required this.isSearching,
+    Key? key
   }) : super(key: key);
 
   final Function(File noteData) onTapAction;
@@ -38,8 +37,8 @@ class NoteCardsList extends StatelessWidget {
     AsyncSnapshot<NoteModel> snapshot,
     Function(File noteData) onTapAction
     ) {
-    final int itemCount = snapshot.data.noteKeyValueList.length;
-    final List<Map<String, dynamic>> notesList = snapshot.data.noteKeyValueList;
+    final int? itemCount = snapshot.data?.noteKeyValueList?.length;
+    final List<Map<String, dynamic>>? notesList = snapshot.data?.noteKeyValueList;
 
     if (!isSearching) {
       return ListView.builder(
@@ -47,8 +46,8 @@ class NoteCardsList extends StatelessWidget {
         itemCount: itemCount,
         itemBuilder: (context, index) {
           return new NoteCardComponent(
-            noteFile: notesList[index]["File"],
-            noteContents: notesList[index]["Contents"],
+            noteFile: notesList?[index]["File"],
+            noteContents: notesList?[index]["Contents"],
             onTapAction: onTapAction,
           );
         }

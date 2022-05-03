@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-final String versionNumber = "v1.7.1 beta";
+final String versionNumber = "v2.0.0-beta";
 
 final String baasUrl = "https://rest.baas.alipay.com/api/contract";
 final requestHeaders = {'Content-type': 'application/json'};
@@ -14,7 +14,7 @@ final String contractName = "NoteManager";
 final String bizid = "a00e36c5";
 
 String globalLoveStartDate = "2019-08-31";
-int globalDayCount;
+int globalDayCount = 0;
 
 
 String phraseResponseData(String body, String key) {
