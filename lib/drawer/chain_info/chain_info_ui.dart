@@ -16,7 +16,7 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
   @override
   void initState() {
     super.initState();
-    chainInfoBloc.fetchChainInfo();
+    blockchainInfoBloc.fetchBlockchainInfo();
   }
 
   @override
@@ -73,7 +73,7 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
           Center(
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
-              child: chainInfoBloc.latestBlockNumberData.isEmpty != null
+              child: blockchainInfoBloc.latestBlockNumberData.isEmpty != null
                 ? cardContent(context, "Normal", Colors.greenAccent)
                 : cardContent(context, "Error", Colors.red)
             )
@@ -95,7 +95,7 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
           ),
           buildTitleAndContent(
             context,
-            chainInfoBloc.latestBlockNumberData,
+            blockchainInfoBloc.latestBlockNumberData,
             "Latest Block Number", "blockNumber", null
           ),
           // buildTitleAndContent(
@@ -128,12 +128,12 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
         cardContentGap(),
         buildTitleAndContent(
           context,
-          chainInfoBloc.accountData,
+          blockchainInfoBloc.accountData,
           "Gas Balance", "balance", null
         ),
         buildTitleAndContent(
           context,
-          chainInfoBloc.accountData,
+          blockchainInfoBloc.accountData,
           "Account Address", "id", null
         ),
       ],

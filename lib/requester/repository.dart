@@ -7,8 +7,6 @@ class Repository {
 
   Future<NoteModel> fetchAllNotes() => apiProvider.getAllNotes();
 
-  BlockchainRepository chainCall() => apiProvider.chainCall;
-
   Future<String> fetchLoveStartDate() => apiProvider.getLoveStartDate();
 
 }

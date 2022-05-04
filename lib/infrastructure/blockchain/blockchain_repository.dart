@@ -31,8 +31,8 @@ class BlockchainRepository {
 
   }
 
-  /// Returns the number of the most recent block.
-  Future<Map<String, dynamic>> queryLatestBlock() async {
+  // Returns the number of the most recent block.
+  Future<Map<String, dynamic>> getLatestBlockNumber() async {
 
     final String requestBody = formRequestBody("eth_blockNumber");
 
@@ -46,39 +46,6 @@ class BlockchainRepository {
   /// 查询账户
   Future<Map<String, dynamic>> queryAccount() async {
     throw Exception("Not implemented yet");
-    String token = await getDataFromSharedPref('token');
-    String accessId = await getDataFromSharedPref("accessId");
-
-    final requestBody = jsonEncode({
-      "bizid": bizid,
-      "method": "QUERYACCOUNT",
-      "requestStr": "{'queryAccount': '$queryAccountName'}",
-      "accessId": accessId,
-      "token": token
-    });
-
-    final response = await client.post(
-      Uri.parse("$baasUrl/chainCall"),
-      headers: requestHeaders,
-      body: requestBody,
-    );
-
-    String statusCode = phraseResponseData(response.body, 'code');
-
-    while (statusCode == "202") {
-      await handShake();
-      await queryAccount();
-    }
-
-    if (statusCode == "200") {
-      final accountData = phraseResponseData(response.body, 'data');
-      return jsonDecode(accountData);
-    }
-    else {
-      final String errorMsg = "Query Block Height failed: " + response.body;
-      print(errorMsg);
-      return jsonDecode(response.body);
-    }
   }
 
   /// Upload note content data to blockchain
