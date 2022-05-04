@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.0.1-beta
+version: 2.0.2-beta
 
 environment:
   sdk: "2.16.2"
@@ -62,12 +62,10 @@ flutter:
   assets:
     - "assets/Images/sun-bg.jpg"
     - "assets/Images/splash-bg.png"
-    - "assets/Images/ant-baas-logo-blue.png"
-    - "assets/Images/ant-baas-logo-blue-white.png"
+    - "assets/Images/logo/Ethereum-Logo.png"
+    - "assets/Images/logo/alchemy-logo-black.png"
+    - "assets/Images/logo/alchemy-logo-white.png"
     - "assets/secrets/secret.yaml"  # secret keys file
-#    - "assets/Images/heart-bg.png"
-#    - "assets/Images/aurora-kiss-bg.png"
-#    - "assets/Images/deers-bg.jpg"
 
   # To add assets to your application, add an assets section, like this:
   # assets:

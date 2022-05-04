@@ -256,22 +256,29 @@ class _SettingsPageState extends State<SettingsPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Image.asset(
-                    Theme.of(context).brightness == Brightness.light
-                      ? "assets/Images/ant-baas-logo-blue.png"
-                      : "assets/Images/ant-baas-logo-blue-white.png",
-                    height: 50,
+                    "assets/Images/logo/Ethereum-Logo.png",
+                    height: 40,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      '蚂蚁区块链',
+                      'Ethereum (Ropsten)',
                       style: TextStyle(
-                        fontSize: 24
+                        fontSize: 22
                       ),
                     ),
                   ),
                 ],
               ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.center,
+            child: Image.asset(
+              Theme.of(context).brightness == Brightness.light
+                  ? "assets/Images/logo/alchemy-logo-black.png"
+                  : "assets/Images/logo/alchemy-logo-white.png",
+              height: 30,
             ),
           ),
           cardContentGap(),
