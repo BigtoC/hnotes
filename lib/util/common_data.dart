@@ -10,23 +10,16 @@ PackageInfo packageInfo = PackageInfo(
 );
 
 final String baasUrl = "https://rest.baas.alipay.com/api/contract";
-final requestHeaders = {'Content-type': 'application/json'};
 
-final String keysFilePath = "assets/secrets/my-keys.key";
-final String publicKeyPath = "assets/secrets/client.key";
-final String privateKeyPath = "assets/secrets/access.key";
+final String secretsFilePath = "assets/secrets/secret.yaml";
 
 final String queryAccountName = "bigto-hnotes";
 final String contractName = "NoteManager";
 final String bizid = "a00e36c5";
 
-String globalLoveStartDate = " ";
+String globalLoveStartDate = "";
 int globalDayCount = 0;
 
-
-String phraseResponseData(String body, String key) {
-  return jsonDecode(body)[key];
-}
 
 String phraseInputParamListStr(String contentType, String content, String isImportant) {
   String noteId = new DateTime.now().millisecondsSinceEpoch.toString();

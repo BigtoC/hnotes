@@ -73,7 +73,7 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
           Center(
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
-              child: chainInfoBloc.blockHeaderData.isEmpty != null
+              child: chainInfoBloc.latestBlockNumberData.isEmpty != null
                 ? cardContent(context, "Normal", Colors.greenAccent)
                 : cardContent(context, "Error", Colors.red)
             )
@@ -95,19 +95,19 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
           ),
           buildTitleAndContent(
             context,
-            chainInfoBloc.blockHeaderData,
-            "Block Height", "number", null
+            chainInfoBloc.latestBlockNumberData,
+            "Latest Block Number", "blockNumber", null
           ),
-          buildTitleAndContent(
-            context,
-            chainInfoBloc.blockHeaderData,
-            "Gas Used", "gasUsed", null
-          ),
-          buildTitleAndContent(
-            context,
-            chainInfoBloc.blockHeaderData,
-            "Confirmed Time", "timestamp", null
-          ),
+          // buildTitleAndContent(
+          //   context,
+          //   chainInfoBloc.blockHeaderData,
+          //   "Gas Used", "gasUsed", null
+          // ),
+          // buildTitleAndContent(
+          //   context,
+          //   chainInfoBloc.blockHeaderData,
+          //   "Confirmed Time", "timestamp", null
+          // ),
         ],
       )
     );

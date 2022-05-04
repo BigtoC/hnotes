@@ -1,111 +1,46 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:yaml/yaml.dart';
 import 'package:convert/convert.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:hnotes/util/common_data.dart';
 import 'package:hnotes/util/share_preferences.dart';
-import 'package:hnotes/chain_call/google_crypto/google_crypto_collections.dart';
+import 'package:hnotes/infrastructure/blockchain/request_helper.dart';
+import 'package:hnotes/infrastructure/blockchain/dto/dto_collections.dart';
 
-class ChainCall {
+
+final requestHeaders = {'Content-type': 'application/json'};
+
+
+class BlockchainRepository {
   final client = http.Client();
-  late RSAPrivateKey privateKey;
 
   /// Read necessary keys
   readKeys() async {
-    String keyString = await rootBundle.loadString(keysFilePath);
-    Map<String, dynamic> keysJson = jsonDecode(keyString);
-
-    // String tmpPublicKeyString = await rootBundle.loadString(publicKeyPath);
-    // final String publicKeyString = "-----BEGIN PUBLIC KEY-----\n$tmpPublicKeyString\n-----END PUBLIC KEY-----";
-
-    final String privateKeyString = await rootBundle.loadString(privateKeyPath);
-    privateKey = keyFromString(privateKeyString);
-
-    String accessId = keysJson["access-id"];
-    String myKmsKeyId = keysJson["myKmsKeyId"];
-    String accAddress = keysJson["account-address"];
-    String tenantid = keysJson["tenantid"];
-    String orderId = keysJson["orderId"];
-    await new Future.delayed(new Duration(milliseconds: 1000));
-    setDataInSharedPref("accessId", accessId);
-    setDataInSharedPref("myKmsKeyId", myKmsKeyId);
-    setDataInSharedPref("accAddress", accAddress);
-    setDataInSharedPref("tenantid", tenantid);
-    setDataInSharedPref("orderId", orderId);
+    String secretFileString = await rootBundle.loadString(secretsFilePath);
+    final dynamic secretMap = loadYaml(secretFileString);
+    SecretDto secret = SecretDto.fromYaml(secretMap);
   }
 
   /// Shake hand with blockchain system
   handShake() async {
-    throw Exception("Not implemented yet");
     await readKeys();
+    throw Exception("Not implemented yet");
 
-    String accessId = await getDataFromSharedPref("accessId");
-    String timestamp = new DateTime.now().millisecondsSinceEpoch.toString();
-    final String _message = accessId + timestamp;
-    List<int> bytesMessage = _message.codeUnits;
-
-    final RS256Signer _signer = new RS256Signer(privateKey);
-    final signature = _signer.sign(bytesMessage);
-    final String secret = hex.encode(signature);
-
-    final requestBody = jsonEncode({
-      "accessId": accessId,
-      "time": timestamp,
-      "secret": secret
-    });
-
-    final response = await client.post(
-      Uri.parse("$baasUrl/shakeHand"),
-      headers: {'Content-type': 'application/json'},
-      body: requestBody,
-    );
-    if (phraseResponseData(response.body, 'code') == "200") {
-      String token = phraseResponseData(response.body, 'data');
-      setDataInSharedPref('token', token);
-    }
-    else {
-      print("Shake Hand failed: " + response.body);
-    }
   }
 
-  /// 查询最新块高
+  /// Returns the number of the most recent block.
   Future<Map<String, dynamic>> queryLatestBlock() async {
-    throw Exception("Not implemented yet");
-    String token = await getDataFromSharedPref('token');
-    String accessId = await getDataFromSharedPref("accessId");
 
-    final requestBody = jsonEncode({
-      "bizid": bizid,
-      "method": "QUERYLASTBLOCK",
-      "accessId": accessId,
-      "token": token
-    });
+    final String requestBody = formRequestBody("eth_blockNumber");
 
-    final response = await client.post(
-      Uri.parse("$baasUrl/chainCall"),
-      headers: requestHeaders,
-      body: requestBody,
-    );
-
-    String statusCode = phraseResponseData(response.body, 'code');
-
-    while (statusCode == "202") {
-      await handShake();
-      await queryAccount();
-    }
-
-    if (statusCode == "200") {
-      final data = phraseResponseData(response.body, 'data');
-      final blockHeader = jsonDecode(data)["block"]["blockHeader"];
-      return blockHeader;
-    }
-    else {
-      final String errorMsg = "Query Block Height failed: " + response.body;
-      print(errorMsg);
-      return jsonDecode(response.body);
-    }
+    return await makeRequest(requestBody)
+        .then((response) {
+          BlockNumberDto dto =  BlockNumberDto.fromResponse(response);
+          return dto.toMap();
+        });
   }
 
   /// 查询账户

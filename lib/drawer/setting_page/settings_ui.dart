@@ -102,7 +102,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   style: style,
                   onPressed: _selectDate,
                   child: new Text(
-                    _selectedDate == " " ? 'Select Your Date' : _selectedDate,
+                    _selectedDate.isEmpty ? 'Select Your Date' : _selectedDate,
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.white,

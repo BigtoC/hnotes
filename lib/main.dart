@@ -33,7 +33,6 @@ class _MyAppState extends State<MyApp> {
     _initPackageInfo();
     updateThemeFromSharedPref();
     createFolderInAppDocDir("hnotes");
-    // repository.chainCall().handShake();
     getDateSuccess();
   }
 
@@ -51,14 +50,14 @@ class _MyAppState extends State<MyApp> {
   }
 
   void getDateSuccess() async{
-    if (globalLoveStartDate != " ") {
+    if (globalLoveStartDate.isEmpty) {
       setState(() {
-        dateIsSet = true;
+        dateIsSet = false;
       });
     }
     else {
       setState(() {
-        dateIsSet = false;
+        dateIsSet = true;
       });
     }
   }

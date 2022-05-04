@@ -101,7 +101,7 @@ Widget blockInfoStreamBuilder(BuildContext context, var streamData, String value
       }
       switch (snapshot.connectionState) {
         case ConnectionState.none:
-          return cardContent(context, 'Query data filed...', textColor);
+          return cardContent(context, 'Query data failed...', textColor);
         case ConnectionState.waiting:
           return Center(
             child: CircularProgressIndicator(
@@ -112,6 +112,7 @@ Widget blockInfoStreamBuilder(BuildContext context, var streamData, String value
           );
         case ConnectionState.active:
           String showData = snapshot.data![valueKey].toString();
+          print(snapshot.data);
           if (valueKey == 'timestamp') {
             showData = convertTime(showData);
           }

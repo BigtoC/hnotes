@@ -3,15 +3,15 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
-import 'package:hnotes/chain_call/chain_call.dart';
 import 'package:hnotes/util/share_preferences.dart';
 import 'package:hnotes/note_services/note_model.dart';
+import 'package:hnotes/infrastructure/blockchain/blockchain_repository.dart';
 
 class NoteApiProvider {
   var client = http.Client();
 
   /// ChainCall API
-  final chainCall = ChainCall();
+  final chainCall = BlockchainRepository();
 
   /// Get notes API
   Future<NoteModel> getAllNotes() async {
