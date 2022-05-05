@@ -69,15 +69,11 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
           Container(
             height: 40,
           ),
-          cardContentTitle('Network Status'),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
-              child: blockchainInfoBloc.latestBlockNumberData.isEmpty != null
-                ? cardContent(context, "Normal", textColor: Colors.greenAccent)
-                : cardContent(context, "Error", textColor: Colors.red)
-            )
-          )
+          buildTitleAndContent(
+              context,
+              blockchainInfoBloc.currentNetwork,
+              "Current Network", "text"
+          ),
         ],
       ),
     );
