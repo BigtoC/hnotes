@@ -24,7 +24,7 @@ class BlockchainInfoBloc {
 
   Stream<Map<String, dynamic>> get accountData => _accountData.stream;
 
-  fetchBlockchainInfo() async {
+  fetchAllBlockchainInfo() async {
     Future.wait([
       _sinkData(_latestBlockNumberData, _blockchainRepository.getLatestBlockNumber()),
       _sinkData(_currentGasPriceData, _blockchainRepository.getCurrentGasPrice()),
@@ -32,6 +32,10 @@ class BlockchainInfoBloc {
       _sinkData(_chainIdData, _blockchainRepository.getChainId()),
       _sinkData(_nodeClientVersionData, _blockchainRepository.getNodeClientVersion())
     ]);
+  }
+
+  fetchNetworkData() async {
+    await _sinkData(_currentNetworkData, _blockchainRepository.getNetwork());
   }
 
   Future<void> _sinkData(PublishSubject data, Future fetchFunction) async {

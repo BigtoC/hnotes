@@ -15,11 +15,9 @@ final String baasUrl = "https://rest.baas.alipay.com/api/contract";
 
 final String secretsFilePath = "assets/secrets/secret.yaml";
 
-final String queryAccountName = "bigto-hnotes";
-final String contractName = "NoteManager";
-final String bizid = "a00e36c5";
+late String? networkNameGlobal;
 
-String globalLoveStartDate = "2020-08-31";
+String globalLoveStartDate = "";
 int globalDayCount = 0;
 
 

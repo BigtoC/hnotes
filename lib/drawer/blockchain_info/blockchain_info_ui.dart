@@ -1,22 +1,21 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
-import 'package:hnotes/util/common_data.dart';
 import 'package:hnotes/components/build_card_widget.dart';
 import 'package:hnotes/drawer/blockchain_info/blockchain_info_bloc.dart';
 
 // ignore: must_be_immutable
-class ChainInfoPage extends StatefulWidget {
+class BlockchainInfoPage extends StatefulWidget {
   @override
-  _ChainInfoPageState createState() => _ChainInfoPageState();
+  _BlockchainInfoPageState createState() => _BlockchainInfoPageState();
 }
 
-class _ChainInfoPageState extends State<ChainInfoPage> {
+class _BlockchainInfoPageState extends State<BlockchainInfoPage> {
 
   @override
   void initState() {
     super.initState();
-    blockchainInfoBloc.fetchBlockchainInfo();
+    blockchainInfoBloc.fetchAllBlockchainInfo();
   }
 
   @override

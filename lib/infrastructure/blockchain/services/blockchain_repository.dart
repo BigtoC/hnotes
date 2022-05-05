@@ -1,8 +1,5 @@
 import 'dart:async';
-import 'dart:convert';
-import 'package:yaml/yaml.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:hnotes/util/common_data.dart';
 import 'package:hnotes/infrastructure/blockchain/models/dto_collections.dart';
@@ -37,6 +34,7 @@ class BlockchainRepository {
     };
 
     final String? currentNetworkName = networkNames[networkResult.number];
+    networkNameGlobal = currentNetworkName;
 
     return {
       "text": currentNetworkName,

@@ -1,9 +1,7 @@
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
 import 'package:hnotes/util/theme.dart';
-
-import '../util/common_data.dart';
+import 'package:hnotes/util/common_data.dart';
 
 
 Widget buildCardWidget(BuildContext context, Widget child) {

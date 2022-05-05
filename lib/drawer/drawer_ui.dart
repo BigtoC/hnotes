@@ -96,7 +96,7 @@ Widget blockchainInfo(BuildContext context) {
     ),
     onTap: () {
       Navigator.of(context).push(new CupertinoPageRoute(builder: (_) {
-        return new ChainInfoPage();
+        return new BlockchainInfoPage();
       }));
     },
   );

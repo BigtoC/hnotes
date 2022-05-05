@@ -262,7 +262,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Ethereum (Ropsten)',
+                      "Ethereum \n$networkNameGlobal",
                       style: TextStyle(
                         fontSize: 22
                       ),
@@ -275,10 +275,8 @@ class _SettingsPageState extends State<SettingsPage> {
           Container(
             alignment: Alignment.center,
             child: Image.asset(
-              Theme.of(context).brightness == Brightness.light
-                  ? "assets/Images/logo/alchemy-logo-black.png"
-                  : "assets/Images/logo/alchemy-logo-white.png",
-              height: 30,
+              "assets/Images/logo/alchemy-logo-blue-gradient.png",
+              height: 40,
             ),
           ),
           cardContentGap(),
