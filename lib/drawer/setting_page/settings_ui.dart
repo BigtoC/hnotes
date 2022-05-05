@@ -102,7 +102,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   style: style,
                   onPressed: _selectDate,
                   child: new Text(
-                    _selectedDate == " " ? 'Select Your Date' : _selectedDate,
+                    _selectedDate.isEmpty ? 'Select Your Date' : _selectedDate,
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.white,
@@ -201,7 +201,7 @@ class _SettingsPageState extends State<SettingsPage> {
             height: 40,
           ),
           cardContentTitle('Developed by'),
-          cardContent(context, 'Bigto Chan', null),
+          cardContent(context, 'Bigto Chan'),
           Container(
             alignment: Alignment.center,
             child: OutlinedButton.icon(
@@ -220,7 +220,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           cardContentGap(),
           cardContentTitle('Co-Designer'),
-          cardContent(context, 'Rita vv', null),
+          cardContent(context, 'Rita vv'),
           cardContentGap(),
           cardContentTitle('Made With'),
           Padding(
@@ -256,17 +256,15 @@ class _SettingsPageState extends State<SettingsPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Image.asset(
-                    Theme.of(context).brightness == Brightness.light
-                      ? "assets/Images/ant-baas-logo-blue.png"
-                      : "assets/Images/ant-baas-logo-blue-white.png",
-                    height: 50,
+                    "assets/Images/logo/Ethereum-Logo.png",
+                    height: 40,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      '蚂蚁区块链',
+                      'Ethereum (Ropsten)',
                       style: TextStyle(
-                        fontSize: 24
+                        fontSize: 22
                       ),
                     ),
                   ),
@@ -274,9 +272,18 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
           ),
+          Container(
+            alignment: Alignment.center,
+            child: Image.asset(
+              Theme.of(context).brightness == Brightness.light
+                  ? "assets/Images/logo/alchemy-logo-black.png"
+                  : "assets/Images/logo/alchemy-logo-white.png",
+              height: 30,
+            ),
+          ),
           cardContentGap(),
           cardContentTitle('Version'),
-          cardContent(context, packageInfo.version, null),
+          cardContent(context, packageInfo.version),
           cardContentGap(),
         ],
       )

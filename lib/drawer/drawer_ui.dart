@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hnotes/util/theme.dart';
 import 'package:hnotes/util/common_data.dart';
 import 'package:hnotes/splash_screen/days_since_ui.dart';
-import 'package:hnotes/drawer/chain_info/chain_info_ui.dart';
+import 'package:hnotes/drawer/blockchain_info/blockchain_info_ui.dart';
 import 'package:hnotes/drawer/setting_page/settings_ui.dart';
 import 'package:hnotes/splash_screen/splash_collections.dart';
 import 'package:hnotes/components/components_collections.dart';
@@ -16,7 +16,7 @@ Widget drawer(BuildContext context, Function(Brightness brightness)? changeTheme
       children: <Widget>[
         header(context),
         daySince(context),
-        chainInfo(context),
+        blockchainInfo(context),
         settings(context, changeTheme),
         sizeBox(context, 0.1),
         divider(context, 0.5),
@@ -81,14 +81,14 @@ Widget daySince(BuildContext context) {
   );
 }
 
-Widget chainInfo(BuildContext context) {
+Widget blockchainInfo(BuildContext context) {
   return ListTile(
     leading: Icon(
       Icons.cloud,
       color: btnColor,
     ),
     title: Text(
-      'Chain Info',
+      'Blockchain Info',
       style: TextStyle(
         fontSize: subtitleFontSize,
         fontWeight: itemFontWeight,

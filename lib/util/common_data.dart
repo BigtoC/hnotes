@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'package:logger/logger.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 PackageInfo packageInfo = PackageInfo(
@@ -9,24 +9,19 @@ PackageInfo packageInfo = PackageInfo(
   buildSignature: 'Unknown',
 );
 
-final String baasUrl = "https://rest.baas.alipay.com/api/contract";
-final requestHeaders = {'Content-type': 'application/json'};
+var logger = Logger(printer: PrettyPrinter());
 
-final String keysFilePath = "assets/secrets/my-keys.key";
-final String publicKeyPath = "assets/secrets/client.key";
-final String privateKeyPath = "assets/secrets/access.key";
+final String baasUrl = "https://rest.baas.alipay.com/api/contract";
+
+final String secretsFilePath = "assets/secrets/secret.yaml";
 
 final String queryAccountName = "bigto-hnotes";
 final String contractName = "NoteManager";
 final String bizid = "a00e36c5";
 
-String globalLoveStartDate = " ";
+String globalLoveStartDate = "2020-08-31";
 int globalDayCount = 0;
 
-
-String phraseResponseData(String body, String key) {
-  return jsonDecode(body)[key];
-}
 
 String phraseInputParamListStr(String contentType, String content, String isImportant) {
   String noteId = new DateTime.now().millisecondsSinceEpoch.toString();

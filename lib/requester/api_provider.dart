@@ -1,18 +1,12 @@
 import 'dart:io';
 import 'dart:async';
-import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
-import 'package:hnotes/chain_call/chain_call.dart';
 import 'package:hnotes/util/share_preferences.dart';
 import 'package:hnotes/note_services/note_model.dart';
+import 'package:hnotes/infrastructure/blockchain/services/blockchain_repository.dart';
 
 class NoteApiProvider {
-  var client = http.Client();
-
-  /// ChainCall API
-  final chainCall = ChainCall();
-
   /// Get notes API
   Future<NoteModel> getAllNotes() async {
     final directory = await getApplicationDocumentsDirectory();
