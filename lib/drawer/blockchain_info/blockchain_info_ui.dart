@@ -46,7 +46,7 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
                 ),
                 buildNetworkStatus(),
                 buildLatestBlockInfo(),
-                buildAccountInfo(),
+                buildNodeClientInfo(),
               ],
             )
           )
@@ -59,6 +59,12 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
     Navigator.pop(context);
   }
 
+  Widget contentGap() {
+    return Container(
+      height: 40,
+    );
+  }
+
   Widget buildNetworkStatus() {
     return buildCardWidget(
       context,
@@ -66,13 +72,16 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           cardTitle("Blockchain Network"),
-          Container(
-            height: 40,
+          contentGap(),
+          buildTitleAndContent(
+              context,
+              blockchainInfoBloc.currentNetworkData,
+              "Current Network", "text"
           ),
           buildTitleAndContent(
               context,
-              blockchainInfoBloc.currentNetwork,
-              "Current Network", "text"
+              blockchainInfoBloc.chainIdData,
+              "Chain Id", "number"
           ),
         ],
       ),
@@ -86,18 +95,16 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           cardTitle('Latest Block Info'),
-          Container(
-            height: 40,
-          ),
+          contentGap(),
           buildTitleAndContent(
               context,
               blockchainInfoBloc.latestBlockNumberData,
-              "Latest Block Number", "number"
+              "Block Number", "number"
           ),
           buildTitleAndContent(
               context,
               blockchainInfoBloc.currentGasPriceData,
-              "CurrentGas Price", "number"
+              "Gas Price (wei)", "number"
           ),
           buildTitleAndContent(
               context,
@@ -122,30 +129,50 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
     return neatDate;
   }
 
-  Widget buildAccountInfo() {
+  Widget buildNodeClientInfo() {
     return buildCardWidget(
       context,
       Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        cardTitle('Account Info'),
-        Container(
-          height: 40,
-        ),
-        cardContentTitle("Account Name"),
-        cardContent(context, queryAccountName),
-        cardContentGap(),
+        cardTitle('Node Client Info'),
+        contentGap(),
         buildTitleAndContent(
-          context,
-          blockchainInfoBloc.accountData,
-          "Gas Balance", "balance"
+            context,
+            blockchainInfoBloc.nodeClientVersionData,
+            "Client Name", "text",
+          handleData: extractClientName
         ),
         buildTitleAndContent(
           context,
-          blockchainInfoBloc.accountData,
-          "Account Address", "id"
+          blockchainInfoBloc.nodeClientVersionData,
+          "Client Version", "text",
+          handleData: extractClientVersion
+        ),
+        buildTitleAndContent(
+          context,
+          blockchainInfoBloc.nodeClientVersionData,
+          "Client Environment", "text",
+          handleData: extractClientEnvironment
         ),
       ],
     ));
   }
+
+  Widget extractClientName(String detail) {
+    final String clientName =  detail.split("/")[0];
+    return cardContent(context, clientName);
+  }
+
+  Widget extractClientVersion(String detail) {
+    final String fullClientVersion = detail.split("/")[1];
+    final String clientVersion = "${fullClientVersion.split("-")[0]}-${fullClientVersion.split("-")[1]}";
+    return cardContent(context, clientVersion);
+  }
+
+  Widget extractClientEnvironment(String detail) {
+    final String clientEnvironment = "${detail.split("/")[2]} / ${detail.split("/")[3]}";
+    return cardContent(context, clientEnvironment);
+  }
+
 }

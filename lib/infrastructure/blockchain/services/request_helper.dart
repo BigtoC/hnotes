@@ -43,3 +43,7 @@ Future<Response> makeRequest(String requestBody) async {
 String phraseResponseData(String body, String key) {
   return jsonDecode(body)[key];
 }
+
+bool phraseResponseBooleanData(String body, String key) {
+  return jsonDecode(body)[key];
+}

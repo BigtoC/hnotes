@@ -16,7 +16,7 @@ Widget drawer(BuildContext context, Function(Brightness brightness)? changeTheme
       children: <Widget>[
         header(context),
         daySince(context),
-        chainInfo(context),
+        blockchainInfo(context),
         settings(context, changeTheme),
         sizeBox(context, 0.1),
         divider(context, 0.5),
@@ -81,14 +81,14 @@ Widget daySince(BuildContext context) {
   );
 }
 
-Widget chainInfo(BuildContext context) {
+Widget blockchainInfo(BuildContext context) {
   return ListTile(
     leading: Icon(
       Icons.cloud,
       color: btnColor,
     ),
     title: Text(
-      'Chain Info',
+      'Blockchain Info',
       style: TextStyle(
         fontSize: subtitleFontSize,
         fontWeight: itemFontWeight,

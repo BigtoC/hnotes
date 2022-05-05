@@ -15,26 +15,19 @@ final requestHeaders = {'Content-type': 'application/json'};
 class BlockchainRepository {
   final client = http.Client();
 
-  /// Read necessary keys
-  readKeys() async {
-    String secretFileString = await rootBundle.loadString(secretsFilePath);
-    final dynamic secretMap = loadYaml(secretFileString);
-    SecretDto secret = SecretDto.fromYaml(secretMap);
-  }
-
   // Returns the number of the most recent block.
   Future<Map<String, dynamic>> getLatestBlockNumber() async {
-    return (await _getNumberResultDto("eth_blockNumber")).toMap();
+    return (await _parseNumberResultDto("eth_blockNumber")).toMap();
   }
 
   // Returns the current price per gas in wei.
   Future<Map<String, dynamic>> getCurrentGasPrice() async {
-    return (await _getNumberResultDto("eth_gasPrice")).toMap();
+    return (await _parseNumberResultDto("eth_gasPrice")).toMap();
   }
 
   // Returns the current network name.
   Future<Map<String, dynamic>> getNetwork() async {
-    final NumberResultDto networkResult = await _getNumberResultDto("net_version");
+    final NumberResultDto networkResult = await _parseNumberResultDto("net_version");
     final Map<String, String> networkNames = {
       "1": "Ethereum Mainnet",
       "2": "Morden Testnet (deprecated)",
@@ -52,8 +45,19 @@ class BlockchainRepository {
     };
   }
 
+  // Returns the currently configured chain ID
+  Future<Map<String, dynamic>> getChainId() async {
+    return (await _parseNumberResultDto("eth_chainId")).toMap();
+  }
+
+  // Returns the current client version.
+  Future<Map<String, dynamic>> getNodeClientVersion() async {
+    return (await _parseTextResult("web3_clientVersion")).toMap();
+  }
+
+
   // For API responses that only contain a number (hex or decimal)
-  Future<NumberResultDto> _getNumberResultDto(String methodName) async {
+  Future<NumberResultDto> _parseNumberResultDto(String methodName) async {
     final String requestBody = formRequestBody(methodName);
 
     return await makeRequest(requestBody)
@@ -64,7 +68,7 @@ class BlockchainRepository {
   }
 
   // For API responses that only contain a text string
-  Future<TextResultDto> _getTextResult(String methodName) async {
+  Future<TextResultDto> _parseTextResult(String methodName) async {
     final String requestBody = formRequestBody(methodName);
 
     return await makeRequest(requestBody)
