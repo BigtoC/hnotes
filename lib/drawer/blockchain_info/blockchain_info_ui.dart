@@ -1,9 +1,9 @@
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'package:hnotes/util/common_data.dart';
 import 'package:hnotes/components/build_card_widget.dart';
-import 'package:hnotes/drawer/chain_info/chain_info_bloc.dart';
+import 'package:hnotes/drawer/blockchain_info/blockchain_info_bloc.dart';
 
 // ignore: must_be_immutable
 class ChainInfoPage extends StatefulWidget {
@@ -74,8 +74,8 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
             child: Padding(
               padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
               child: blockchainInfoBloc.latestBlockNumberData.isEmpty != null
-                ? cardContent(context, "Normal", Colors.greenAccent)
-                : cardContent(context, "Error", Colors.red)
+                ? cardContent(context, "Normal", textColor: Colors.greenAccent)
+                : cardContent(context, "Error", textColor: Colors.red)
             )
           )
         ],
@@ -94,23 +94,36 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
             height: 40,
           ),
           buildTitleAndContent(
-            context,
-            blockchainInfoBloc.latestBlockNumberData,
-            "Latest Block Number", "blockNumber", null
+              context,
+              blockchainInfoBloc.latestBlockNumberData,
+              "Latest Block Number", "number"
           ),
-          // buildTitleAndContent(
-          //   context,
-          //   chainInfoBloc.blockHeaderData,
-          //   "Gas Used", "gasUsed", null
-          // ),
-          // buildTitleAndContent(
-          //   context,
-          //   chainInfoBloc.blockHeaderData,
-          //   "Confirmed Time", "timestamp", null
-          // ),
+          buildTitleAndContent(
+              context,
+              blockchainInfoBloc.currentGasPriceData,
+              "CurrentGas Price", "number"
+          ),
+          buildTitleAndContent(
+              context,
+              blockchainInfoBloc.currentGasPriceData,
+              "Last Updated", "timestamp",
+              handleData: handleBuildTimeInfo
+          ),
         ],
       )
     );
+  }
+
+  Widget handleBuildTimeInfo(String timestamp) {
+    String datetime = _convertTime(DateTime.now().millisecondsSinceEpoch);
+    return cardContent(context, datetime);
+  }
+
+  String _convertTime(int timestamp) {
+    String neatDate = DateFormat.yMMMd().add_jm().format(
+        DateTime.fromMillisecondsSinceEpoch(timestamp)
+    ).toString();
+    return neatDate;
   }
 
   Widget buildAccountInfo() {
@@ -124,17 +137,17 @@ class _ChainInfoPageState extends State<ChainInfoPage> {
           height: 40,
         ),
         cardContentTitle("Account Name"),
-        cardContent(context, queryAccountName, null),
+        cardContent(context, queryAccountName),
         cardContentGap(),
         buildTitleAndContent(
           context,
           blockchainInfoBloc.accountData,
-          "Gas Balance", "balance", null
+          "Gas Balance", "balance"
         ),
         buildTitleAndContent(
           context,
           blockchainInfoBloc.accountData,
-          "Account Address", "id", null
+          "Account Address", "id"
         ),
       ],
     ));

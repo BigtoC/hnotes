@@ -201,7 +201,7 @@ class _SettingsPageState extends State<SettingsPage> {
             height: 40,
           ),
           cardContentTitle('Developed by'),
-          cardContent(context, 'Bigto Chan', null),
+          cardContent(context, 'Bigto Chan'),
           Container(
             alignment: Alignment.center,
             child: OutlinedButton.icon(
@@ -220,7 +220,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           cardContentGap(),
           cardContentTitle('Co-Designer'),
-          cardContent(context, 'Rita vv', null),
+          cardContent(context, 'Rita vv'),
           cardContentGap(),
           cardContentTitle('Made With'),
           Padding(
@@ -283,7 +283,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           cardContentGap(),
           cardContentTitle('Version'),
-          cardContent(context, packageInfo.version, null),
+          cardContent(context, packageInfo.version),
           cardContentGap(),
         ],
       )

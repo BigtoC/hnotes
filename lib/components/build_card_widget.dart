@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:hnotes/util/theme.dart';
 
+import '../util/common_data.dart';
+
 
 Widget buildCardWidget(BuildContext context, Widget child) {
   return Container(
@@ -60,8 +62,8 @@ Widget cardContentTitle(String cardContentTitle) {
   );
 }
 
-Widget cardContent(BuildContext context, String contentText, Color? textColor) {
-  return Center(
+Widget cardContent(BuildContext context, String contentText, {Color? textColor}) {
+  return new Center(
     child: Padding(
       padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
       child: Text(
@@ -81,19 +83,30 @@ Widget cardContentGap() {
   );
 }
 
-Widget buildTitleAndContent(BuildContext context, var streamData, String title, String content, Color? textColor) {
-  return Column(
+Widget buildTitleAndContent(
+    BuildContext context,
+    var streamData,
+    String title,
+    String content,
+    {Color? textColor, Widget Function(String value)? handleData}
+    ) {
+  return new Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
       cardContentTitle(title),
-      blockInfoStreamBuilder(context, streamData, content, textColor),
+      blockInfoStreamBuilder(context, streamData, content, handleData: handleData),
       cardContentGap(),
     ],
   );
 }
 
-Widget blockInfoStreamBuilder(BuildContext context, var streamData, String valueKey, Color? textColor) {
-  return StreamBuilder(
+Widget blockInfoStreamBuilder(
+    BuildContext context,
+    var streamData,
+    String valueKey,
+    {Color? textColor, Widget Function(String value)? handleData}
+    ) {
+  return new StreamBuilder(
     stream: streamData,
     builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
       if (snapshot.hasError) {
@@ -101,7 +114,7 @@ Widget blockInfoStreamBuilder(BuildContext context, var streamData, String value
       }
       switch (snapshot.connectionState) {
         case ConnectionState.none:
-          return cardContent(context, 'Query data failed...', textColor);
+          return cardContent(context, 'Query data failed...');
         case ConnectionState.waiting:
           return Center(
             child: CircularProgressIndicator(
@@ -111,22 +124,12 @@ Widget blockInfoStreamBuilder(BuildContext context, var streamData, String value
             )
           );
         case ConnectionState.active:
-          String showData = snapshot.data![valueKey].toString();
-          print(snapshot.data);
-          if (valueKey == 'timestamp') {
-            showData = convertTime(showData);
-          }
-          return cardContent(context, showData, textColor);
+          String data = snapshot.data![valueKey].toString();
+          return handleData == null ? cardContent(context, data) : handleData(data);
         case ConnectionState.done:
-          print("done");
+          logger.i("Finish rendering $valueKey");
       }
       return SizedBox();
     },
   );
-}
-
-String convertTime(String timestamp) {
-  String neatDate = DateFormat.yMMMd().add_jm().format(
-    DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp))).toString();
-  return neatDate;
 }

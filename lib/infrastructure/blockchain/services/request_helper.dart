@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:hnotes/util/common_data.dart';
-import 'package:hnotes/infrastructure/blockchain/dto/secret_dto.dart';
+import 'package:hnotes/infrastructure/blockchain/models/secret_dto.dart';
 
 List defaultParameter = [];
 final requestHeaders = {'Content-type': 'application/json'};

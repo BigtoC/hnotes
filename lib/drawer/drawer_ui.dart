@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hnotes/util/theme.dart';
 import 'package:hnotes/util/common_data.dart';
 import 'package:hnotes/splash_screen/days_since_ui.dart';
-import 'package:hnotes/drawer/chain_info/chain_info_ui.dart';
+import 'package:hnotes/drawer/blockchain_info/blockchain_info_ui.dart';
 import 'package:hnotes/drawer/setting_page/settings_ui.dart';
 import 'package:hnotes/splash_screen/splash_collections.dart';
 import 'package:hnotes/components/components_collections.dart';
