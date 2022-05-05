@@ -9,6 +9,7 @@ import 'package:hnotes/requester/repository.dart';
 import 'package:hnotes/util/share_preferences.dart';
 import 'package:hnotes/splash_screen/days_since_ui.dart';
 import 'package:hnotes/drawer/setting_page/settings_ui.dart';
+import 'package:hnotes/drawer/blockchain_info/blockchain_info_bloc.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +35,7 @@ class _MyAppState extends State<MyApp> {
     updateThemeFromSharedPref();
     createFolderInAppDocDir("hnotes");
     getDateSuccess();
+    blockchainInfoBloc.fetchNetworkData();
   }
 
   @override

@@ -28,7 +28,8 @@ A Flutter notes app with blockchain storage.
 - [x] {2.0} Migrate to Flutter 2 and latest Dart version
 - [x] {2.0.5} Codes clean up and structure enhancements
 - [X] {2.1} Switch to Ropsten (Ethereum testnet), and use Alchemy as a blockchain connection service
-- [ ] {2.2} Show some blockchain information
+- [x] {2.2} Show more blockchain information
+- [ ] {2.3} Implement DDD Architecture ([reference](https://github.com/ResoCoder/flutter-ddd-firebase-course))
 
 ### Stage 3
 
@@ -41,7 +42,6 @@ A Flutter notes app with blockchain storage.
 
 > More enhancements (and some fun functions)
 
-- [ ] Implement DDD Architecture ([reference](https://github.com/ResoCoder/flutter-ddd-firebase-course))
 - [ ] Share notes content in a picture
 - [ ] Biometric authentications (Finger print, face unlock)
 - [ ] More functions welcome pull requests and create issues
