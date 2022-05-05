@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'package:logger/logger.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 PackageInfo packageInfo = PackageInfo(
@@ -9,6 +9,8 @@ PackageInfo packageInfo = PackageInfo(
   buildSignature: 'Unknown',
 );
 
+var logger = Logger(printer: PrettyPrinter());
+
 final String baasUrl = "https://rest.baas.alipay.com/api/contract";
 
 final String secretsFilePath = "assets/secrets/secret.yaml";
@@ -17,7 +19,7 @@ final String queryAccountName = "bigto-hnotes";
 final String contractName = "NoteManager";
 final String bizid = "a00e36c5";
 
-String globalLoveStartDate = "";
+String globalLoveStartDate = "2020-08-31";
 int globalDayCount = 0;
 
 
