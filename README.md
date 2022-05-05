@@ -42,7 +42,7 @@ A Flutter notes app with blockchain storage.
 
 > More enhancements (and some fun functions)
 
-- [ ] Further code structure enhancements
+- [ ] Implement DDD Architecture ([reference](https://github.com/ResoCoder/flutter-ddd-firebase-course))
 - [ ] Share notes content in a picture
 - [ ] Biometric authentications (Finger print, face unlock)
 - [ ] More functions welcome pull requests and create issues

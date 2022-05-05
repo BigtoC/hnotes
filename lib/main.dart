@@ -42,7 +42,6 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: packageInfo.appName,
       theme: theme,
-//      home: DaySince(isSplash: true, changeTheme: setTheme),
       home: dateIsSet
         ? DaySince(isSplash: true, changeTheme: setTheme, key: null,)
         : SettingsPage(changeTheme: setTheme, onlySetDate: true),
