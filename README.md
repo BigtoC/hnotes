@@ -47,9 +47,11 @@ A Flutter notes app with blockchain storage.
 - [ ] More functions welcome pull requests and create issues
 
 ## References
-* Alchemy [documents](https://docs.alchemy.com/alchemy/)  
+* Alchemy: [documents](https://docs.alchemy.com/alchemy/)  
 * App interface: [roshanrahman/flutter-notes-app](https://github.com/roshanrahman/flutter-notes-app)
 * Draggable buttons: [Flutter实战手势番外篇之可拖拽悬浮组件](https://juejin.im/post/5e4b9c74f265da57127e3f63)
+* Flutter DDD Article: [Beginner’s guide to Flutter with DDD](https://medium.com/@ushimaru/beginners-guide-to-flutter-with-ddd-87d4c476c3cb)
+* Flutter DDD Example: [Domain-Driven Design + Firebase Flutter Course](https://github.com/ResoCoder/flutter-ddd-firebase-course)
 * More page route transitions: [关于 Flutter 页面路由过渡动画，你所需要知道的一切](https://juejin.im/post/5ceb6179f265da1bc23f55d0)
 
 ## Getting Started with Flutter

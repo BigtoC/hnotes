@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:hnotes/requester/repository.dart';
 import 'package:hnotes/note_services/note_model.dart';
+import 'package:hnotes/infrastructure/local_storage/requester/repository.dart';
 
 class NotesListBloc {
   final _repository = new Repository();
