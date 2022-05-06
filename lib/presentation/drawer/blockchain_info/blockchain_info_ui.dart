@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hnotes/presentation/components/build_card_widget.dart';
 import 'package:hnotes/application/blockchain_info/blockchain_info_bloc.dart';
 
+
 // ignore: must_be_immutable
 class BlockchainInfoPage extends StatefulWidget {
   @override

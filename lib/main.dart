@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
       title: packageInfo.appName,
       theme: theme,
       home: dateIsSet
-        ? CountDay(isSplash: true, changeTheme: setTheme, key: null,)
+        ? CountDay(isSplash: true, changeTheme: setTheme)
         : SettingsPage(changeTheme: setTheme, onlySetDate: true),
     );
   }
