@@ -1,6 +1,6 @@
-import 'dart:collection';
 import 'dart:io';
 import 'dart:async';
+import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -8,7 +8,6 @@ import 'note_card.dart';
 import 'note_cards_list.dart';
 import 'package:hnotes/presentation/theme.dart';
 import 'package:hnotes/presentation/drawer/drawer_ui.dart';
-import 'package:hnotes/note_services/notes_services_collections.dart';
 
 
 // ignore: must_be_immutable
@@ -48,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    _buildNotesList();
+    // _buildNotesList();
     return Scaffold(
       key: _scaffoldKey,
       drawer: drawer(context, widget.changeTheme),
@@ -232,46 +231,46 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  _buildNotesList() {
-    if (!isSearching) {
-      notesBloc.fetchAllNotes();
-    }
-    if (isSearching) {
-      String keywords = searchController.text;
-      notesBloc.searchNotes(keywords);
-    }
+  // _buildNotesList() {
+  //   if (!isSearching) {
+  //     notesBloc.fetchAllNotes();
+  //   }
+  //   if (isSearching) {
+  //     String keywords = searchController.text;
+  //     notesBloc.searchNotes(keywords);
+  //   }
+  //
+  //   Stream<NoteModel> noteStream = notesBloc.noteFiles;
+  //   noteStream.take(1);
+  //
+  //   noteStream.listen((element) {
+  //     element.noteKeyValueList?.forEach((noteInstance) {
+  //       setState(() {
+  //         cardList.add(NoteCardComponent(
+  //           noteFile: noteInstance["File"],
+  //           noteContents: noteInstance["Contents"],
+  //           onTapAction: openNoteToRead,
+  //         ));
+  //       });
+  //     });
+  //   }, onDone: () {
+  //     print("流已完成");
+  //   });
+  // }
 
-    Stream<NoteModel> noteStream = notesBloc.noteFiles;
-    noteStream.take(1);
-
-    noteStream.listen((element) {
-      element.noteKeyValueList?.forEach((noteInstance) {
-        setState(() {
-          cardList.add(NoteCardComponent(
-            noteFile: noteInstance["File"],
-            noteContents: noteInstance["Contents"],
-            onTapAction: openNoteToRead,
-          ));
-        });
-      });
-    }, onDone: () {
-      print("流已完成");
-    });
-  }
-
-  Widget buildNoteComponentsList() {
-    if (!isSearching) {
-      notesBloc.fetchAllNotes();
-    }
-    if (isSearching) {
-      String keywords = searchController.text;
-      notesBloc.searchNotes(keywords);
-    }
-    return new NoteCardsList(
-      onTapAction: openNoteToRead,
-      isSearching: isSearching,
-    );
-  }
+  // Widget buildNoteComponentsList() {
+  //   if (!isSearching) {
+  //     notesBloc.fetchAllNotes();
+  //   }
+  //   if (isSearching) {
+  //     String keywords = searchController.text;
+  //     notesBloc.searchNotes(keywords);
+  //   }
+  //   return new NoteCardsList(
+  //     onTapAction: openNoteToRead,
+  //     isSearching: isSearching,
+  //   );
+  // }
 
   Widget buildImportantIndicatorText() {
     return AnimatedCrossFade(
