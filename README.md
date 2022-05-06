@@ -46,6 +46,7 @@ A Flutter notes app with blockchain storage.
 
 > More enhancements (and some fun functions)
 
+- [ ] GitHub Action for building release packages
 - [ ] Share notes content in a picture
 - [ ] Biometric authentications (Finger print, face unlock)
 - [ ] More functions welcome pull requests and create issues
