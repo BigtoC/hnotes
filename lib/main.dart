@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import 'package:hnotes/util/theme.dart';
-import 'package:hnotes/util/common_data.dart';
-import 'package:hnotes/requester/repository.dart';
-import 'package:hnotes/util/share_preferences.dart';
-import 'package:hnotes/splash_screen/days_since_ui.dart';
-import 'package:hnotes/drawer/setting_page/settings_ui.dart';
-import 'package:hnotes/drawer/blockchain_info/blockchain_info_bloc.dart';
+import 'package:hnotes/domain/common_data.dart';
+import 'package:hnotes/presentation/theme.dart';
+import 'package:hnotes/presentation/count_day/count_day_ui.dart';
+import 'package:hnotes/presentation/drawer/setting_page/settings_ui.dart';
+import 'package:hnotes/infrastructure/local_storage/share_preferences.dart';
+import 'package:hnotes/application/blockchain_info/blockchain_info_bloc.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +26,6 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   ThemeData theme = appThemeLight;
   late bool dateIsSet;
-  Repository repository = new Repository();
 
   @override
   void initState() {
@@ -45,7 +44,7 @@ class _MyAppState extends State<MyApp> {
       title: packageInfo.appName,
       theme: theme,
       home: dateIsSet
-        ? DaySince(isSplash: true, changeTheme: setTheme, key: null,)
+        ? CountDay(isSplash: true, changeTheme: setTheme)
         : SettingsPage(changeTheme: setTheme, onlySetDate: true),
     );
   }
