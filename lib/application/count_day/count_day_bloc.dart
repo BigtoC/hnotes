@@ -13,14 +13,12 @@ class CountDayBloc {
   Stream<CountDayModel> get dayModel => _dayModel.stream;
 
   fetchLoveStartDate() async {
-    String? loveStartDate = await _repository.getLoveStartDate();
+    CountDayModel countDayModel = await _repository.getLoveStartDate();
 
-    int daysSince = today.difference(DateTime.parse(loveStartDate)).inDays;
+    globalDayCount = countDayModel.dayCount;
+    globalLoveStartDate = countDayModel.loveStartDate;
 
-    globalDayCount = daysSince;
-    globalLoveStartDate = loveStartDate;
-
-    _dayModel.sink.add(CountDayModel.fromAttribute(loveStartDate, daysSince));
+    _dayModel.sink.add(countDayModel);
   }
 
   bool isDispose = false;
