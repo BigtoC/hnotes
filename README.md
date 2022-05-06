@@ -20,23 +20,26 @@ A Flutter notes app with blockchain storage.
 - [x] Search notes
 - [x] Set the love start date first for the first time open this app
 
-### Stage 2
+### Stage 2 (Migration and clean up)
 
 > New blockchain related developments
-> Target finish before 2022-05-23
+> Target finish before 2022-05-15
 
 - [x] {2.0} Migrate to Flutter 2 and latest Dart version
 - [x] {2.0.5} Codes clean up and structure enhancements
 - [X] {2.1} Switch to Ropsten (Ethereum testnet), and use Alchemy as a blockchain connection service
 - [x] {2.2} Show more blockchain information
-- [ ] {2.3} Implement DDD Architecture ([reference](https://github.com/ResoCoder/flutter-ddd-firebase-course))
+- [x] {2.3} Implement DDD Architecture ([reference](https://github.com/ResoCoder/flutter-ddd-firebase-course))
 
-### Stage 3
+### Stage 3 (New features)
 
-> New features
+> Import and present ERC-721
+> Target finish before 2022-06-10
 
-- [ ] {3.0} Empty for now
-- [ ] {3.1} Placeholder
+- [ ] {3.0} Allow user import the API key, instead of read a secret file.
+- [ ] {3.1} Import and show NFTs in the home page
+- [ ] {3.2} Search NFTs
+- [ ] {3.3} Delete an imported NFT from the home page
 
 ### Stage 4
 
