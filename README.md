@@ -23,7 +23,8 @@ A Flutter notes app with blockchain storage.
 ### Stage 2 (Migration and clean up)
 
 > New blockchain related developments
-> Target finish before 2022-05-15
+> Target finish before 2022-05-10
+> Finished on 2022-05-06
 
 - [x] {2.0} Migrate to Flutter 2 and latest Dart version
 - [x] {2.0.5} Codes clean up and structure enhancements
