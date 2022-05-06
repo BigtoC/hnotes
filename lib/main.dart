@@ -9,6 +9,7 @@ import 'package:hnotes/presentation/count_day/count_day_ui.dart';
 import 'package:hnotes/presentation/drawer/setting_page/settings_ui.dart';
 import 'package:hnotes/infrastructure/local_storage/share_preferences.dart';
 import 'package:hnotes/application/blockchain_info/blockchain_info_bloc.dart';
+import 'package:hnotes/infrastructure/local_storage/start_day/start_day_repository.dart';
 
 
 void main() {
@@ -30,15 +31,17 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _initPackageInfo();
     updateThemeFromSharedPref();
-    createFolderInAppDocDir("hnotes");
     getDateSuccess();
+    _initPackageInfo();
+    createFolderInAppDocDir("hnotes");
     blockchainInfoBloc.fetchNetworkData();
   }
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(new Duration(milliseconds: 2000));
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: packageInfo.appName,
@@ -49,9 +52,13 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  void getDateSuccess() async{
-    if (globalLoveStartDate.isEmpty) {
+  void getDateSuccess() async {
+    final _repository = new StartDayRepository();
+    String? _startDate = await _repository.getLoveStartDate();
+
+    if (_startDate.isEmpty) {
       setState(() {
+        globalLoveStartDate = "";
         dateIsSet = false;
       });
     }
@@ -75,7 +82,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void updateThemeFromSharedPref() async {
-    String themeText = await getDataFromSharedPref('theme');
+    String? themeText = await getDataFromSharedPref('theme');
     if (themeText == 'light') {
       setTheme(Brightness.light);
     } else {

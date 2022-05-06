@@ -13,5 +13,6 @@ var logger = Logger(printer: PrettyPrinter());
 
 String? networkNameGlobal = "";
 
+final String startDateKey = "startDate";
 String globalLoveStartDate = "";
 int globalDayCount = 0;

@@ -12,13 +12,13 @@ void setDataInSharedPref(String key, String val) async {
 }
 
 // Get data from shared preferences
-Future<String> getDataFromSharedPref(String key) async {
+Future<String?> getDataFromSharedPref(String key) async {
   SharedPreferences sharedPref = await SharedPreferences.getInstance();
   var rtnVal = sharedPref.getString(key);
 
-  while (null == rtnVal) {
-    await new Future.delayed(new Duration(milliseconds: 50));
-  }
+  // if (null == rtnVal) {
+  //   Duration(milliseconds: 88);
+  // }
 
   return rtnVal;
 }

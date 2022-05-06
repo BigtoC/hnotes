@@ -13,7 +13,7 @@ class CountDayBloc {
   Stream<CountDayModel> get dayModel => _dayModel.stream;
 
   fetchLoveStartDate() async {
-    String loveStartDate = await _repository.getLoveStartDate();
+    String? loveStartDate = await _repository.getLoveStartDate();
     await new Future.delayed(new Duration(milliseconds: 500));
 
     int daysSince = today.difference(DateTime.parse(loveStartDate)).inDays;
