@@ -33,8 +33,13 @@ class _SettingsPageState extends State<SettingsPage> {
   String _selectedDate = "";
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     daysBloc.fetchLoveStartDate();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     setState(() {
       if (Theme.of(context).brightness == Brightness.dark) {
         selectedTheme = 'dark';
@@ -108,15 +113,15 @@ class _SettingsPageState extends State<SettingsPage> {
                   child: StreamBuilder(
                       stream: daysBloc.dayModel,
                       builder: (context, AsyncSnapshot<CountDayModel> snapshot) {
+                        String buttonPlaceholder = "Select Date";
                         if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
                         }
                         if (snapshot.hasData) {
-                          String storedStartDate = snapshot.data?.loveStartDate == null ? "Select Your Date" : snapshot.data!.loveStartDate;
-                          _selectedDate = _selectedDate.isEmpty ? storedStartDate : _selectedDate;
-                          return _selectDateText(_selectedDate.isEmpty ? 'Select Your Date' : _selectedDate);
+                          String storedStartDate = snapshot.data?.loveStartDate == null ? buttonPlaceholder : snapshot.data!.loveStartDate;
+                          return _selectDateText(storedStartDate);
                         }
-                        return _selectDateText("Select Your Date");
+                        return _selectDateText(buttonPlaceholder);
                       }
                   ),
                 ),
@@ -152,9 +157,9 @@ class _SettingsPageState extends State<SettingsPage> {
       });
       globalLoveStartDate = _selectedDate;
 
-      await daysBloc.fetchLoveStartDate();
       // Write the selected date to system
       setDataInSharedPref(startDateKey, _selectedDate);
+      await daysBloc.fetchLoveStartDate();
     }
   }
 

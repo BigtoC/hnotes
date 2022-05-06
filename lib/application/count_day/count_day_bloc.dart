@@ -14,7 +14,6 @@ class CountDayBloc {
 
   fetchLoveStartDate() async {
     String? loveStartDate = await _repository.getLoveStartDate();
-    await new Future.delayed(new Duration(milliseconds: 500));
 
     int daysSince = today.difference(DateTime.parse(loveStartDate)).inDays;
 
