@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:hnotes/domain/common_data.dart';
 import 'package:hnotes/presentation/components/build_card_widget.dart';
-import 'package:hnotes/presentation/drawer/setting_page/app_repo_page.dart';
+import 'package:hnotes/presentation/drawer/settings_page/app_repo_page.dart';
 
 
-class AboutApp extends StatelessWidget {
+class AboutAppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ButtonStyle style = ElevatedButton.styleFrom(

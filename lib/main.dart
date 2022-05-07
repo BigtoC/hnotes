@@ -10,10 +10,9 @@ import 'package:hnotes/domain/count_day/count_day_model.dart';
 import 'package:hnotes/application/count_day/count_day_bloc.dart';
 import 'package:hnotes/presentation/count_day/count_day_ui.dart';
 import 'package:hnotes/presentation/count_day/count_day_background.dart';
-import 'package:hnotes/presentation/drawer/setting_page/settings_ui.dart';
 import 'package:hnotes/infrastructure/local_storage/share_preferences.dart';
+import 'package:hnotes/presentation/drawer/settings_page/settings_page.dart';
 import 'package:hnotes/application/blockchain_info/blockchain_info_bloc.dart';
-import 'package:hnotes/infrastructure/local_storage/start_day/start_day_repository.dart';
 
 
 void main() {
@@ -68,24 +67,6 @@ class _MyAppState extends State<MyApp> {
       )
 
     );
-  }
-
-  Future<void> _getDateSuccess() async {
-    final _repository = new StartDayRepository();
-    CountDayModel countDayModel = await _repository.getLoveStartDate();
-    // logger.w(countDayModel);
-    // logger.i(countDayModel.loveStartDate);
-
-    if (countDayModel.loveStartDate.isEmpty) {
-      setState(() {
-        globalLoveStartDate = "";
-        dateIsSet = false;
-      });
-    } else {
-      setState(() {
-        dateIsSet = true;
-      });
-    }
   }
 
   setTheme(Brightness brightness) {
