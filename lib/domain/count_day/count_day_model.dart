@@ -8,19 +8,17 @@ class CountDayModel {
     this.dayCount
   );
 
-  factory CountDayModel.fromAttribute(String loveDate, int daySince) {
-    return new CountDayModel(loveDate, daySince);
+  factory CountDayModel.fromAttribute(String? loveStartDateParam) {
+    String rtnLoveDate = "";
+    int rtnDayCount = 0;
+
+    if (loveStartDateParam != null) {
+      final today = DateTime.now();
+      rtnLoveDate = loveStartDateParam;
+      rtnDayCount = today.difference(DateTime.parse(loveStartDateParam)).inDays;
+    }
+
+    return new CountDayModel(rtnLoveDate, rtnDayCount);
   }
 
 }
-
-
-//class CountDayModel {
-//  static final startDate = DateTime(2019, DateTime.august, 31);
-//  static final today = DateTime.now();
-//  static final daysSince = today.difference(startDate).inDays;
-//  static String startDateStr = "${startDate.toIso8601String().split("T")[0]}";
-//
-//  int get days => daysSince;
-//  String get startStr => startDateStr;
-//}

@@ -5,10 +5,14 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:hnotes/domain/common_data.dart';
 import 'package:hnotes/presentation/theme.dart';
+import 'package:hnotes/domain/count_day/count_day_model.dart';
+import 'package:hnotes/application/count_day/count_day_bloc.dart';
 import 'package:hnotes/presentation/count_day/count_day_ui.dart';
+import 'package:hnotes/presentation/count_day/count_day_background.dart';
 import 'package:hnotes/presentation/drawer/setting_page/settings_ui.dart';
 import 'package:hnotes/infrastructure/local_storage/share_preferences.dart';
 import 'package:hnotes/application/blockchain_info/blockchain_info_bloc.dart';
+import 'package:hnotes/infrastructure/local_storage/start_day/start_day_repository.dart';
 
 
 void main() {
@@ -31,9 +35,9 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _initPackageInfo();
-    updateThemeFromSharedPref();
-    createFolderInAppDocDir("hnotes");
-    getDateSuccess();
+    _updateThemeFromSharedPref();
+    daysBloc.fetchLoveStartDate();
+    _createFolderInAppDocDir("hnotes");
     blockchainInfoBloc.fetchNetworkData();
   }
 
@@ -43,19 +47,37 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: packageInfo.appName,
       theme: theme,
-      home: dateIsSet
-        ? CountDay(isSplash: true, changeTheme: setTheme)
-        : SettingsPage(changeTheme: setTheme, onlySetDate: true),
+      home: StreamBuilder(
+        stream: daysBloc.dayModel,
+        builder: (context, AsyncSnapshot<CountDayModel> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          }
+          if (snapshot.hasData) {
+            bool _dateIsSet = snapshot.data?.loveStartDate != "";
+            return _dateIsSet
+                ? CountDay(isSplash: true, changeTheme: setTheme)
+                : SettingsPage(changeTheme: setTheme, onlySetDate: true);
+          }
+          return countDayBackground();
+        }
+      )
+
     );
   }
 
-  void getDateSuccess() async{
-    if (globalLoveStartDate.isEmpty) {
+  Future<void> _getDateSuccess() async {
+    final _repository = new StartDayRepository();
+    CountDayModel countDayModel = await _repository.getLoveStartDate();
+    // logger.w(countDayModel);
+    // logger.i(countDayModel.loveStartDate);
+
+    if (countDayModel.loveStartDate.isEmpty) {
       setState(() {
+        globalLoveStartDate = "";
         dateIsSet = false;
       });
-    }
-    else {
+    } else {
       setState(() {
         dateIsSet = true;
       });
@@ -74,8 +96,8 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void updateThemeFromSharedPref() async {
-    String themeText = await getDataFromSharedPref('theme');
+  Future<void> _updateThemeFromSharedPref() async {
+    String? themeText = await getDataFromSharedPref('theme');
     if (themeText == 'light') {
       setTheme(Brightness.light);
     } else {
@@ -83,7 +105,7 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  static Future<String> createFolderInAppDocDir(String folderName) async {
+  static Future<String> _createFolderInAppDocDir(String folderName) async {
 
     // Get this App Document Directory
     final Directory _appDocDir = await getApplicationDocumentsDirectory();

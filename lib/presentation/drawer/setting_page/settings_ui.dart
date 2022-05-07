@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 
 import 'package:hnotes/presentation/theme.dart';
 import 'package:hnotes/domain/common_data.dart';
+import 'package:hnotes/domain/count_day/count_day_model.dart';
 import 'package:hnotes/presentation/count_day/count_day_ui.dart';
-import 'package:hnotes/presentation/drawer/setting_page/app_repo.dart';
+import 'package:hnotes/application/count_day/count_day_bloc.dart';
 import 'package:hnotes/presentation/components/build_card_widget.dart';
 import 'package:hnotes/infrastructure/local_storage/share_preferences.dart';
+import 'package:hnotes/presentation/drawer/setting_page/about_app_widget.dart';
+
 
 // ignore: must_be_immutable
 class SettingsPage extends StatefulWidget {
@@ -27,7 +30,13 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   String? selectedTheme;
-  String _selectedDate = globalLoveStartDate;
+  String _selectedDate = "";
+
+  @override
+  void initState() {
+    super.initState();
+    daysBloc.fetchLoveStartDate();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +72,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 buildDatePicker(),
                 buildAppThemeChoice(),
-                buildAboutApp(),
+                new AboutApp(),
               ],
             ))
         ],
@@ -101,19 +110,36 @@ class _SettingsPageState extends State<SettingsPage> {
                 new ElevatedButton(
                   style: style,
                   onPressed: _selectDate,
-                  child: new Text(
-                    _selectedDate.isEmpty ? 'Select Your Date' : _selectedDate,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                    )
+                  child: StreamBuilder(
+                      stream: daysBloc.dayModel,
+                      builder: (context, AsyncSnapshot<CountDayModel> snapshot) {
+                        String buttonPlaceholder = "Select Date";
+                        if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        }
+                        if (snapshot.hasData) {
+                          String storedStartDate = snapshot.data?.loveStartDate == null ? buttonPlaceholder : snapshot.data!.loveStartDate;
+                          return _selectDateText(storedStartDate);
+                        }
+                        return _selectDateText(buttonPlaceholder);
+                      }
                   ),
-                )
+                ),
               ],
             ),
           ),
         ],
       )
+    );
+  }
+
+  Widget _selectDateText(String text) {
+    return new Text(
+        text,
+        style: TextStyle(
+          fontSize: 18,
+          color: Colors.white,
+        )
     );
   }
 
@@ -126,9 +152,14 @@ class _SettingsPageState extends State<SettingsPage> {
     );
     if (picked != null) {
       // Convert selected date to string for showing
-      setState(() => _selectedDate = picked.toString().split(" ")[0]);
+      setState(() => {
+        _selectedDate = picked.toString().split(" ")[0],
+      });
+      globalLoveStartDate = _selectedDate;
+
       // Write the selected date to system
-      setDataInSharedPref('startDate', _selectedDate);
+      setDataInSharedPref(startDateKey, _selectedDate);
+      await daysBloc.fetchLoveStartDate();
     }
   }
 
@@ -182,115 +213,5 @@ class _SettingsPageState extends State<SettingsPage> {
       widget.changeTheme!(Brightness.dark);
     }
     setDataInSharedPref('theme', value!);
-  }
-
-  Widget buildAboutApp() {
-    final ButtonStyle style = ElevatedButton.styleFrom(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16)
-      ),
-    );
-
-    return buildCardWidget(
-      context,
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          cardTitle('About App'),
-          Container(
-            height: 40,
-          ),
-          cardContentTitle('Developed by'),
-          cardContent(context, 'Bigto Chan'),
-          Container(
-            alignment: Alignment.center,
-            child: OutlinedButton.icon(
-              icon: Icon(Icons.code),
-              label: Text(
-                'GITHUB',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 1,
-                  color: Colors.grey.shade500
-                )
-              ),
-              style: style,
-              onPressed: openGitHub,
-            ),
-          ),
-          cardContentGap(),
-          cardContentTitle('Co-Designer'),
-          cardContent(context, 'Rita vv'),
-          cardContentGap(),
-          cardContentTitle('Made With'),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  FlutterLogo(
-                    size: 40,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Flutter',
-                      style: TextStyle(
-                        fontSize: 24
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Container(
-            height: 30,
-          ),
-          cardContentTitle('Blockchain Platform'),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Image.asset(
-                    "assets/Images/logo/Ethereum-Logo.png",
-                    height: 40,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Ethereum \n$networkNameGlobal",
-                      style: TextStyle(
-                        fontSize: 22
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            child: Image.asset(
-              "assets/Images/logo/alchemy-logo-blue-gradient.png",
-              height: 40,
-            ),
-          ),
-          cardContentGap(),
-          cardContentTitle('Version'),
-          cardContent(context, packageInfo.version),
-          cardContentGap(),
-        ],
-      )
-    );
-  }
-
-  void openGitHub() {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
-      return new Browser();
-    }));
   }
 }
