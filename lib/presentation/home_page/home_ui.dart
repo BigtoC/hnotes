@@ -14,13 +14,13 @@ import 'package:hnotes/presentation/drawer/drawer_ui.dart';
 class MyHomePage extends StatefulWidget {
   MyHomePage({
     Key? key,
-    Function(Brightness brightness)? changeTheme,
+    Function(ThemeData themeData)? changeTheme,
   })
     : super(key: key) {
     this.changeTheme = changeTheme;
   }
 
-  Function(Brightness brightness)? changeTheme;
+  Function(ThemeData themeData)? changeTheme;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();

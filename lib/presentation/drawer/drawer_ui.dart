@@ -10,7 +10,8 @@ import 'package:hnotes/presentation/drawer/settings_page/settings_page.dart';
 import 'package:hnotes/presentation/components/components_collections.dart';
 import 'package:hnotes/presentation/drawer/blockchain_info/blockchain_info_ui.dart';
 
-Widget drawer(BuildContext context, Function(Brightness brightness)? changeTheme) {
+
+Widget drawer(BuildContext context, Function(ThemeData themeData)? changeTheme) {
   daysBloc.fetchLoveStartDate();
   return new Drawer(
     child: Column(
@@ -121,7 +122,7 @@ Widget blockchainInfoColumn(BuildContext context) {
   );
 }
 
-Widget settingsColumn(BuildContext context, Function(Brightness brightness)? changeTheme) {
+Widget settingsColumn(BuildContext context, Function(ThemeData themeData)? changeTheme) {
   return ListTile(
     leading: Icon(
       Icons.settings,

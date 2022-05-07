@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hnotes/domain/common_data.dart';
+import 'package:hnotes/domain/theme/theme_model.dart';
 
 import 'package:hnotes/presentation/count_day/count_day_ui.dart';
 import 'package:hnotes/application/count_day/count_day_bloc.dart';
@@ -10,11 +12,11 @@ import 'package:hnotes/presentation/drawer/settings_page/select_date_widget.dart
 
 // ignore: must_be_immutable
 class SettingsPage extends StatefulWidget {
-  Function(Brightness brightness)? changeTheme;
+  Function(ThemeData themeData)? changeTheme;
   bool? onlySetDate;
 
   SettingsPage(
-      {Key? key, required Function(Brightness brightness)? changeTheme, required bool onlySetDate})
+      {Key? key, required Function(ThemeData themeData)? changeTheme, required bool onlySetDate})
       : super(key: key) {
     this.changeTheme = changeTheme;
     this.onlySetDate = onlySetDate;
@@ -133,11 +135,9 @@ class _SettingsPageState extends State<SettingsPage> {
     setState(() {
       selectedTheme = value;
     });
-    if (value == 'light') {
-      widget.changeTheme!(Brightness.light);
-    } else {
-      widget.changeTheme!(Brightness.dark);
-    }
-    setDataInSharedPref('theme', value!);
+    ThemeModel themeModel = ThemeModel.fromAttribute(value);
+    widget.changeTheme!(themeModel.appTheme);
+
+    setDataInSharedPref(themeKey, value!);
   }
 }
