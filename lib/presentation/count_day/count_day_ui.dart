@@ -5,6 +5,7 @@ import 'package:hnotes/presentation/home_page/home_ui.dart';
 import 'package:hnotes/domain/count_day/count_day_model.dart';
 import 'package:hnotes/presentation/components/fade_route.dart';
 import 'package:hnotes/application/count_day/count_day_bloc.dart';
+import 'package:hnotes/presentation/count_day/count_day_background.dart';
 
 
 // ignore: must_be_immutable
@@ -53,13 +54,7 @@ class _DaySince extends State<CountDay> {
       key: colorTextKey,
       body: Stack(
         children: <Widget>[
-          Center(
-            child: new Image.asset(
-              'assets/Images/sun-bg.jpg',
-              fit: BoxFit.fitHeight,
-              height: 2000,
-            ),
-          ),
+          countDayBackground(),
           Center(
             child: Padding(
               padding: EdgeInsets.only(top: fromTop, left: 24.0, right: 24.0),
