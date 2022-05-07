@@ -61,7 +61,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - "assets/Images/sun-bg.jpg"
+    - "assets/Images/sun-bg.png"
     - "assets/Images/splash-bg.png"
     - "assets/Images/logo/Ethereum-Logo.png"
     - "assets/Images/logo/alchemy-logo-black.png"
