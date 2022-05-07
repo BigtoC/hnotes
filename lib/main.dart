@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'package:hnotes/domain/common_data.dart';
 import 'package:hnotes/presentation/theme.dart';
@@ -16,6 +17,8 @@ import 'package:hnotes/infrastructure/local_storage/start_day/start_day_reposito
 
 
 void main() {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
@@ -59,6 +62,7 @@ class _MyAppState extends State<MyApp> {
                 ? CountDay(isSplash: true, changeTheme: setTheme)
                 : SettingsPage(changeTheme: setTheme, onlySetDate: true);
           }
+          FlutterNativeSplash.remove();
           return countDayBackground();
         }
       )

@@ -32,12 +32,13 @@ A Flutter notes app with blockchain storage.
 - [x] {2.2} Show more blockchain information
 - [x] {2.3} Implement DDD Architecture ([reference](https://github.com/ResoCoder/flutter-ddd-firebase-course))
 
-### Stage 3 (New features)
+### Stage 3 (The Next Generation)
 
 > Import and present ERC-721
 > Target finish before 2022-06-10
 
 - [ ] {3.0} Allow user import the API key, instead of read a secret file.
+- [ ] {3.0.1} GitHub Action for building release packages ([reference](https://github.com/marketplace/actions/release-changelog-builder))
 - [ ] {3.1} Import and show NFTs in the home page
 - [ ] {3.2} Search NFTs
 - [ ] {3.3} Delete an imported NFT from the home page
@@ -46,7 +47,6 @@ A Flutter notes app with blockchain storage.
 
 > More enhancements (and some fun functions)
 
-- [ ] GitHub Action for building release packages
 - [ ] Share notes content in a picture
 - [ ] Biometric authentications (Finger print, face unlock)
 - [ ] More functions welcome pull requests and create issues
