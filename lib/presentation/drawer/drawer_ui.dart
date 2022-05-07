@@ -35,7 +35,7 @@ Widget header(BuildContext context) {
   return DrawerHeader(
     decoration: BoxDecoration(
       image: DecorationImage(
-        image: AssetImage("assets/Images/splash-bg.png"),
+        image: AssetImage("assets/Images/heart-bg.png"),
         fit: BoxFit.fitWidth,
       ),
     ),
