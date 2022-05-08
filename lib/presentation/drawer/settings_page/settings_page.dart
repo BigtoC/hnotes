@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hnotes/domain/common_data.dart';
 import 'package:hnotes/domain/theme/theme_model.dart';
 
 import 'package:hnotes/presentation/count_day/count_day_ui.dart';
 import 'package:hnotes/application/count_day/count_day_bloc.dart';
 import 'package:hnotes/presentation/components/build_card_widget.dart';
-import 'package:hnotes/infrastructure/local_storage/share_preferences.dart';
 import 'package:hnotes/presentation/drawer/settings_page/about_app_widget.dart';
 import 'package:hnotes/infrastructure/local_storage/theme/theme_repository.dart';
 import 'package:hnotes/presentation/drawer/settings_page/select_date_widget.dart';
