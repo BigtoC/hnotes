@@ -7,6 +7,7 @@ import 'package:hnotes/application/count_day/count_day_bloc.dart';
 import 'package:hnotes/presentation/components/build_card_widget.dart';
 import 'package:hnotes/infrastructure/local_storage/share_preferences.dart';
 import 'package:hnotes/presentation/drawer/settings_page/about_app_widget.dart';
+import 'package:hnotes/infrastructure/local_storage/theme/theme_repository.dart';
 import 'package:hnotes/presentation/drawer/settings_page/select_date_widget.dart';
 
 
@@ -137,7 +138,6 @@ class _SettingsPageState extends State<SettingsPage> {
     });
     ThemeModel themeModel = ThemeModel.fromAttribute(value);
     widget.changeTheme!(themeModel.appTheme);
-
-    setDataInSharedPref(themeKey, value!);
+    ThemeRepository.saveThemeInLocal(value);
   }
 }

@@ -11,7 +11,7 @@ class ThemeBloc {
   Stream<ThemeModel> get themeModel => _themeModel.stream;
 
   fetchStoredTheme() async {
-    ThemeModel _theme = await _themeRepository.getStoredTheme();
+    ThemeModel _theme = await _themeRepository.getSavedTheme();
     _themeModel.sink.add(_theme);
   }
 

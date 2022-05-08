@@ -8,7 +8,7 @@ import 'package:hnotes/domain/blockchain/secret_dto.dart';
 
 List defaultParameter = [];
 final requestHeaders = {'Content-type': 'application/json'};
-final String secretsFilePath = "assets/secrets/secret.yaml";
+final String secretsFilePath = "assets/secret/secret.yaml";
 
 String formRequestBody(String method, [var parameter]) {
   parameter ??= defaultParameter;

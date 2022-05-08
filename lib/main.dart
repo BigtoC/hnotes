@@ -77,7 +77,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> _updateThemeFromSharedPref() async {
     final _themeRepository = new ThemeRepository();
-    ThemeModel _theme = await _themeRepository.getStoredTheme();
+    ThemeModel _theme = await _themeRepository.getSavedTheme();
     setTheme(_theme.appTheme);
   }
 
