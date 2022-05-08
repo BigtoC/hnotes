@@ -6,8 +6,8 @@ import 'package:hnotes/presentation/theme.dart';
 import 'package:hnotes/domain/count_day/count_day_model.dart';
 import 'package:hnotes/presentation/count_day/count_day_ui.dart';
 import 'package:hnotes/application/count_day/count_day_bloc.dart';
-import 'package:hnotes/presentation/drawer/settings_page/settings_page.dart';
 import 'package:hnotes/presentation/components/components_collections.dart';
+import 'package:hnotes/presentation/drawer/settings_page/settings_page.dart';
 import 'package:hnotes/presentation/drawer/blockchain_info/blockchain_info_ui.dart';
 
 

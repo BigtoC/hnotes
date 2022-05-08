@@ -7,6 +7,7 @@ import 'package:hnotes/presentation/components/build_card_widget.dart';
 import 'package:hnotes/presentation/drawer/settings_page/about_app_widget.dart';
 import 'package:hnotes/infrastructure/local_storage/theme/theme_repository.dart';
 import 'package:hnotes/presentation/drawer/settings_page/select_date_widget.dart';
+import 'package:hnotes/presentation/drawer/settings_page/input_secret_widget.dart';
 
 
 // ignore: must_be_immutable
@@ -68,6 +69,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 new SelectDateWidget(),
                 buildAppThemeChoice(),
+                new InputApiSecretWidget(),
                 new AboutAppWidget(),
               ],
             ))
