@@ -12,7 +12,6 @@ import 'package:hnotes/presentation/count_day/count_day_ui.dart';
 import 'package:hnotes/application/count_day/count_day_bloc.dart';
 import 'package:hnotes/presentation/count_day/count_day_background.dart';
 import 'package:hnotes/presentation/drawer/settings_page/settings_page.dart';
-import 'package:hnotes/application/blockchain_info/blockchain_info_bloc.dart';
 import 'package:hnotes/infrastructure/local_storage/theme/theme_repository.dart';
 
 
@@ -41,7 +40,6 @@ class _MyAppState extends State<MyApp> {
     _updateThemeFromSharedPref();
     daysBloc.fetchLoveStartDate();
     _createFolderInAppDocDir("hnotes");
-    blockchainInfoBloc.fetchNetworkData();
   }
 
   @override

@@ -11,6 +11,4 @@ PackageInfo packageInfo = PackageInfo(
 
 var logger = Logger(printer: PrettyPrinter());
 
-String? networkNameGlobal = "";
-
 int globalDayCount = 0;
