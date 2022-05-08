@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 
 import 'package:hnotes/domain/common_data.dart';
 import 'package:hnotes/presentation/components/build_card_widget.dart';
-import 'package:hnotes/presentation/drawer/setting_page/app_repo_page.dart';
+import 'package:hnotes/presentation/drawer/settings_page/app_repo_page.dart';
+import 'package:hnotes/application/blockchain_info/blockchain_info_bloc.dart';
 
 
-class AboutApp extends StatelessWidget {
+class AboutAppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    blockchainInfoBloc.fetchNetworkData();
+
     final ButtonStyle style = ElevatedButton.styleFrom(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16)
@@ -90,12 +93,25 @@ class AboutApp extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Ethereum \n$networkNameGlobal",
-                        style: TextStyle(
-                            fontSize: 22
-                        ),
+                      child: new StreamBuilder(
+                        stream: blockchainInfoBloc.currentNetworkData,
+                        builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+                          String _networkName = "......";
+                          if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          }
+                          if (snapshot.hasData) {
+                            _networkName = snapshot.data!["text"].toString();
+                          }
+                          return Text(
+                            "Ethereum \n$_networkName",
+                            style: TextStyle(
+                                fontSize: 22
+                            ),
+                          );
+                        },
                       ),
+
                     ),
                   ],
                 ),
@@ -116,5 +132,4 @@ class AboutApp extends StatelessWidget {
         )
     );
   }
-
 }

@@ -16,7 +16,6 @@ class CountDayBloc {
     CountDayModel countDayModel = await _repository.getLoveStartDate();
 
     globalDayCount = countDayModel.dayCount;
-    globalLoveStartDate = countDayModel.loveStartDate;
 
     _dayModel.sink.add(countDayModel);
   }

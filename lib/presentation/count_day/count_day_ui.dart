@@ -10,9 +10,9 @@ import 'package:hnotes/presentation/count_day/count_day_background.dart';
 
 // ignore: must_be_immutable
 class CountDay extends StatefulWidget {
-  Function(Brightness brightness)? changeTheme;
+  Function(ThemeData themeData)? changeTheme;
   CountDay({
-    Key? key, required this.isSplash, Function(Brightness brightness)? changeTheme})
+    Key? key, required this.isSplash, Function(ThemeData themeData)? changeTheme})
     : super(key: key) {
     this.changeTheme = changeTheme;
   }

@@ -1,4 +1,3 @@
-
 class CountDayModel {
   final String loveStartDate;
   final int dayCount;
