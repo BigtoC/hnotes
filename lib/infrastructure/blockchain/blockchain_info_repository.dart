@@ -1,15 +1,10 @@
 import 'dart:async';
-import 'package:http/http.dart' as http;
 
 import 'package:hnotes/domain/blockchain/dto_collections.dart';
-import 'package:hnotes/infrastructure/blockchain/services/request_helper.dart';
+import 'package:hnotes/infrastructure/blockchain/base_blockchain_repository.dart';
 
 
-final requestHeaders = {'Content-type': 'application/json'};
-
-
-class BlockchainRepository {
-  final client = http.Client();
+class BlockchainInfoRepository extends BaseBlockchainRepository {
 
   /// Returns the number of the most recent block.
   Future<Map<String, dynamic>> getLatestBlockNumber() async {
@@ -54,9 +49,9 @@ class BlockchainRepository {
 
   /// For API responses that only contain a number (hex or decimal)
   Future<NumberResultDto> _parseNumberResultDto(String methodName) async {
-    final String requestBody = formRequestBody(methodName);
+    final String requestBody = formPostRequestBody(methodName);
 
-    return await makeRequest(requestBody)
+    return await makePostRequest(requestBody)
         .then((response) {
           NumberResultDto dto = NumberResultDto.fromResponse(response, methodName);
           return dto;
@@ -65,9 +60,9 @@ class BlockchainRepository {
 
   /// For API responses that only contain a text string
   Future<TextResultDto> _parseTextResult(String methodName) async {
-    final String requestBody = formRequestBody(methodName);
+    final String requestBody = formPostRequestBody(methodName);
 
-    return await makeRequest(requestBody)
+    return await makePostRequest(requestBody)
         .then((response) {
       TextResultDto dto = TextResultDto.fromResponse(response, methodName);
       return dto;

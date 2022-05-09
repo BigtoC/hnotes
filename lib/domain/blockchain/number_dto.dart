@@ -1,8 +1,8 @@
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'package:hnotes/domain/common_data.dart';
 import 'package:hnotes/domain/blockchain/base_dto.dart';
-import 'package:hnotes/infrastructure/blockchain/services/request_helper.dart';
 
 
 // For response results that only contain one number
@@ -13,7 +13,7 @@ class NumberResultDto extends BaseResultDto {
   NumberResultDto.fromResponse(http.Response response, String method) {
     int statusCode = response.statusCode;
     if (statusCode == 200) {
-      final String result = phraseResponseData(response.body, "result");
+      final String result = jsonDecode(response.body)["result"];
       if (result.contains("0x")) {
         this.hexNumber = result;
         final String number = int.tryParse(result).toString();

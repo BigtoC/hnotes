@@ -1,8 +1,8 @@
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'base_dto.dart';
 import 'package:hnotes/domain/common_data.dart';
-import 'package:hnotes/infrastructure/blockchain/services/request_helper.dart';
 
 
 // For response results that only contain a text string
@@ -12,7 +12,7 @@ class TextResultDto extends BaseResultDto {
   TextResultDto.fromResponse(http.Response response, String method) {
     int statusCode = response.statusCode;
     if (statusCode == 200) {
-      final String result = phraseResponseData(response.body, "result");
+      final String result = jsonDecode(response.body)["result"];
       this.text = result;
     } else {
       final String errorMsg = "Query $method failed ($statusCode): ${response.body}";
