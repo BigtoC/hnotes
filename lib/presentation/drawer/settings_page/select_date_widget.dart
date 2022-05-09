@@ -61,9 +61,13 @@ class SelectDateWidget extends StatelessWidget {
                             return Text('Error: ${snapshot.error}');
                           }
                           if (snapshot.hasData) {
-                            String storedStartDate = snapshot.data?.loveStartDate == null
-                                ? buttonPlaceholder
-                                : snapshot.data!.loveStartDate;
+                            late String storedStartDate;
+                            String? data = snapshot.data?.loveStartDate;
+                            if (data == null || data.isEmpty) {
+                              storedStartDate = buttonPlaceholder;
+                            } else {
+                              storedStartDate = data;
+                            }
                             return _selectDateText(storedStartDate);
                           }
                           return _selectDateText(buttonPlaceholder);

@@ -37,7 +37,7 @@ A Flutter notes app with blockchain storage.
 > Import and present ERC-721
 > Target finish before 2022-06-10
 
-- [ ] {3.0.1} Allow user import the API key, instead of read a secret file.
+- [x] {3.0.1} Allow user import the API key, instead of read a secret file.
 - [ ] {3.1} Import and show NFTs in the home page
 - [ ] {3.2} Search NFTs
 - [ ] {3.3} Delete an imported NFT from the home page
