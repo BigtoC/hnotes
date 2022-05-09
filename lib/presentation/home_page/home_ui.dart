@@ -8,6 +8,10 @@ import 'note_card.dart';
 import 'note_cards_list.dart';
 import 'package:hnotes/presentation/theme.dart';
 import 'package:hnotes/presentation/drawer/drawer_ui.dart';
+import 'package:hnotes/presentation/home_page/drawer_icon_widget.dart';
+import 'package:hnotes/presentation/home_page/flag_on_text_widget.dart';
+import 'package:hnotes/presentation/home_page/header_widget.dart';
+import 'package:hnotes/presentation/home_page/add_item_button_widget.dart';
 
 
 // ignore: must_be_immutable
@@ -30,7 +34,6 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isExtend = true;
   bool isFlagOn = false;
   bool isSearching = false;
-  bool headerShouldHide = false;
   ScrollController _scrollController = new ScrollController();
   TextEditingController searchController = TextEditingController();
 
@@ -61,91 +64,18 @@ class _MyHomePageState extends State<MyHomePage> {
               physics: BouncingScrollPhysics(),
               // controller: _scrollController,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () {
-                        _scaffoldKey.currentState!.openDrawer();
-                      },
-                      child: AnimatedContainer(
-                        duration: Duration(milliseconds: 200),
-                        padding: EdgeInsets.only(top: 16, bottom: 10, right: 20),
-                        alignment: Alignment.centerRight,
-                        child: Icon(
-                          Icons.menu,
-                          color: primaryColor,
-                          size: 31,  /// 彩蛋
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                buildHeaderWidget(context),
+                new DrawerIcon(scaffoldKey: _scaffoldKey),
+                new HomeHeaderWidget(),
                 buildButtonRow(),
                 Container(height: 32),
-                buildImportantIndicatorText(),
+                new ImportantIndicatorText(isFlagOn: isFlagOn),
                 ...cardList,
                 Container(height: 100)
               ],
             ),
           ),
         ),
-      floatingActionButton: isExtend
-        ? addNoteButtonExtend()
-        : addNoteButtonNormal(),
-    );
-  }
-
-  Widget addNoteButtonExtend() {
-    return FloatingActionButton.extended(
-      onPressed: _addNewNotes,
-      label: Text(
-        'Add note'.toUpperCase(),
-        style: TextStyle(color: Colors.white),
-      ),
-      icon: Icon(
-        Icons.create,
-        color: Colors.white,
-      ),
-      backgroundColor: btnColor,
-    );
-  }
-
-  Widget addNoteButtonNormal() {
-    return FloatingActionButton(
-      onPressed: _addNewNotes,
-      child: Icon(
-        Icons.create,
-        color: Colors.white,
-      ),
-      backgroundColor: btnColor,
-    );
-  }
-
-  Widget buildHeaderWidget(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        AnimatedContainer(
-          duration: Duration(milliseconds: 200),
-          curve: Curves.easeIn,
-          margin: EdgeInsets.only(
-            top: 8, bottom: 19, left: 20 /// 彩蛋
-          ),
-          width: headerShouldHide ? 0 : 200,
-          child: Text(
-            'Notes',
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 36,
-              color: primaryColor
-            ),
-            overflow: TextOverflow.clip,
-            softWrap: false,
-          ),
-        ),
-      ],
+      floatingActionButton: new AddItemButton(isExtend: isExtend),
     );
   }
 
@@ -271,30 +201,6 @@ class _MyHomePageState extends State<MyHomePage> {
   //     isSearching: isSearching,
   //   );
   // }
-
-  Widget buildImportantIndicatorText() {
-    return AnimatedCrossFade(
-      duration: Duration(milliseconds: 200),
-      firstChild: Center(
-        child: Text(
-          'Only showing notes marked important'.toUpperCase(),
-          style: TextStyle(
-            fontSize: 12, color: btnColor, fontWeight: FontWeight.w500
-          ),
-        ),
-      ),
-      secondChild: Container(height: 1,),
-      crossFadeState:
-      isFlagOn ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-    );
-  }
-
-  void _addNewNotes() {
-    throw Exception("Not implemented yet");
-    // Navigator.of(context).push(new CupertinoPageRoute(builder: (_) {
-    //   return new EditorPage(noteFile: null, key: null);
-    // }));
-  }
 
   openNoteToRead(File noteFile) async {
     throw Exception("Not implemented yet");
