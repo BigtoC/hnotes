@@ -1,9 +1,9 @@
 import 'package:rxdart/rxdart.dart';
 
-import 'package:hnotes/Infrastructure/blockchain/services/blockchain_repository.dart';
+import 'package:hnotes/Infrastructure/blockchain/blockchain_info_repository.dart';
 
 class BlockchainInfoBloc {
-  final BlockchainRepository _blockchainRepository = BlockchainRepository();
+  final BlockchainInfoRepository _blockchainInfoRepository = BlockchainInfoRepository();
 
   final _latestBlockNumberData = new PublishSubject<Map<String, dynamic>>();
   final _currentGasPriceData = new PublishSubject<Map<String, dynamic>>();
@@ -26,16 +26,16 @@ class BlockchainInfoBloc {
 
   fetchAllBlockchainInfo() async {
     Future.wait([
-      _sinkData(_latestBlockNumberData, _blockchainRepository.getLatestBlockNumber()),
-      _sinkData(_currentGasPriceData, _blockchainRepository.getCurrentGasPrice()),
-      _sinkData(_currentNetworkData, _blockchainRepository.getNetwork()),
-      _sinkData(_chainIdData, _blockchainRepository.getChainId()),
-      _sinkData(_nodeClientVersionData, _blockchainRepository.getNodeClientVersion())
+      _sinkData(_latestBlockNumberData, _blockchainInfoRepository.getLatestBlockNumber()),
+      _sinkData(_currentGasPriceData, _blockchainInfoRepository.getCurrentGasPrice()),
+      _sinkData(_currentNetworkData, _blockchainInfoRepository.getNetwork()),
+      _sinkData(_chainIdData, _blockchainInfoRepository.getChainId()),
+      _sinkData(_nodeClientVersionData, _blockchainInfoRepository.getNodeClientVersion())
     ]);
   }
 
   fetchNetworkData() async {
-    await _sinkData(_currentNetworkData, _blockchainRepository.getNetwork());
+    await _sinkData(_currentNetworkData, _blockchainInfoRepository.getNetwork());
   }
 
   Future<void> _sinkData(PublishSubject data, Future fetchFunction) async {
