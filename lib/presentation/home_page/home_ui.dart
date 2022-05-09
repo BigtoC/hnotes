@@ -6,11 +6,11 @@ import 'package:flutter/rendering.dart';
 
 import 'note_card.dart';
 import 'note_cards_list.dart';
-import 'package:hnotes/presentation/theme.dart';
 import 'package:hnotes/presentation/drawer/drawer_ui.dart';
-import 'package:hnotes/presentation/home_page/drawer_icon_widget.dart';
-import 'package:hnotes/presentation/home_page/flag_on_text_widget.dart';
 import 'package:hnotes/presentation/home_page/header_widget.dart';
+import 'package:hnotes/presentation/home_page/control_bar_widget.dart';
+import 'package:hnotes/presentation/home_page/drawer_icon_widget.dart';
+import 'package:hnotes/presentation/home_page/toggled_text_widget.dart';
 import 'package:hnotes/presentation/home_page/add_item_button_widget.dart';
 
 
@@ -66,7 +66,15 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 new DrawerIcon(scaffoldKey: _scaffoldKey),
                 new HomeHeaderWidget(),
-                buildButtonRow(),
+                new ControlBar(
+                    isFlagOn: isFlagOn,
+                    isSearching: isSearching,
+                    toggleFlagOnOff: toggleFlagOnOff,
+                    searchController: searchController,
+                    handleSubmitSearch: _handleSubmitSearch,
+                    handleCancelSearch: _handleCancelSearch,
+                    handleTypingInSearchFiled: _handleTypingInSearchFiled
+                ),
                 Container(height: 32),
                 new ImportantIndicatorText(isFlagOn: isFlagOn),
                 ...cardList,
@@ -79,86 +87,10 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget buildButtonRow() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
-      child: Row(
-        children: <Widget>[
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                isFlagOn = !isFlagOn;
-              });
-            },
-            child: AnimatedContainer(
-              duration: Duration(milliseconds: 160),
-              height: 50,
-              width: 50,
-              curve: Curves.slowMiddle,
-              child: Icon(
-                isFlagOn ? Icons.flag : Icons.outlined_flag,
-                color: isFlagOn ? Colors.white : Colors.grey.shade300,
-              ),
-              decoration: BoxDecoration(
-                color: isFlagOn ? btnColor : Colors.transparent,
-                border: Border.all(
-                  width: isFlagOn ? 2 : 1,
-                  color:
-                  isFlagOn ? btnColor : Colors.grey.shade300,
-                ),
-                borderRadius: BorderRadius.all(Radius.circular(16))),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(left: 8),
-              padding: EdgeInsets.only(left: 16),
-              height: 50,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey.shade300),
-                borderRadius: BorderRadius.all(Radius.circular(16))
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      controller: searchController,
-                      maxLines: 1,
-                      onChanged: (value) {
-                        _handleSearch(value);
-                      },
-                      autofocus: false,
-                      keyboardType: TextInputType.text,
-                      style:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                      textInputAction: TextInputAction.search,
-                      decoration: InputDecoration.collapsed(
-                        hintText: 'Search',
-                        hintStyle: TextStyle(
-                          color: Colors.grey.shade300,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      isSearching ? Icons.cancel : Icons.search,
-                      color: Colors.grey.shade300
-                    ),
-                    onPressed: cancelSearch,
-                  ),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    );
+  toggleFlagOnOff() {
+    setState(() {
+      isFlagOn = !isFlagOn;
+    });
   }
 
   // _buildNotesList() {
@@ -219,7 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // });
   }
 
-  void cancelSearch() {
+  void _handleCancelSearch() {
     FocusScope.of(context).requestFocus(new FocusNode());
     setState(() {
       searchController.clear();
@@ -227,7 +159,13 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _handleSearch(String value) {
+  void _handleSubmitSearch(String value) {
+    setState(() {
+      isSearching = false;
+    });
+  }
+
+  void _handleTypingInSearchFiled(String value) {
     if (value.isNotEmpty) {
       setState(() {
         isSearching = true;
