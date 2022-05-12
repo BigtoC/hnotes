@@ -12,6 +12,7 @@ import 'package:hnotes/presentation/count_day/count_day_ui.dart';
 import 'package:hnotes/application/count_day/count_day_bloc.dart';
 import 'package:hnotes/presentation/count_day/count_day_background.dart';
 import 'package:hnotes/presentation/drawer/settings_page/settings_page.dart';
+import 'package:hnotes/infrastructure/local_storage/files/folder_repository.dart';
 import 'package:hnotes/infrastructure/local_storage/theme/theme_repository.dart';
 
 
@@ -30,8 +31,9 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
-  ThemeData theme = appThemeLight;
   late bool dateIsSet;
+  ThemeData theme = appThemeLight;
+  FolderRepository _folderRepository = new FolderRepository();
 
   @override
   void initState() {
@@ -39,7 +41,7 @@ class _MyAppState extends State<MyApp> {
     _initPackageInfo();
     _updateThemeFromSharedPref();
     daysBloc.fetchLoveStartDate();
-    _createFolderInAppDocDir("hnotes");
+    _folderRepository.createFoldersWhenLunch();
   }
 
   @override
@@ -79,7 +81,7 @@ class _MyAppState extends State<MyApp> {
     setTheme(_theme.appTheme);
   }
 
-  static Future<String> _createFolderInAppDocDir(String folderName) async {
+  Future<String> createFolderInAppDocDir(String folderName) async {
 
     // Get this App Document Directory
     final Directory _appDocDir = await getApplicationDocumentsDirectory();
