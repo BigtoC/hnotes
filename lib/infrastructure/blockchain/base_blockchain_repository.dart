@@ -8,7 +8,7 @@ import 'package:hnotes/infrastructure/local_storage/secrets/secrets_repository.d
 
 
 class BaseBlockchainRepository {
-  final client = http.Client();
+  final _client = http.Client();
 
   final _requestHeaders = {'Content-type': 'application/json'};
   final SecretRepository _secretRepository = new SecretRepository();
@@ -31,7 +31,7 @@ class BaseBlockchainRepository {
 
   Future<Response> makePostRequest(String requestBody) async {
     SecretModel secret = await _readSecrets();
-    return await client.post(
+    return await _client.post(
       Uri.parse(secret.urlWithKey),
       headers: _requestHeaders,
       body: requestBody,
@@ -43,7 +43,7 @@ class BaseBlockchainRepository {
     parameters ??= "";
     String baseUrl = "${_secret.urlWithKey}/$method";
 
-    return await client.get(
+    return await _client.get(
       Uri.parse("$baseUrl?$parameters"),
       headers: {}
     );
