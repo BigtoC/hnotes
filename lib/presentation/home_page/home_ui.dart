@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
               // controller: _scrollController,
               children: <Widget>[
                 new DrawerIcon(scaffoldKey: _scaffoldKey),
-                new HomeHeaderWidget(),
+                HomeHeaderWidget(),
                 new ControlBar(
                     isFlagOn: isFlagOn,
                     isSearching: isSearching,

@@ -24,7 +24,7 @@ class HomeHeaderWidget extends StatelessWidget {
           ),
           width: 200,
           child: Text(
-            "ERC-721",
+            "ERC-721 Token",
             style: _textStyle,
             overflow: TextOverflow.clip,
             softWrap: false,
