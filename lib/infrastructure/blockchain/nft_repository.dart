@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:http/http.dart';
 
 import 'package:hnotes/domain/blockchain/dtos/nft_metadata_dto.dart';
@@ -8,7 +9,7 @@ import 'package:hnotes/infrastructure/blockchain/base_blockchain_repository.dart
 
 class NftRepository extends BaseBlockchainRepository {
   FolderRepository _folderRepository = new FolderRepository();
-  
+
   Future<NftMetaDataDto> getNFTMetadata(
       String contractAddress, int tokenId, String tokenType) async {
     final String methodName = "getNFTMetadata";
@@ -23,7 +24,8 @@ class NftRepository extends BaseBlockchainRepository {
   Future<String> downloadImage(String url, String fileName) async {
     // Reference: https://stackoverflow.com/questions/52299112/flutter-download-an-image-from-url
     Response response = await get(Uri.parse(url));
-    String savedFileName = await _folderRepository.saveBytesFile(response.bodyBytes, fileName);
+    Uint8List content = response.bodyBytes;
+    String savedFileName = await _folderRepository.saveBytesFile(content, "$fileName.png");
     return savedFileName;
   }
 }

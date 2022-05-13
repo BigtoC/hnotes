@@ -13,6 +13,3 @@ PackageInfo packageInfo = PackageInfo(
 var logger = Logger(printer: PrettyPrinter());
 
 int globalDayCount = 0;
-
-final String imagesFolderName = "images";
-final String importedDataFolderName = "data";
