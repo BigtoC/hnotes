@@ -54,9 +54,7 @@ class AddItemDialogWidget extends StatelessWidget {
 
   void _handleImport() async {
     final String contractAddress = _contractAddressController.text;
-    print(contractAddress);
     final int tokenId = int.parse(_tokenIdController.text);
-    print(tokenId);
 
     await nftInfoBloc.fetchBlockchainNftData(contractAddress, tokenId, TokenType.ERC721.name);
   }

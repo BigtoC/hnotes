@@ -9,8 +9,7 @@ class NftMetaDataDto {
   final String timeLastUpdated;
   final String? error;
 
-  NftMetaDataDto(
-      this.contract, this.id, this.title, this.description, this.tokenUri, this.media,
+  NftMetaDataDto(this.contract, this.id, this.title, this.description, this.tokenUri, this.media,
       this.metaData, this.timeLastUpdated, this.error);
 
   factory NftMetaDataDto.fromJson(Map<String, dynamic> json) {
@@ -33,9 +32,8 @@ class NftMetaDataDto {
 
     String? _error = json["error"];
 
-    return NftMetaDataDto(
-        _contract, _id, _title, _description, _tokenUri, _media, _metaDataMap, _timeLastUpdated, _error
-    );
+    return NftMetaDataDto(_contract, _id, _title, _description, _tokenUri, _media, _metaDataMap,
+        _timeLastUpdated, _error);
   }
 }
 

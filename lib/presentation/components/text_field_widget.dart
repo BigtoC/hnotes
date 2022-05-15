@@ -34,7 +34,6 @@ class TextFieldWidget extends StatelessWidget {
           ),
           keyboardType: keyboardType,
           inputFormatters: formatters,
-        )
-    );
+        ));
   }
 }
