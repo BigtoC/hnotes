@@ -59,13 +59,15 @@ class FolderRepository {
 
     // App Document Directory + folder name
     final Directory appDocDirFolder = Directory('${appDocDir.path}/$folderName/');
+    print(appDocDirFolder.path);
 
     return appDocDirFolder;
   }
 
   Future<File> _createFile(String fileName, String folderNameParam) async {
     final Directory requiredFolder = await folderUnderAppDir(folderNameParam);
-    String newFilePathAndName = "${requiredFolder.path}/$fileName";
+    // requiredFolder.path ends with a "/", so we don't need "/" between path and file name
+    String newFilePathAndName = "${requiredFolder.path}$fileName";
     File newFile = new File(newFilePathAndName);
     return newFile;
   }

@@ -4,7 +4,7 @@ class NftMetaDataDto {
   final String title;
   final String description;
   final _TokenUri tokenUri;
-  final List<Map<String, dynamic>> media;
+  final List<dynamic> media;
   final Map<String, dynamic> metaData;
   final String timeLastUpdated;
   final String? error;
@@ -25,7 +25,7 @@ class NftMetaDataDto {
     Map tokenUriMap = json["tokenUri"];
     _TokenUri _tokenUri = _TokenUri.fromAttribute(tokenUriMap["raw"], tokenUriMap["gateway"]);
 
-    List<Map<String, dynamic>> _media = json["media"];
+    List<dynamic> _media = json["media"];
 
     Map<String, dynamic> _metaDataMap = json["metadata"];
 

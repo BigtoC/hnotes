@@ -52,3 +52,5 @@ class NftInfoBloc {
     _localNftDataList.close();
   }
 }
+
+final nftInfoBloc = new NftInfoBloc();
