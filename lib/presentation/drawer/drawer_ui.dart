@@ -10,7 +10,6 @@ import 'package:hnotes/presentation/components/components_collections.dart';
 import 'package:hnotes/presentation/drawer/settings_page/settings_page.dart';
 import 'package:hnotes/presentation/drawer/blockchain_info/blockchain_info_ui.dart';
 
-
 Widget drawer(BuildContext context, Function(ThemeData themeData)? changeTheme) {
   daysBloc.fetchLoveStartDate();
   return new Drawer(
@@ -34,36 +33,30 @@ final itemFontWeight = FontWeight.w400;
 
 Widget header(BuildContext context) {
   return DrawerHeader(
-    decoration: BoxDecoration(
-      image: DecorationImage(
-        image: AssetImage("assets/Images/heart-bg.png"),
-        fit: BoxFit.fitWidth,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/Images/heart-bg.png"),
+          fit: BoxFit.fitWidth,
+        ),
       ),
-    ),
-    child: StreamBuilder(
-        stream: daysBloc.dayModel,
-        builder: (context, AsyncSnapshot<CountDayModel> snapshot) {
-          if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          }
-          if (snapshot.hasData) {
-            int? daySince = snapshot.data?.dayCount;
-            return _dayCountNumber(context, daySince.toString());
-          }
-          return Center(
-              child: _dayCountNumber(context, globalDayCount.toString())
-          );
-        }
-    )
-  );
+      child: StreamBuilder(
+          stream: daysBloc.dayModel,
+          builder: (context, AsyncSnapshot<CountDayModel> snapshot) {
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            }
+            if (snapshot.hasData) {
+              int? daySince = snapshot.data?.dayCount;
+              return _dayCountNumber(context, daySince.toString());
+            }
+            return Center(child: _dayCountNumber(context, globalDayCount.toString()));
+          }));
 }
 
 Widget _dayCountNumber(BuildContext context, String number) {
   return GestureDetector(
       onTap: () {
-        Route route = MaterialPageRoute(
-            builder: (context) => CountDay(isSplash: false)
-        );
+        Route route = MaterialPageRoute(builder: (context) => CountDay(isSplash: false));
         Navigator.push(context, route);
       },
       child: Center(
@@ -75,8 +68,7 @@ Widget _dayCountNumber(BuildContext context, String number) {
             color: Colors.white,
           ),
         ),
-      )
-  );
+      ));
 }
 
 Widget dayCountColumn(BuildContext context) {
@@ -93,9 +85,7 @@ Widget dayCountColumn(BuildContext context) {
       ),
     ),
     onTap: () {
-      Route route = MaterialPageRoute(
-        builder: (context) => CountDay(isSplash: false)
-      );
+      Route route = MaterialPageRoute(builder: (context) => CountDay(isSplash: false));
       Navigator.push(context, route);
     },
   );
@@ -149,7 +139,7 @@ Widget version() {
       alignment: Alignment.bottomLeft,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text('\n  ${packageInfo.version}  \n'),
+        child: Text('\n  ${packageInfo.version}+${packageInfo.buildNumber}  \n'),
       ),
     ),
   );

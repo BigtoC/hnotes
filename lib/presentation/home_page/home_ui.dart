@@ -7,20 +7,18 @@ import 'package:flutter/rendering.dart';
 import 'note_card.dart';
 import 'note_cards_list.dart';
 import 'package:hnotes/presentation/drawer/drawer_ui.dart';
-import 'package:hnotes/presentation/home_page/header_widget.dart';
-import 'package:hnotes/presentation/home_page/control_bar_widget.dart';
-import 'package:hnotes/presentation/home_page/drawer_icon_widget.dart';
-import 'package:hnotes/presentation/home_page/toggled_text_widget.dart';
-import 'package:hnotes/presentation/home_page/add_item_button_widget.dart';
-
+import 'package:hnotes/presentation/home_page/header/header_widget.dart';
+import 'package:hnotes/presentation/home_page/header/drawer_icon_widget.dart';
+import 'package:hnotes/presentation/home_page/control_bar/control_bar_widget.dart';
+import 'package:hnotes/presentation/home_page/control_bar/toggled_text_widget.dart';
+import 'package:hnotes/presentation/home_page/add_items/add_item_button_widget.dart';
 
 // ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
   MyHomePage({
     Key? key,
     Function(ThemeData themeData)? changeTheme,
-  })
-    : super(key: key) {
+  }) : super(key: key) {
     this.changeTheme = changeTheme;
   }
 
@@ -59,30 +57,29 @@ class _MyHomePageState extends State<MyHomePage> {
           FocusScope.of(context).requestFocus(new FocusNode());
         },
         child: AnimatedContainer(
-            duration: Duration(milliseconds: 200),
-            child: ListView(
-              physics: BouncingScrollPhysics(),
-              // controller: _scrollController,
-              children: <Widget>[
-                new DrawerIcon(scaffoldKey: _scaffoldKey),
-                HomeHeaderWidget(),
-                new ControlBar(
-                    isFlagOn: isFlagOn,
-                    isSearching: isSearching,
-                    toggleFlagOnOff: toggleFlagOnOff,
-                    searchController: searchController,
-                    handleSubmitSearch: _handleSubmitSearch,
-                    handleCancelSearch: _handleCancelSearch,
-                    handleTypingInSearchFiled: _handleTypingInSearchFiled
-                ),
-                Container(height: 32),
-                new ImportantIndicatorText(isFlagOn: isFlagOn),
-                ...cardList,
-                Container(height: 100)
-              ],
-            ),
+          duration: Duration(milliseconds: 200),
+          child: ListView(
+            physics: BouncingScrollPhysics(),
+            // controller: _scrollController,
+            children: <Widget>[
+              new DrawerIcon(scaffoldKey: _scaffoldKey),
+              HomeHeaderWidget(),
+              new ControlBar(
+                  isFlagOn: isFlagOn,
+                  isSearching: isSearching,
+                  toggleFlagOnOff: toggleFlagOnOff,
+                  searchController: searchController,
+                  handleSubmitSearch: _handleSubmitSearch,
+                  handleCancelSearch: _handleCancelSearch,
+                  handleTypingInSearchFiled: _handleTypingInSearchFiled),
+              Container(height: 32),
+              new ImportantIndicatorText(isFlagOn: isFlagOn),
+              ...cardList,
+              Container(height: 100)
+            ],
           ),
         ),
+      ),
       floatingActionButton: new AddItemButton(isExtend: isExtend),
     );
   }
@@ -187,14 +184,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _handleScroll() {
     _scrollController.addListener(() {
-      if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.reverse) {
+      if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
         setState(() {
           isExtend = false;
         });
       }
-      if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.forward) {
+      if (_scrollController.position.userScrollDirection == ScrollDirection.forward) {
         setState(() {
           isExtend = true;
         });

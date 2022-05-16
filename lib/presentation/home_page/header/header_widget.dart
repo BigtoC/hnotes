@@ -2,14 +2,9 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:hnotes/presentation/theme.dart';
 
-
 // ignore: must_be_immutable
 class HomeHeaderWidget extends StatelessWidget {
-  TextStyle _textStyle = TextStyle(
-      fontWeight: FontWeight.w700,
-      fontSize: 32,
-      color: primaryColor
-  );
+  TextStyle _textStyle = TextStyle(fontWeight: FontWeight.w700, fontSize: 32, color: primaryColor);
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +14,10 @@ class HomeHeaderWidget extends StatelessWidget {
         AnimatedContainer(
           duration: Duration(milliseconds: 200),
           curve: Curves.easeIn,
-          margin: EdgeInsets.only(
-              top: 8, bottom: 19, left: 20 /// 彩蛋
-          ),
-          width: 200,
+          margin: EdgeInsets.only(top: 8, bottom: 19, left: 20),
+          width: 300,
           child: Text(
-            "ERC-721 Token",
+            "ERC-721 Tokens",
             style: _textStyle,
             overflow: TextOverflow.clip,
             softWrap: false,

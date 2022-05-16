@@ -5,11 +5,11 @@ import 'package:rxdart/rxdart.dart';
 import 'package:hnotes/domain/blockchain/models/nft_info_model.dart';
 import 'package:hnotes/domain/blockchain/dtos/nft_metadata_dto.dart';
 import 'package:hnotes/infrastructure/blockchain/nft_repository.dart';
-import 'package:hnotes/infrastructure/local_storage/files/folder_repository.dart';
+import 'package:hnotes/infrastructure/local_storage/files/nft_file_repository.dart';
 
 class NftInfoBloc {
   final NftRepository _nftRepository = new NftRepository();
-  final FolderRepository _folderRepository = new FolderRepository();
+  NftFileRepository _nftFileRepository = new NftFileRepository();
 
   final _blockchainNftData = new PublishSubject<NftInfoModel>();
   final _localNftDataList = new PublishSubject<List<NftInfoModel>>();
@@ -33,12 +33,12 @@ class NftInfoBloc {
     String nftModelJson = json.encode(nftInfoModel.toJson());
     String nftJsonFileName = nftImageName;
 
-    _folderRepository.saveStringFile(nftModelJson, "$nftJsonFileName.json");
+    _nftFileRepository.saveStringFile(nftModelJson, "$nftJsonFileName.json");
   }
 
   fetchLocalNftData() async {
-    String nftDataFolderName = _folderRepository.importedDataFolderName;
-    List<File> nftDataFiles = await _folderRepository.loadAllFilesInFolder(nftDataFolderName);
+    String nftDataFolderName = _nftFileRepository.importedDataFolderName;
+    List<File> nftDataFiles = await _nftFileRepository.loadAllFilesInFolder(nftDataFolderName);
     List<NftInfoModel> nftInfoModels = [];
     nftDataFiles.forEach((file) {
       nftInfoModels.add(NftInfoModel.fromJson(json.decode(file.readAsStringSync())));

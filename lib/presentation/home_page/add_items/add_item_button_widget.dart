@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:hnotes/presentation/theme.dart';
-import 'package:hnotes/presentation/home_page/add_item_dialog_widget.dart';
+import 'package:hnotes/presentation/home_page/add_items/add_item_dialog_widget.dart';
 
 class AddItemButton extends StatelessWidget {
   final bool isExtend;

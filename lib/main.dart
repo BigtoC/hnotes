@@ -12,8 +12,8 @@ import 'package:hnotes/presentation/count_day/count_day_ui.dart';
 import 'package:hnotes/application/count_day/count_day_bloc.dart';
 import 'package:hnotes/presentation/count_day/count_day_background.dart';
 import 'package:hnotes/presentation/drawer/settings_page/settings_page.dart';
-import 'package:hnotes/infrastructure/local_storage/files/folder_repository.dart';
 import 'package:hnotes/infrastructure/local_storage/theme/theme_repository.dart';
+import 'package:hnotes/infrastructure/local_storage/files/nft_file_repository.dart';
 
 
 void main() {
@@ -33,7 +33,7 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   late bool dateIsSet;
   ThemeData theme = appThemeLight;
-  FolderRepository _folderRepository = new FolderRepository();
+  NftFileRepository _nftFileRepository = new NftFileRepository();
 
   @override
   void initState() {
@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> {
     _initPackageInfo();
     _updateThemeFromSharedPref();
     daysBloc.fetchLoveStartDate();
-    _folderRepository.createFoldersWhenLunch();
+    _nftFileRepository.createNftFolders();
   }
 
   @override

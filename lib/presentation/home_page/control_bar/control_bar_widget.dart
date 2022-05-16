@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:hnotes/presentation/home_page/control_bar_flag_widget.dart';
-import 'package:hnotes/presentation/home_page/control_bar_search_widget.dart';
-
+import 'package:hnotes/presentation/home_page/control_bar/control_bar_flag_widget.dart';
+import 'package:hnotes/presentation/home_page/control_bar/control_bar_search_widget.dart';
 
 // ignore: must_be_immutable
 class ControlBar extends StatefulWidget {
@@ -14,15 +13,14 @@ class ControlBar extends StatefulWidget {
   late Function(String value) handleSubmitSearch;
   late Function(String value) handleTypingInSearchFiled;
 
-  ControlBar({
-    required bool isFlagOn,
-    required Function() toggleFlagOnOff,
-    required bool isSearching,
-    required TextEditingController searchController,
-    required Function() handleCancelSearch,
-    required Function(String value) handleSubmitSearch,
-    required Function(String value) handleTypingInSearchFiled
-  }) {
+  ControlBar(
+      {required bool isFlagOn,
+      required Function() toggleFlagOnOff,
+      required bool isSearching,
+      required TextEditingController searchController,
+      required Function() handleCancelSearch,
+      required Function(String value) handleSubmitSearch,
+      required Function(String value) handleTypingInSearchFiled}) {
     this.isFlagOn = isFlagOn;
     this.toggleFlagOnOff = toggleFlagOnOff;
     this.isSearching = isSearching;
@@ -36,9 +34,7 @@ class ControlBar extends StatefulWidget {
   State<StatefulWidget> createState() => _ControlBar();
 }
 
-
 class _ControlBar extends State<ControlBar> {
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -46,7 +42,12 @@ class _ControlBar extends State<ControlBar> {
       child: Row(
         children: [
           FlagToggleWidget(isFlagOn: widget.isFlagOn, toggleFlagOnOff: widget.toggleFlagOnOff),
-          SearchBarWidget(isSearching: widget.isSearching, searchController: widget.searchController, handleCancelSearch: widget.handleCancelSearch, handleSubmitSearch: widget.handleSubmitSearch, handleTypingInSearchFiled: widget.handleTypingInSearchFiled)
+          SearchBarWidget(
+              isSearching: widget.isSearching,
+              searchController: widget.searchController,
+              handleCancelSearch: widget.handleCancelSearch,
+              handleSubmitSearch: widget.handleSubmitSearch,
+              handleTypingInSearchFiled: widget.handleTypingInSearchFiled)
         ],
       ),
     );

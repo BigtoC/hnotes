@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:hnotes/presentation/theme.dart';
 
-
 class DrawerIcon extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
 
@@ -25,12 +24,11 @@ class DrawerIcon extends StatelessWidget {
             child: Icon(
               Icons.menu,
               color: primaryColor,
-              size: 31,  /// 彩蛋
+              size: 31,
             ),
           ),
         ),
       ],
     );
   }
-
 }

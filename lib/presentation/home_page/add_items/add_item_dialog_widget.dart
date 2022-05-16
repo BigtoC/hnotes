@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:hnotes/presentation/components/text_field_widget.dart';
 import 'package:hnotes/domain/blockchain/models/token_type_model.dart';
 import 'package:hnotes/application/blockchain_info/nft_info_bloc.dart';
-import 'package:hnotes/presentation/home_page/dialog_actions_widget.dart';
+import 'package:hnotes/presentation/home_page/add_items/dialog_actions_widget.dart';
 
 // ignore: must_be_immutable
 class AddItemDialogWidget extends StatelessWidget {
