@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'note_card.dart';
 import 'note_cards_list.dart';
 import 'package:hnotes/presentation/drawer/drawer_ui.dart';
+import 'package:hnotes/presentation/home_page/items/item_list.dart';
 import 'package:hnotes/presentation/home_page/header/header_widget.dart';
 import 'package:hnotes/presentation/home_page/header/drawer_icon_widget.dart';
 import 'package:hnotes/presentation/home_page/control_bar/control_bar_widget.dart';
@@ -38,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   List<HashMap<String, dynamic>> noteContentsList = [];
-  List<Widget> cardList = [];
+  List<Widget> itemList = [];
 
   @override
   void initState() {
@@ -74,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   handleTypingInSearchFiled: _handleTypingInSearchFiled),
               Container(height: 32),
               new ImportantIndicatorText(isFlagOn: isFlagOn),
-              ...cardList,
+              ItemList(),
               Container(height: 100)
             ],
           ),
@@ -87,6 +88,12 @@ class _MyHomePageState extends State<MyHomePage> {
   toggleFlagOnOff() {
     setState(() {
       isFlagOn = !isFlagOn;
+    });
+  }
+
+  addItemToList(Widget widget) {
+    setState(() {
+      itemList.add(widget);
     });
   }
 

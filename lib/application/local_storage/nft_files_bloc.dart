@@ -12,15 +12,17 @@ class NftFilesBloc {
 
   Stream<List<NftInfoModel>> get localNftDataList => _localNftDataList;
 
-  fetchLocalNftData() async {
+  Future<List<NftInfoModel>> fetchLocalNftData() async {
     String nftDataFolderName = _nftFileRepository.importedDataFolderName;
     List<File> nftDataFiles = await _nftFileRepository.loadAllFilesInFolder(nftDataFolderName);
     List<NftInfoModel> nftInfoModels = [];
     nftDataFiles.forEach((file) {
-      nftInfoModels.add(NftInfoModel.fromJson(json.decode(file.readAsStringSync())));
+      NftInfoModel model = NftInfoModel.fromJson(json.decode(file.readAsStringSync()));
+      nftInfoModels.add(model);
     });
 
     _localNftDataList.sink.add(nftInfoModels);
+    return nftInfoModels;
   }
 
   void dispose() {
