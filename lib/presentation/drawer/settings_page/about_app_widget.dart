@@ -5,16 +5,13 @@ import 'package:hnotes/presentation/components/build_card_widget.dart';
 import 'package:hnotes/presentation/drawer/settings_page/app_repo_page.dart';
 import 'package:hnotes/application/blockchain_info/blockchain_info_bloc.dart';
 
-
 class AboutAppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     blockchainInfoBloc.fetchNetworkData();
 
     final ButtonStyle style = ElevatedButton.styleFrom(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16)
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
     );
 
     void openGitHub() {
@@ -38,14 +35,11 @@ class AboutAppWidget extends StatelessWidget {
               alignment: Alignment.center,
               child: OutlinedButton.icon(
                 icon: Icon(Icons.code),
-                label: Text(
-                    'GITHUB',
+                label: Text('GITHUB',
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         letterSpacing: 1,
-                        color: Colors.grey.shade500
-                    )
-                ),
+                        color: Colors.grey.shade500)),
                 style: style,
                 onPressed: openGitHub,
               ),
@@ -68,9 +62,7 @@ class AboutAppWidget extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         'Flutter',
-                        style: TextStyle(
-                            fontSize: 24
-                        ),
+                        style: TextStyle(fontSize: 24),
                       ),
                     )
                   ],
@@ -105,13 +97,10 @@ class AboutAppWidget extends StatelessWidget {
                           }
                           return Text(
                             "Ethereum \n$_networkName",
-                            style: TextStyle(
-                                fontSize: 22
-                            ),
+                            style: TextStyle(fontSize: 22),
                           );
                         },
                       ),
-
                     ),
                   ],
                 ),
@@ -126,10 +115,9 @@ class AboutAppWidget extends StatelessWidget {
             ),
             cardContentGap(),
             cardContentTitle('Version'),
-            cardContent(context, packageInfo.version),
+            cardContent(context, "${packageInfo.version}+${packageInfo.buildNumber}"),
             cardContentGap(),
           ],
-        )
-    );
+        ));
   }
 }

@@ -1,6 +1,7 @@
 import 'package:logger/logger.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+
 PackageInfo packageInfo = PackageInfo(
   appName: 'Unknown',
   packageName: 'Unknown',

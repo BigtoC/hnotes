@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:hnotes/presentation/theme.dart';
 
-
 // ignore: must_be_immutable
 class ImportantIndicatorText extends StatelessWidget {
   final bool isFlagOn;
@@ -16,15 +15,13 @@ class ImportantIndicatorText extends StatelessWidget {
       firstChild: Center(
         child: Text(
           'Only showing notes marked important'.toUpperCase(),
-          style: TextStyle(
-              fontSize: 12, color: btnColor, fontWeight: FontWeight.w500
-          ),
+          style: TextStyle(fontSize: 12, color: btnColor, fontWeight: FontWeight.w500),
         ),
       ),
-      secondChild: Container(height: 1,),
-      crossFadeState:
-      isFlagOn ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+      secondChild: Container(
+        height: 1,
+      ),
+      crossFadeState: isFlagOn ? CrossFadeState.showFirst : CrossFadeState.showSecond,
     );
   }
-
 }

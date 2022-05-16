@@ -1,6 +1,7 @@
 import 'package:rxdart/rxdart.dart';
 
-import 'package:hnotes/Infrastructure/blockchain/blockchain_info_repository.dart';
+import 'package:hnotes/infrastructure/blockchain/blockchain_info_repository.dart';
+
 
 class BlockchainInfoBloc {
   final BlockchainInfoRepository _blockchainInfoRepository = BlockchainInfoRepository();
