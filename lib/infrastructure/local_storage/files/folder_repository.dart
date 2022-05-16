@@ -12,6 +12,12 @@ class FolderRepository {
     return true;
   }
 
+  Future<bool> deleteNft(String fileName) async {
+    await deleteFile(importedDataFolderName, fileName);
+    await deleteFile(imagesFolderName, fileName);
+    return true;
+  }
+
   Future<String> createFolderInAppDocDir(String folderNameParam) async {
     // App Document Directory + folder name
     final Directory appDocDirFolder = await folderUnderAppDir(folderNameParam);
@@ -53,21 +59,32 @@ class FolderRepository {
     return newFile.path;
   }
 
+  Future<bool> deleteFile(String folderName, String fileName) async {
+    String filePath = await _formFileName(fileName, folderName);
+    File file = File(filePath);
+    file.deleteSync();
+    return true;
+  }
+
   Future<Directory> folderUnderAppDir(String folderName) async {
     // Get this App Document Directory
     final Directory appDocDir = await getApplicationDocumentsDirectory();
 
     // App Document Directory + folder name
     final Directory appDocDirFolder = Directory('${appDocDir.path}/$folderName/');
-    print(appDocDirFolder.path);
 
     return appDocDirFolder;
   }
 
-  Future<File> _createFile(String fileName, String folderNameParam) async {
+  Future<String> _formFileName(String fileName, String folderNameParam) async {
     final Directory requiredFolder = await folderUnderAppDir(folderNameParam);
     // requiredFolder.path ends with a "/", so we don't need "/" between path and file name
-    String newFilePathAndName = "${requiredFolder.path}$fileName";
+    String filePathAndName = "${requiredFolder.path}$fileName";
+    return filePathAndName;
+  }
+
+  Future<File> _createFile(String fileName, String folderNameParam) async {
+    String newFilePathAndName = await _formFileName(fileName, folderNameParam);
     File newFile = new File(newFilePathAndName);
     return newFile;
   }
