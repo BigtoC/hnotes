@@ -17,7 +17,7 @@ class FolderRepository {
   Future<List<File>> loadAllFilesInFolder(String folderNameParam) async {
     final Directory appDocDirFolder = await folderUnderAppDir(folderNameParam);
     List<File> allFiles = [];
-    appDocDirFolder.list().forEach((element) {
+    appDocDirFolder.listSync().forEach((element) {
       File file = File(element.path);
       allFiles.add(file);
     });

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:convert';
 import 'package:rxdart/rxdart.dart';
 
@@ -12,11 +11,8 @@ class NftInfoBloc {
   NftFileRepository _nftFileRepository = new NftFileRepository();
 
   final _blockchainNftData = new PublishSubject<NftInfoModel>();
-  final _localNftDataList = new PublishSubject<List<NftInfoModel>>();
 
   Stream<NftInfoModel> get blockchainNftData => _blockchainNftData;
-
-  Stream<List<NftInfoModel>> get localNftDataList => _localNftDataList;
 
   fetchBlockchainNftData(String contractAddress, int tokenId, String tokenType) async {
     NftMetaDataDto nftMetaDataDto =
@@ -36,20 +32,8 @@ class NftInfoBloc {
     _nftFileRepository.saveStringFile(nftModelJson, "$nftJsonFileName.json");
   }
 
-  fetchLocalNftData() async {
-    String nftDataFolderName = _nftFileRepository.importedDataFolderName;
-    List<File> nftDataFiles = await _nftFileRepository.loadAllFilesInFolder(nftDataFolderName);
-    List<NftInfoModel> nftInfoModels = [];
-    nftDataFiles.forEach((file) {
-      nftInfoModels.add(NftInfoModel.fromJson(json.decode(file.readAsStringSync())));
-    });
-
-    _localNftDataList.sink.add(nftInfoModels);
-  }
-
   void dispose() {
     _blockchainNftData.close();
-    _localNftDataList.close();
   }
 }
 

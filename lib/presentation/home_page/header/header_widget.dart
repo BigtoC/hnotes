@@ -15,7 +15,7 @@ class HomeHeaderWidget extends StatelessWidget {
           duration: Duration(milliseconds: 200),
           curve: Curves.easeIn,
           margin: EdgeInsets.only(top: 8, bottom: 19, left: 20),
-          width: 300,
+          width: MediaQuery.of(context).size.width * 0.88,
           child: Text(
             "ERC-721 Tokens",
             style: _textStyle,

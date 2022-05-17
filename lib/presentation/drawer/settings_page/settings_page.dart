@@ -9,7 +9,6 @@ import 'package:hnotes/infrastructure/local_storage/theme/theme_repository.dart'
 import 'package:hnotes/presentation/drawer/settings_page/select_date_widget.dart';
 import 'package:hnotes/presentation/drawer/settings_page/input_secret_widget.dart';
 
-
 // ignore: must_be_immutable
 class SettingsPage extends StatefulWidget {
   Function(ThemeData themeData)? changeTheme;
@@ -38,11 +37,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     setState(() {
-      if (Theme.of(context).brightness == Brightness.dark) {
-        selectedTheme = 'dark';
-      } else {
-        selectedTheme = 'light';
-      }
+      selectedTheme = Theme.of(context).brightness == Brightness.dark ? "dark" : "light";
     });
 
     return Scaffold(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:hnotes/presentation/theme.dart';
 import 'package:hnotes/domain/common_data.dart';
-
+import 'package:hnotes/presentation/components/loading_circle.dart';
 
 Widget buildCardWidget(BuildContext context, Widget child) {
   return Container(
@@ -115,11 +115,7 @@ Widget blockInfoStreamBuilder(
           return cardContent(context, 'Query data failed...');
         case ConnectionState.waiting:
           return Center(
-            child: CircularProgressIndicator(
-              backgroundColor: Theme.of(context).brightness == Brightness.dark
-                ? btnColor
-                : primaryColor,
-            )
+            child: LoadingCircle(),
           );
         case ConnectionState.active:
           String data = snapshot.data![valueKey].toString();
