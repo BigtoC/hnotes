@@ -41,10 +41,10 @@ class _SettingsPageState extends State<SettingsPage> {
       selectedTheme = Theme.of(context).brightness == Brightness.dark ? "dark" : "light";
     });
 
-    return new PageFramework(title: "Settings", widgets: _widgets(), handleBack: _handleBack);
+    return new PageFramework(title: "Settings", widgets: widgets(), handleBack: handleBack);
   }
 
-  Widget _widgets() {
+  Widget widgets() {
     return Column(
       children: [
         new SelectDateWidget(),
@@ -55,7 +55,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  void _handleBack() {
+  void handleBack() {
     if (widget.onlySetDate == true) {
       Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
         return new CountDay(

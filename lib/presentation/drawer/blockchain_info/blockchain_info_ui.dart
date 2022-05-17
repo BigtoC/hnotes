@@ -20,11 +20,10 @@ class _BlockchainInfoPageState extends State<BlockchainInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new PageFramework(
-        title: "Blockchain Info", widgets: _widgets(), handleBack: _handleBack);
+    return new PageFramework(title: "Blockchain Info", widgets: widgets(), handleBack: handleBack);
   }
 
-  Widget _widgets() {
+  Widget widgets() {
     return new Column(
       children: [
         buildNetworkStatus(),
@@ -34,7 +33,7 @@ class _BlockchainInfoPageState extends State<BlockchainInfoPage> {
     );
   }
 
-  void _handleBack() {
+  void handleBack() {
     Navigator.pop(context);
   }
 
