@@ -4,15 +4,13 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import 'note_card.dart';
-import 'note_cards_list.dart';
 import 'package:hnotes/presentation/drawer/drawer_ui.dart';
-import 'package:hnotes/presentation/home_page/items/item_list.dart';
 import 'package:hnotes/presentation/home_page/header/header_widget.dart';
 import 'package:hnotes/presentation/home_page/header/drawer_icon_widget.dart';
 import 'package:hnotes/presentation/home_page/control_bar/control_bar_widget.dart';
 import 'package:hnotes/presentation/home_page/control_bar/toggled_text_widget.dart';
 import 'package:hnotes/presentation/home_page/add_items/add_item_button_widget.dart';
+import 'package:hnotes/presentation/home_page/items/build_item_list.dart';
 
 // ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
@@ -50,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     // _buildNotesList();
+    buildItemList(_addItemToList);
     return Scaffold(
       key: _scaffoldKey,
       drawer: drawer(context, widget.changeTheme),
@@ -75,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   handleTypingInSearchFiled: _handleTypingInSearchFiled),
               Container(height: 32),
               new ImportantIndicatorText(isFlagOn: isFlagOn),
-              ItemList(),
+              ...itemList,
               Container(height: 100)
             ],
           ),
@@ -91,9 +90,9 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  addItemToList(Widget widget) {
+  _addItemToList(List<Widget> aList) {
     setState(() {
-      itemList.add(widget);
+      itemList = aList;
     });
   }
 
