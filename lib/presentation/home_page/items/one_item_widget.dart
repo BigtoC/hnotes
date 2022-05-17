@@ -29,7 +29,6 @@ class OneItem extends StatelessWidget {
         color: Theme.of(context).dialogBackgroundColor,
         child: InkWell(
           borderRadius: BorderRadius.all(allBorderRadius),
-          onTap: onTapAction(nftItem),
           splashColor: colors.withAlpha(20),
           highlightColor: colors.withAlpha(10),
           child: Container(
@@ -73,10 +72,6 @@ class OneItem extends StatelessWidget {
         style: TextStyle(fontSize: 15),
       ),
     );
-  }
-
-  onTapAction(NftInfoModel nftItem) {
-    print("tap" + nftItem.contractAddress);
   }
 
   String _shortenText(String longText, int limit) {
