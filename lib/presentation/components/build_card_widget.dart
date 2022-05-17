@@ -23,20 +23,6 @@ Widget buildCardWidget(BuildContext context, Widget child) {
   );
 }
 
-Widget buildHeaderWidget(String headerTitle) {
-  return Container(
-    margin: EdgeInsets.only(top: 8, bottom: 16, left: 8),
-    child: Text(
-      headerTitle,
-      style: TextStyle(
-        fontWeight: FontWeight.w700,
-        fontSize: 36,
-        color: primaryColor,
-      ),
-    ),
-  );
-}
-
 Widget cardTitle(String cardTitle) {
   return Text(
     cardTitle,

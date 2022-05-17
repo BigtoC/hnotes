@@ -3,6 +3,7 @@ import 'package:hnotes/domain/theme/theme_model.dart';
 
 import 'package:hnotes/presentation/count_day/count_day_ui.dart';
 import 'package:hnotes/application/count_day/count_day_bloc.dart';
+import 'package:hnotes/presentation/components/page_framework.dart';
 import 'package:hnotes/presentation/components/build_card_widget.dart';
 import 'package:hnotes/presentation/drawer/settings_page/about_app_widget.dart';
 import 'package:hnotes/infrastructure/local_storage/theme/theme_repository.dart';
@@ -40,40 +41,21 @@ class _SettingsPageState extends State<SettingsPage> {
       selectedTheme = Theme.of(context).brightness == Brightness.dark ? "dark" : "light";
     });
 
-    return Scaffold(
-      body: ListView(
-        physics: BouncingScrollPhysics(),
-        children: <Widget>[
-          Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () {
-                    handleBack();
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
-                    child: Icon(Icons.arrow_back),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16, top: 36, right: 24),
-                  child: buildHeaderWidget('Settings'),
-                ),
-                new SelectDateWidget(),
-                buildAppThemeChoice(),
-                new InputApiSecretWidget(),
-                new AboutAppWidget(),
-              ],
-            ))
-        ],
-      ),
+    return new PageFramework(title: "Settings", widgets: _widgets(), handleBack: _handleBack);
+  }
+
+  Widget _widgets() {
+    return Column(
+      children: [
+        new SelectDateWidget(),
+        buildAppThemeChoice(),
+        new InputApiSecretWidget(),
+        new AboutAppWidget(),
+      ],
     );
   }
 
-  void handleBack() {
+  void _handleBack() {
     if (widget.onlySetDate == true) {
       Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
         return new CountDay(
