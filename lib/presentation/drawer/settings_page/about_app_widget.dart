@@ -85,8 +85,8 @@ class AboutAppWidget extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: new StreamBuilder(
-                        stream: blockchainInfoBloc.currentNetworkData,
+                      child: new FutureBuilder(
+                        future: blockchainInfoBloc.fetchNetworkData(),
                         builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
                           String _networkName = "......";
                           if (snapshot.hasError) {
