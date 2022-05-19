@@ -1,13 +1,16 @@
+import 'package:hnotes/domain/blockchain/dtos/nft_raw_dto.dart';
+
 class NftMetaDataDto {
   final _Contract contract;
   final _Id id;
-  final String title;
-  final String description;
+  late String title;
+  late String description;
   final _TokenUri tokenUri;
   final List<dynamic> media;
-  final Map<String, dynamic> metaData;
+  late Map<String, dynamic> metaData;
   final String timeLastUpdated;
   final String? error;
+  NftRawDto? nftRawDto;
 
   NftMetaDataDto(this.contract, this.id, this.title, this.description, this.tokenUri, this.media,
       this.metaData, this.timeLastUpdated, this.error);
