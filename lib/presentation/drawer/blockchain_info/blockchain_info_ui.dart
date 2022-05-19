@@ -1,8 +1,8 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
-import 'package:hnotes/presentation/components/page_framework.dart';
 import 'package:hnotes/presentation/components/build_card_widget.dart';
+import 'package:hnotes/presentation/components/page_header_widget.dart';
 import 'package:hnotes/application/blockchain_info/blockchain_info_bloc.dart';
 
 // ignore: must_be_immutable
@@ -20,7 +20,33 @@ class _BlockchainInfoPageState extends State<BlockchainInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new PageFramework(title: "Blockchain Info", widgets: widgets(), handleBack: handleBack);
+    return new Scaffold(
+      body: new ListView(
+          physics: BouncingScrollPhysics(),
+          children: <Widget>[
+            new Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: handleBack,
+                      child: Container(
+                        padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
+                        child: const Icon(Icons.arrow_back),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16, top: 36, right: 24),
+                      child: new PageHeaderWidget(title: "Blockchain Info"),
+                    ),
+                    widgets(),
+                  ],
+                )
+            )
+          ]
+      ),
+    );
   }
 
   Widget widgets() {

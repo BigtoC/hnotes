@@ -3,8 +3,8 @@ import 'package:hnotes/domain/theme/theme_model.dart';
 
 import 'package:hnotes/presentation/count_day/count_day_ui.dart';
 import 'package:hnotes/application/count_day/count_day_bloc.dart';
-import 'package:hnotes/presentation/components/page_framework.dart';
 import 'package:hnotes/presentation/components/build_card_widget.dart';
+import 'package:hnotes/presentation/components/page_header_widget.dart';
 import 'package:hnotes/presentation/drawer/settings_page/about_app_widget.dart';
 import 'package:hnotes/infrastructure/local_storage/theme/theme_repository.dart';
 import 'package:hnotes/presentation/drawer/settings_page/select_date_widget.dart';
@@ -41,11 +41,38 @@ class _SettingsPageState extends State<SettingsPage> {
       selectedTheme = Theme.of(context).brightness == Brightness.dark ? "dark" : "light";
     });
 
-    return new PageFramework(title: "Settings", widgets: widgets(), handleBack: handleBack);
+    return new Scaffold(
+      body: new ListView(
+        physics: BouncingScrollPhysics(),
+        children: <Widget>[
+          Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: handleBack,
+                    child: Container(
+                      padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
+                      child: const Icon(Icons.arrow_back),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16, top: 36, right: 24),
+                    child: PageHeaderWidget(title: "Setting"),
+                  ),
+                  widgets(),
+                ],
+              )
+          )
+        ],
+      ),
+    );
+
   }
 
   Widget widgets() {
-    return Column(
+    return new Column(
       children: [
         new SelectDateWidget(),
         buildAppThemeChoice(),
