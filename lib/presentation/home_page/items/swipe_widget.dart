@@ -4,7 +4,6 @@ import 'package:hnotes/domain/blockchain/models/nft_info_model.dart';
 import 'package:hnotes/presentation/home_page/items/item_image_widget.dart';
 
 class SwipeWidget extends StatelessWidget {
-  final String nftIdentifier;
   final NftInfoModel nftItem;
   final Widget leftBackground;
   final Widget rightBackground;
@@ -13,7 +12,6 @@ class SwipeWidget extends StatelessWidget {
   final Function(BuildContext context) confirmEndToStart;
 
   SwipeWidget({
-    required this.nftIdentifier,
     required this.nftItem,
     required this.allBorderRadius,
     required this.confirmStartToEnd,
@@ -25,8 +23,8 @@ class SwipeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Dismissible(
-      key: Key(nftIdentifier),
-      child: mainContent(nftIdentifier),
+      key: Key(nftItem.ipfsHash),
+      child: mainContent("${shortenText(nftItem.contractAddress, 42)}[${nftItem.tokenId}]"),
       background: leftBackground,
       secondaryBackground: rightBackground,
       confirmDismiss: (DismissDirection direction) async {

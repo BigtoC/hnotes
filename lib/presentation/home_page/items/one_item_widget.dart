@@ -15,9 +15,9 @@ class OneItem extends StatelessWidget {
   Widget build(BuildContext context) {
     int tokenId = int.parse(nftItem.tokenId);
     final Radius allBorderRadius = Radius.circular(20);
-    String nftIdentifier = "${_shortenText(nftItem.contractAddress, 42)}[$tokenId]";
     // Pick random color for shadow
-    Color colors = colorList.elementAt(nftItem.description.length % colorList.length);
+    int randomNumber = nftItem.description.length + nftItem.title.length;
+    Color colors = colorList.elementAt(randomNumber % colorList.length);
 
     return Container(
       decoration: BoxDecoration(
@@ -34,7 +34,6 @@ class OneItem extends StatelessWidget {
           splashColor: colors.withAlpha(20),
           highlightColor: colors.withAlpha(10),
           child: new SwipeWidget(
-              nftIdentifier: nftIdentifier,
               nftItem: nftItem,
               allBorderRadius: allBorderRadius,
               leftBackground: new SwipeIconWidget(
@@ -87,9 +86,5 @@ class OneItem extends StatelessWidget {
 
   BoxShadow buildBoxShadow(BuildContext context, Color color) {
     return BoxShadow(color: color.withAlpha(31), blurRadius: 16, offset: Offset(0, 8));
-  }
-
-  String _shortenText(String longText, int limit) {
-    return longText.length <= limit ? longText : "${longText.substring(0, limit)}...";
   }
 }
