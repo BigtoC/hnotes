@@ -9,6 +9,7 @@ List<Color> colorList = [
   Colors.amber.shade900,
   Colors.deepOrange,
   Colors.red,
+  Colors.purple
 ];
 
 Color primaryColor = Colors.pinkAccent.shade200;

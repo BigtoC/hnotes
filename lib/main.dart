@@ -42,6 +42,7 @@ class _MyAppState extends State<MyApp> {
     _updateThemeFromSharedPref();
     daysBloc.fetchLoveStartDate();
     _nftFileRepository.createNftFolders();
+    colorList.shuffle();
   }
 
   @override
