@@ -13,7 +13,6 @@ class OneItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int tokenId = int.parse(nftItem.tokenId);
     final Radius allBorderRadius = Radius.circular(20);
     // Pick random color for shadow
     int randomNumber = nftItem.description.length + nftItem.title.length;

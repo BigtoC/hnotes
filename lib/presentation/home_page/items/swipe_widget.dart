@@ -24,7 +24,7 @@ class SwipeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Dismissible(
       key: Key(nftItem.ipfsHash),
-      child: mainContent("${shortenText(nftItem.contractAddress, 42)}[${nftItem.tokenId}]"),
+      child: mainContent("${shortenText(nftItem.description, 42)}"),
       background: leftBackground,
       secondaryBackground: rightBackground,
       confirmDismiss: (DismissDirection direction) async {
@@ -46,20 +46,12 @@ class SwipeWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           ItemImageWidget(
-            titleText: titleText(shortenText(nftItem.title, 25)),
             nftItem: nftItem,
             topRadius: allBorderRadius,
           ),
           normalText(content),
         ],
       ),
-    );
-  }
-
-  Widget titleText(String title) {
-    return new Text(
-      title,
-      style: TextStyle(fontSize: 30, fontWeight: FontWeight.normal),
     );
   }
 

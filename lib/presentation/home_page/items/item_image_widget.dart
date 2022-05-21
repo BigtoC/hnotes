@@ -5,10 +5,9 @@ import 'package:hnotes/domain/blockchain/models/nft_info_model.dart';
 
 class ItemImageWidget extends StatelessWidget {
   final NftInfoModel nftItem;
-  final Widget titleText;
   final Radius topRadius;
 
-  ItemImageWidget({required this.nftItem, required this.titleText, required this.topRadius});
+  ItemImageWidget({required this.nftItem, required this.topRadius});
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +34,17 @@ class ItemImageWidget extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.all(10),
-                child: titleText,
+                child: titleText("${nftItem.title} #${nftItem.tokenId}"),
               ),
             ],
           ),
         ));
+  }
+
+  Widget titleText(String title) {
+    return new Text(
+      title,
+      style: TextStyle(fontSize: 30, fontWeight: FontWeight.normal),
+    );
   }
 }

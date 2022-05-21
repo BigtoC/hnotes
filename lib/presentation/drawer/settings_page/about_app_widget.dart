@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:hnotes/domain/common_data.dart';
-import 'package:hnotes/presentation/components/build_card_widget.dart';
 import 'package:hnotes/presentation/components/browser.dart';
+import 'package:hnotes/presentation/components/build_card_widget.dart';
 import 'package:hnotes/application/blockchain_info/blockchain_info_bloc.dart';
 
 class AboutAppWidget extends StatelessWidget {
