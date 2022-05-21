@@ -4,12 +4,16 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:hnotes/presentation/theme.dart';
 
 class Browser extends StatelessWidget {
+  final String title;
+  final String url;
+
+  Browser({required this.title, required this.url});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("BigtoC/hnotes"),
+        title: Text(title),
         centerTitle: true,
         backgroundColor: primaryColor,
         leading: IconButton(
@@ -18,7 +22,7 @@ class Browser extends StatelessWidget {
         ),
       ),
       body: WebView(
-        initialUrl: "https://github.com/BigtoC/hnotes",
+        initialUrl: url,
         javascriptMode: JavascriptMode.unrestricted,
       ),
     );
