@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:async';
 import 'dart:collection';
 import 'package:flutter/material.dart';
@@ -53,9 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
       key: _scaffoldKey,
       drawer: DrawerWidget(widget.changeTheme),
       body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
-        },
+        onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
         child: AnimatedContainer(
           duration: Duration(milliseconds: 200),
           child: ListView(
@@ -94,64 +91,6 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       itemList = aList;
     });
-  }
-
-  // _buildNotesList() {
-  //   if (!isSearching) {
-  //     notesBloc.fetchAllNotes();
-  //   }
-  //   if (isSearching) {
-  //     String keywords = searchController.text;
-  //     notesBloc.searchNotes(keywords);
-  //   }
-  //
-  //   Stream<NoteModel> noteStream = notesBloc.noteFiles;
-  //   noteStream.take(1);
-  //
-  //   noteStream.listen((element) {
-  //     element.noteKeyValueList?.forEach((noteInstance) {
-  //       setState(() {
-  //         cardList.add(NoteCardComponent(
-  //           noteFile: noteInstance["File"],
-  //           noteContents: noteInstance["Contents"],
-  //           onTapAction: openNoteToRead,
-  //         ));
-  //       });
-  //     });
-  //   }, onDone: () {
-  //     print("流已完成");
-  //   });
-  // }
-
-  // Widget buildNoteComponentsList() {
-  //   if (!isSearching) {
-  //     notesBloc.fetchAllNotes();
-  //   }
-  //   if (isSearching) {
-  //     String keywords = searchController.text;
-  //     notesBloc.searchNotes(keywords);
-  //   }
-  //   return new NoteCardsList(
-  //     onTapAction: openNoteToRead,
-  //     isSearching: isSearching,
-  //   );
-  // }
-
-  openNoteToRead(File noteFile) async {
-    throw Exception("Not implemented yet");
-    // setState(() {
-    //   headerShouldHide = true;
-    // });
-    // await Future.delayed(Duration(milliseconds: 200), () {});
-    // Navigator.push(
-    //   context,
-    //   FadeRoute(page: EditorPage(noteFile: noteFile, key: null,))
-    // );
-    // await Future.delayed(Duration(milliseconds: 200), () {});
-    //
-    // setState(() {
-    //   headerShouldHide = false;
-    // });
   }
 
   void _handleCancelSearch() {
