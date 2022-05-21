@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:hnotes/domain/common_data.dart';
 import 'package:hnotes/presentation/theme.dart';
+import 'package:hnotes/presentation/components/browser.dart';
 import 'package:hnotes/domain/count_day/count_day_model.dart';
 import 'package:hnotes/presentation/count_day/count_day_ui.dart';
 import 'package:hnotes/application/count_day/count_day_bloc.dart';
@@ -20,6 +21,7 @@ Widget drawer(BuildContext context, Function(ThemeData themeData)? changeTheme) 
         dayCountColumn(context),
         blockchainInfoColumn(context),
         settingsColumn(context, changeTheme),
+        usageGuide(context),
         sizeBox(context, 0.1),
         divider(context, 0.5),
         version(),
@@ -128,6 +130,30 @@ Widget settingsColumn(BuildContext context, Function(ThemeData themeData)? chang
     onTap: () {
       Navigator.of(context).push(new CupertinoPageRoute(builder: (_) {
         return new SettingsPage(changeTheme: changeTheme, onlySetDate: false);
+      }));
+    },
+  );
+}
+
+Widget usageGuide(BuildContext context) {
+  return ListTile(
+    leading: Icon(
+      Icons.book,
+      color: Colors.green,
+    ),
+    title: Text(
+      'Usage Guide',
+      style: TextStyle(
+        fontSize: subtitleFontSize,
+        fontWeight: itemFontWeight,
+      ),
+    ),
+    onTap: () {
+      Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
+        return new Browser(
+            title: "hnotes README",
+            url: "https://github.com/BigtoC/hnotes/blob/main/README.md#hnotes"
+        );
       }));
     },
   );
