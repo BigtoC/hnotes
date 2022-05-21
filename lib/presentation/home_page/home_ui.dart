@@ -51,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
     buildItemList(_addItemToList);
     return Scaffold(
       key: _scaffoldKey,
-      drawer: drawer(context, widget.changeTheme),
+      drawer: DrawerWidget(widget.changeTheme),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(new FocusNode());
