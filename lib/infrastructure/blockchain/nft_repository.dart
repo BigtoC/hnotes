@@ -17,6 +17,7 @@ class NftRepository extends BaseBlockchainRepository {
     final String param = "contractAddress=$contractAddress&tokenId=$tokenId&tokenType=$tokenType";
 
     return await makeGetRequest(methodName, param).then((response) async {
+      // Convert response body bytes to UTF8, so that the app can display non-English language
       Utf8Decoder decoder = new Utf8Decoder();
       NftMetaDataDto dto = NftMetaDataDto.fromJson(jsonDecode(decoder.convert(response.bodyBytes)));
       dto = await validateMetadata(dto);
