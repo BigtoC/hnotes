@@ -17,7 +17,8 @@ class NftRepository extends BaseBlockchainRepository {
     final String param = "contractAddress=$contractAddress&tokenId=$tokenId&tokenType=$tokenType";
 
     return await makeGetRequest(methodName, param).then((response) async {
-      NftMetaDataDto dto = NftMetaDataDto.fromJson(jsonDecode(response.body));
+      Utf8Decoder decoder = new Utf8Decoder();
+      NftMetaDataDto dto = NftMetaDataDto.fromJson(jsonDecode(decoder.convert(response.bodyBytes)));
       dto = await validateMetadata(dto);
       return dto;
     });
