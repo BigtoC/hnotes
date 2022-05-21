@@ -2,25 +2,26 @@ import 'package:flutter/material.dart';
 
 import 'package:hnotes/presentation/theme.dart';
 import 'package:hnotes/domain/blockchain/models/nft_info_model.dart';
-import 'package:hnotes/presentation/home_page/items/item_image_widget.dart';
+import 'package:hnotes/presentation/home_page/items/swipe_widget.dart';
+import 'package:hnotes/presentation/home_page/items/swipe_icon_widget.dart';
+import 'package:hnotes/presentation/home_page/items/item_details_page.dart';
 
 class OneItem extends StatelessWidget {
   final NftInfoModel nftItem;
 
   OneItem({required this.nftItem});
 
-  final Radius allBorderRadius = Radius.circular(20);
-
   @override
   Widget build(BuildContext context) {
-    bool isImportant = false;
+    final Radius allBorderRadius = Radius.circular(20);
     // Pick random color for shadow
-    Color colors = colorList.elementAt(nftItem.description.length % colorList.length);
+    int randomNumber = nftItem.description.length + nftItem.title.length;
+    Color colors = colorList.elementAt(randomNumber % colorList.length);
 
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(allBorderRadius),
-        boxShadow: [buildBoxShadow(context, colors, isImportant)],
+        boxShadow: [buildBoxShadow(context, colors)],
       ),
       padding: EdgeInsets.all(10),
       child: Material(
@@ -31,50 +32,58 @@ class OneItem extends StatelessWidget {
           borderRadius: BorderRadius.all(allBorderRadius),
           splashColor: colors.withAlpha(20),
           highlightColor: colors.withAlpha(10),
-          child: Container(
-            // padding: EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                ItemImageWidget(
-                  titleText: _titleText(_shortenText(nftItem.title, 25), isImportant),
-                  nftItem: nftItem,
-                  topRadius: allBorderRadius,
-                ),
-                _normalText("${_shortenText(nftItem.contractAddress, 42)}[${nftItem.tokenId}]"),
-              ],
-            ),
+          child: new SwipeWidget(
+              nftItem: nftItem,
+              allBorderRadius: allBorderRadius,
+              leftBackground: new SwipeIconWidget(
+                color: Colors.green,
+                icon: Icons.content_paste_go,
+                text: "Details",
+                direction: DismissDirection.startToEnd,
+              ),
+              rightBackground: new SwipeIconWidget(
+                color: Colors.red,
+                icon: Icons.delete,
+                text: "Delete",
+                direction: DismissDirection.endToStart,
+              ),
+              confirmStartToEnd: confirmStartToEnd,
+              confirmEndToStart: confirmEndToStart
           ),
         ),
       ),
     );
   }
 
-  BoxShadow buildBoxShadow(BuildContext context, Color color, bool isImportant) {
-    return BoxShadow(
-        color: isImportant == true ? color.withAlpha(80) : color.withAlpha(31),
-        blurRadius: 16,
-        offset: Offset(0, 8));
+  confirmStartToEnd(BuildContext context) {
+    Navigator.of(context).push(newPageRoute(ItemDetailsPage(nftItem: nftItem)));
+    // Return null so the item won't be dismissed
+    return null;
   }
 
-  Widget _titleText(String title, bool isImportant) {
-    return new Text(
-      title,
-      style: TextStyle(fontSize: 30, fontWeight: isImportant ? FontWeight.w800 : FontWeight.normal),
+  confirmEndToStart(BuildContext context) {
+    return null;
+  }
+
+  Route newPageRoute(Widget newPage) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => newPage,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(-1, 0.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 500),
     );
   }
 
-  Widget _normalText(String text) {
-    return new Container(
-      margin: EdgeInsets.fromLTRB(10, 2, 2, 10),
-      child: Text(
-        text,
-        style: TextStyle(fontSize: 15),
-      ),
-    );
-  }
-
-  String _shortenText(String longText, int limit) {
-    return longText.length <= limit ? longText : "${longText.substring(0, limit)}...";
+  BoxShadow buildBoxShadow(BuildContext context, Color color) {
+    return BoxShadow(color: color.withAlpha(31), blurRadius: 16, offset: Offset(0, 8));
   }
 }

@@ -27,9 +27,8 @@ class NftInfoBloc {
     _blockchainNftData.sink.add(nftInfoModel);
 
     String nftModelJson = json.encode(nftInfoModel.toJson());
-    String nftJsonFileName = nftImageName;
 
-    _nftFileRepository.saveStringFile(nftModelJson, "$nftJsonFileName.json");
+    _nftFileRepository.saveStringFile(nftModelJson, "${nftInfoModel.ipfsHash}.json");
   }
 
   void dispose() {

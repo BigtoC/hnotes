@@ -35,8 +35,10 @@ class BlockchainInfoBloc {
     ]);
   }
 
-  fetchNetworkData() async {
-    await _sinkData(_currentNetworkData, _blockchainInfoRepository.getNetwork());
+  Future<Map<String, dynamic>> fetchNetworkData() async {
+    Future<Map<String, dynamic>> network = _blockchainInfoRepository.getNetwork();
+    await _sinkData(_currentNetworkData, network);
+    return await network;
   }
 
   Future<void> _sinkData(PublishSubject data, Future fetchFunction) async {

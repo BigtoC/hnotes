@@ -7,9 +7,10 @@ class NftInfoModel {
   final String tokenId;
   final String imageUrl;
   final String imageFilePath;
+  final String ipfsHash;
 
   NftInfoModel(this.title, this.description, this.contractAddress, this.tokenId, this.imageUrl,
-      this.imageFilePath);
+      this.imageFilePath, this.ipfsHash);
 
   NftInfoModel.fromData(NftMetaDataDto dto, String imageFilePath)
       : title = dto.title,
@@ -17,7 +18,8 @@ class NftInfoModel {
         contractAddress = dto.contract.address,
         tokenId = dto.id.tokenId,
         imageUrl = dto.metaData["url"],
-        imageFilePath = imageFilePath;
+        imageFilePath = imageFilePath,
+        ipfsHash = dto.tokenUri.raw.split("/").last;
 
   NftInfoModel.fromJson(Map<String, dynamic> json)
       : title = json["title"],
@@ -25,7 +27,8 @@ class NftInfoModel {
         contractAddress = json["contractAddress"],
         tokenId = json["tokenId"],
         imageUrl = json["imageUrl"],
-        imageFilePath = json["imageFilePath"];
+        imageFilePath = json["imageFilePath"],
+        ipfsHash = json["ipfsHash"];
 
   Map<String, dynamic> toJson() => {
         "title": title,
@@ -33,6 +36,7 @@ class NftInfoModel {
         "contractAddress": contractAddress,
         "tokenId": tokenId,
         "imageUrl": imageUrl,
-        "imageFilePath": imageFilePath
+        "imageFilePath": imageFilePath,
+        "ipfsHash": ipfsHash
       };
 }

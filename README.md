@@ -2,7 +2,22 @@
 
 A Flutter notes app with blockchain storage.
 > The letter "**h**" stands for **him/her** or **happiness**.  
-> Notes about him/her, or notes about happiness
+> Notes(NFTs) about him/her, or about happiness
+
+ 
+## Usage guide
+
+### Quick start
+1. Download app from release page (Android only for now)
+2. Open App, set your date
+
+### Blockchain functions
+> To use NFT functions, please setup blockchain connection services
+1. Sign up an Alchemy account ([here](https://auth.alchemyapi.io/signup)) and create an Alchemy key ([tutorial](https://auth.alchemyapi.io/signup))
+2. Click `IMPORT NFT` button in the home page to show NFTs
+3. Create a Metamask wallet and connect to Ropsten testnet
+4. Use [Pixura beta](https://ropsten-platform.pixura.io/) to publish your NFTs
+
 
 ## Development Stages
 
@@ -35,12 +50,14 @@ A Flutter notes app with blockchain storage.
 ### Stage 3 (The Next Generation)
 
 > Import and present ERC-721
-> Target finish before 2022-06-10
+> Target finish before 2022-05-27 (1000 days)
+> Merge v2 to main branch and release new version
 
 - [x] {3.0.1} Allow user import the API key, instead of read a secret file.
-- [ ] {3.1} Import and show NFTs in the home page
-- [ ] {3.2} Delete an imported NFT from the home page
-- [ ] {3.3} Search NFTs
+- [x] {3.1} Import and show NFTs in the home page
+- [ ] {3.2} Delete and show details of an imported NFT from the home page
+- [ ] {3.3} Navigate to usage guide webpage from drawer
+- [ ] {3.4} Search NFTs
 
 ### Stage 4
 
