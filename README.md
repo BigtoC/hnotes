@@ -50,7 +50,8 @@ A Flutter notes app with blockchain storage.
 ### Stage 3 (The Next Generation)
 
 > Import and present ERC-721
-> Target finish before 2022-06-10
+> Target finish before 2022-05-27 (1000 days)
+> Merge v2 to main branch and release new version
 
 - [x] {3.0.1} Allow user import the API key, instead of read a secret file.
 - [x] {3.1} Import and show NFTs in the home page
