@@ -90,15 +90,13 @@ class AboutAppWidget extends StatelessWidget {
                         builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
                           String _networkName = "......";
                           if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
+                            logger.e(snapshot.error);
+                            return defaultNetwork(_networkName);
                           }
                           if (snapshot.hasData) {
                             _networkName = snapshot.data!["text"].toString();
                           }
-                          return Text(
-                            "Ethereum \n$_networkName",
-                            style: TextStyle(fontSize: 22),
-                          );
+                          return defaultNetwork(_networkName);
                         },
                       ),
                     ),
@@ -119,5 +117,12 @@ class AboutAppWidget extends StatelessWidget {
             cardContentGap(),
           ],
         ));
+  }
+
+  Widget defaultNetwork(String networkName) {
+    return new Text(
+      "Ethereum \n$networkName",
+      style: TextStyle(fontSize: 22),
+    );
   }
 }
