@@ -12,7 +12,7 @@ A Flutter notes app with blockchain storage.
 2. Open App, set your date
 
 ### Blockchain functions
-> To use NFT functions, please setup blockchain connection services
+> To use NFT functions, please setup blockchain connection services  
 1. Sign up for an Alchemy account ([here](https://auth.alchemyapi.io/signup)) and create an Alchemy key ([tutorial](https://auth.alchemyapi.io/signup))
 2. Click the `IMPORT NFT` button on the home page to show NFTs
 3. Create a Metamask wallet and connect to Ropsten testnet
@@ -34,9 +34,9 @@ A Flutter notes app with blockchain storage.
 - [x] Set the love start date first for the first time open this app
 
 ### Stage 2 (Migration and clean up)
-> New blockchain-related developments
-> Target finish before 2022-05-10
-> Finished on 2022-05-06
+> New blockchain-related developments  
+> Target finish before 2022-05-10  
+> Finished on 2022-05-06  
 
 - [x] {2.0} Migrate to Flutter 2 and latest Dart version
 - [x] {2.0.5} Codes clean up and structure enhancements
@@ -45,9 +45,9 @@ A Flutter notes app with blockchain storage.
 - [x] {2.3} Implement DDD Architecture ([reference](https://github.com/ResoCoder/flutter-ddd-firebase-course))
 
 ### Stage 3 (The Next Generation)
-> Import and present ERC-721
-> Target finish before 2022-05-27 (1000 days)
-> Merge v2 to the main branch and release a new version
+> Import and present ERC-721  
+> Target finish before 2022-05-27 (1000 days)  
+> Finished on 2022-05-23  
 
 - [x] {3.0.1} Allow users to import the API key, instead of reading a secret file.
 - [x] {3.1} Import and show NFTs on the home page
@@ -56,18 +56,18 @@ A Flutter notes app with blockchain storage.
 - [x] {3.4} Swipe right to delete an NFT
 
 ### Stage pre-4
-> Housekeeping jobs before stage 4
+> Housekeeping jobs before stage 4  
 - [x] {4.0.1} Upgrade to flutter 3 ([What’s new in Flutter 3](https://medium.com/flutter/whats-new-in-flutter-3-8c74a5bc32d0))
 - [x] {4.0.2} Merge v2 to the main branch and release the latest version
 - [ ] {4.0.3} GitHub Action for building release packages ([reference](https://github.com/marketplace/actions/release-changelog-builder))
 
 ### Stage 4
-> More functions
+> More functions  
 - [ ] {4.1} Search NFTs
 - [ ] {4.2} Mark one item as important and show the important item on the home page
 
 ### Stage 5
-> More enhancements (and some fun functions)
+> More enhancements (and some fun functions)  
 - [ ] Share notes content in a picture
 - [ ] Biometric authentications (Fingerprint, face unlock)
 - [ ] More functions welcome pull requests and create issues
