@@ -58,7 +58,9 @@ class ItemDetailsPage extends StatelessWidget {
             context,
             "${nftItem.contractAddress}[${nftItem.tokenId}]",
             "https://ropsten.etherscan.io/token/${nftItem.contractAddress}?a=${nftItem.tokenId}",
-            "Ropsten Etherscan")
+            "Ropsten Etherscan"
+        ),
+        const SizedBox(height: 30),
       ]),
     );
   }

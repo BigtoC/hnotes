@@ -24,7 +24,7 @@ class SwipeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Dismissible(
       key: Key(nftItem.ipfsHash),
-      child: mainContent("${shortenText(nftItem.description, 42)}"),
+      child: mainContent("${shortenText(nftItem.description, 50)}"),
       background: leftBackground,
       secondaryBackground: rightBackground,
       confirmDismiss: (DismissDirection direction) async {
@@ -41,7 +41,6 @@ class SwipeWidget extends StatelessWidget {
 
   Widget mainContent(String content) {
     return new Container(
-      // padding: EdgeInsets.all(10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -60,7 +59,7 @@ class SwipeWidget extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(10, 2, 2, 10),
       child: new Text(
         text,
-        style: const TextStyle(fontSize: 15),
+        style: const TextStyle(fontSize: 16),
       ),
     );
   }
