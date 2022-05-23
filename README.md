@@ -58,7 +58,7 @@ A Flutter notes app with blockchain storage.
 ### Stage pre-4
 > Housekeeping jobs before stage 4
 - [x] {4.0.1} Upgrade to flutter 3 ([What’s new in Flutter 3](https://medium.com/flutter/whats-new-in-flutter-3-8c74a5bc32d0))
-- [ ] {4.0.2} Merge v2 to main branch and make release the latest version
+- [x] {4.0.2} Merge v2 to main branch and make release the latest version
 - [ ] {4.0.3} GitHub Action for building release packages ([reference](https://github.com/marketplace/actions/release-changelog-builder))
 
 ### Stage 4
