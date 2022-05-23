@@ -20,6 +20,13 @@ class CountDayBloc {
     _dayModel.sink.add(countDayModel);
   }
 
+  Future<void> updateLoveStartDate(String _selectedDate) async {
+    // Write the selected date to system
+    await _repository.saveStartDate(_selectedDate);
+    // Update the stream data
+    await daysBloc.fetchLoveStartDate();
+  }
+
   bool isDispose = false;
 
   void dispose() {

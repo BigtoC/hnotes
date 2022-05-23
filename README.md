@@ -22,11 +22,9 @@ A Flutter notes app with blockchain storage.
 ## Development Stages
 
 ### Stage 1
-
 > Basic notes mobile app developments  
 > Target finish before 2020-05-22  
 > Finished on 2020-05-08
-
 - [x] Show how many days we've been together
 - [x] Switch light/dark themes
 - [x] Rich text editor
@@ -36,7 +34,6 @@ A Flutter notes app with blockchain storage.
 - [x] Set the love start date first for the first time open this app
 
 ### Stage 2 (Migration and clean up)
-
 > New blockchain related developments
 > Target finish before 2022-05-10
 > Finished on 2022-05-06
@@ -48,24 +45,29 @@ A Flutter notes app with blockchain storage.
 - [x] {2.3} Implement DDD Architecture ([reference](https://github.com/ResoCoder/flutter-ddd-firebase-course))
 
 ### Stage 3 (The Next Generation)
-
 > Import and present ERC-721
 > Target finish before 2022-05-27 (1000 days)
 > Merge v2 to main branch and release new version
 
 - [x] {3.0.1} Allow user import the API key, instead of read a secret file.
 - [x] {3.1} Import and show NFTs in the home page
-- [ ] {3.2} Show details of an imported NFT from the home page
-- [ ] {3.3} Navigate to usage guide webpage from drawer
-- [ ] {3.4} Swipe right to delete a NFT
-- [ ] {3.5} Search NFTs
+- [x] {3.2} Show details of an imported NFT from the home page
+- [x] {3.3} Navigate to usage guide webpage from drawer
+- [x] {3.4} Swipe right to delete a NFT
+
+### Stage pre-4
+> Housekeeping jobs before stage 4
+- [ ] Upgrade to flutter 3 ([What’s new in Flutter 3](https://medium.com/flutter/whats-new-in-flutter-3-8c74a5bc32d0))
+- [ ] Merge v2 to main branch and make release the latest version
+- [ ] GitHub Action for building release packages ([reference](https://github.com/marketplace/actions/release-changelog-builder))
 
 ### Stage 4
+> More functions
+- [ ] {4.1} Search NFTs
+- [ ] {4.2} Mark one item as important and show the important item in home page
 
+### Stage 5
 > More enhancements (and some fun functions)
-
-- [ ] Upgrade to flutter 3 ([What’s new in Flutter 3](https://medium.com/flutter/whats-new-in-flutter-3-8c74a5bc32d0))
-- [ ] GitHub Action for building release packages ([reference](https://github.com/marketplace/actions/release-changelog-builder))
 - [ ] Share notes content in a picture
 - [ ] Biometric authentications (Finger print, face unlock)
 - [ ] More functions welcome pull requests and create issues
@@ -88,6 +90,6 @@ A few resources to get you started if this is your first Flutter project:
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
+For help getting started with Flutter, view the
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.

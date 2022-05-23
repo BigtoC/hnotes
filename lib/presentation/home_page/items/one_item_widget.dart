@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:hnotes/presentation/theme.dart';
 import 'package:hnotes/domain/blockchain/models/nft_info_model.dart';
+import 'package:hnotes/application/local_storage/nft_files_bloc.dart';
 import 'package:hnotes/presentation/home_page/items/swipe_widget.dart';
 import 'package:hnotes/presentation/home_page/items/swipe_icon_widget.dart';
 import 'package:hnotes/presentation/home_page/items/item_details_page.dart';
@@ -61,8 +62,37 @@ class OneItem extends StatelessWidget {
     return null;
   }
 
-  confirmEndToStart(BuildContext context) {
-    return null;
+  confirmEndToStart(BuildContext context) async {
+    return await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: Text("Delete NFT?"),
+            children: <Widget>[
+              SimpleDialogOption(
+                child: const Text(
+                  "Delete",
+                  style: const TextStyle(color: Colors.redAccent),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  nftFilesBloc.deleteOneNft(nftItem.ipfsHash);
+                  return null;
+                },
+              ),
+              SimpleDialogOption(
+                child: const Text(
+                  "Cancel",
+                  style: const TextStyle(color: Colors.lightBlue),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  return null;
+                },
+              ),
+            ],
+          );
+        });
   }
 
   Route newPageRoute(Widget newPage) {
