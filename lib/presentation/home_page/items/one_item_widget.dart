@@ -61,8 +61,36 @@ class OneItem extends StatelessWidget {
     return null;
   }
 
-  confirmEndToStart(BuildContext context) {
-    return null;
+  confirmEndToStart(BuildContext context) async {
+    return await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SimpleDialog(
+            title: Text("Delete NFT?"),
+            children: <Widget>[
+              SimpleDialogOption(
+                child: const Text(
+                  "Delete",
+                  style: const TextStyle(color: Colors.redAccent),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  return null;
+                },
+              ),
+              SimpleDialogOption(
+                child: const Text(
+                  "Cancel",
+                  style: const TextStyle(color: Colors.lightBlue),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  return null;
+                },
+              ),
+            ],
+          );
+        });
   }
 
   Route newPageRoute(Widget newPage) {

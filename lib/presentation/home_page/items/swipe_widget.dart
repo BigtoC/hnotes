@@ -45,7 +45,7 @@ class SwipeWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          ItemImageWidget(
+          new ItemImageWidget(
             nftItem: nftItem,
             topRadius: allBorderRadius,
           ),
@@ -57,10 +57,10 @@ class SwipeWidget extends StatelessWidget {
 
   Widget normalText(String text) {
     return new Container(
-      margin: EdgeInsets.fromLTRB(10, 2, 2, 10),
-      child: Text(
+      margin: const EdgeInsets.fromLTRB(10, 2, 2, 10),
+      child: new Text(
         text,
-        style: TextStyle(fontSize: 15),
+        style: const TextStyle(fontSize: 15),
       ),
     );
   }
