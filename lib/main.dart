@@ -1,15 +1,25 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-import 'package:hnotes/util/theme.dart';
-import 'package:hnotes/util/common_data.dart';
-import 'package:hnotes/requester/repository.dart';
-import 'package:hnotes/util/share_preferences.dart';
-import 'package:hnotes/splash_screen/days_since_ui.dart';
-import 'package:hnotes/drawer/setting_page/settings_ui.dart';
+import 'package:hnotes/domain/common_data.dart';
+import 'package:hnotes/presentation/theme.dart';
+import 'package:hnotes/domain/theme/theme_model.dart';
+import 'package:hnotes/domain/count_day/count_day_model.dart';
+import 'package:hnotes/presentation/count_day/count_day_ui.dart';
+import 'package:hnotes/application/count_day/count_day_bloc.dart';
+import 'package:hnotes/presentation/count_day/count_day_background.dart';
+import 'package:hnotes/presentation/drawer/settings_page/settings_page.dart';
+import 'package:hnotes/infrastructure/local_storage/theme/theme_repository.dart';
+import 'package:hnotes/infrastructure/local_storage/files/nft_file_repository.dart';
+
 
 void main() {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
@@ -21,67 +31,58 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
+  late bool dateIsSet;
   ThemeData theme = appThemeLight;
-  bool dateIsSet;
-  Repository repository = new Repository();
+  NftFileRepository _nftFileRepository = new NftFileRepository();
 
   @override
   void initState() {
     super.initState();
-    updateThemeFromSharedPref();
-    createFolderInAppDocDir("hnotes");
-    repository.chainCall().handShake();
-    getDateSuccess();
+    _initPackageInfo();
+    _updateThemeFromSharedPref();
+    daysBloc.fetchLoveStartDate();
+    _nftFileRepository.createNftFolders();
+    colorList.shuffle();
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'hNotes',
+      title: packageInfo.appName,
       theme: theme,
-//      home: DaySince(isSplash: true, changeTheme: setTheme),
-      home: dateIsSet
-        ? DaySince(isSplash: true, changeTheme: setTheme)
-        : SettingsPage(changeTheme: setTheme, onlySetDate: true),
+      home: StreamBuilder(
+        stream: daysBloc.dayModel,
+        builder: (context, AsyncSnapshot<CountDayModel> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          }
+          if (snapshot.hasData) {
+            bool _dateIsSet = snapshot.data?.loveStartDate != "";
+            return _dateIsSet
+                ? CountDay(isSplash: true, changeTheme: setTheme)
+                : SettingsPage(changeTheme: setTheme, onlySetDate: true);
+          }
+          FlutterNativeSplash.remove();
+          return countDayBackground();
+        }
+      )
     );
   }
 
-  void getDateSuccess() async{
-    if (globalLoveStartDate != " ") {
-      setState(() {
-        dateIsSet = true;
-      });
-    }
-    else {
-      setState(() {
-        dateIsSet = false;
-      });
-    }
+  setTheme(ThemeData themeData) {
+    setState(() {
+      theme = themeData;
+    });
   }
 
-  setTheme(Brightness brightness) {
-    if (brightness == Brightness.dark) {
-      setState(() {
-        theme = appThemeDark;
-      });
-    } else {
-      setState(() {
-        theme = appThemeLight;
-      });
-    }
+  Future<void> _updateThemeFromSharedPref() async {
+    final _themeRepository = new ThemeRepository();
+    ThemeModel _theme = await _themeRepository.getSavedTheme();
+    setTheme(_theme.appTheme);
   }
 
-  void updateThemeFromSharedPref() async {
-    String themeText = await getDataFromSharedPref('theme');
-    if (themeText == 'light') {
-      setTheme(Brightness.light);
-    } else {
-      setTheme(Brightness.dark);
-    }
-  }
-
-  static Future<String> createFolderInAppDocDir(String folderName) async {
+  Future<String> createFolderInAppDocDir(String folderName) async {
 
     // Get this App Document Directory
     final Directory _appDocDir = await getApplicationDocumentsDirectory();
@@ -99,6 +100,10 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  Future<void> _initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      packageInfo = info;
+    });
+  }
 }
-
-
