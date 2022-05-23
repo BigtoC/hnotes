@@ -30,10 +30,7 @@ dependencies:
   intl: ^0.17.0
   http: ^0.13.4
   logger: ^1.1.0
-  zefyr: ^0.12.0
   rxdart: ^0.27.3
-  asn1lib: ^1.1.0
-  pointycastle: ^3.6.0
   path_provider: ^2.0.9
   webview_flutter: ^3.0.2
   cupertino_icons: ^1.0.4
