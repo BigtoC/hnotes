@@ -13,9 +13,9 @@ class StartDayRepository {
     return countDayModel;
   }
 
-  static void saveStartDate(String? _selectedDate) {
+  Future<void> saveStartDate(String? _selectedDate) async {
     if (_selectedDate != null) {
-      setDataInSharedPref(_startDateSharedPrefKey, _selectedDate);
+      await setDataInSharedPref(_startDateSharedPrefKey, _selectedDate);
     }
   }
 }

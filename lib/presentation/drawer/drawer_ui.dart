@@ -21,7 +21,6 @@ class DrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    daysBloc.fetchLoveStartDate();
     return new Drawer(
       child: Column(
         mainAxisSize: MainAxisSize.max,

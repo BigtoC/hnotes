@@ -4,8 +4,6 @@ import 'package:hnotes/presentation/theme.dart';
 import 'package:hnotes/domain/count_day/count_day_model.dart';
 import 'package:hnotes/application/count_day/count_day_bloc.dart';
 import 'package:hnotes/presentation/components/build_card_widget.dart';
-import 'package:hnotes/infrastructure/local_storage/start_day/start_day_repository.dart';
-
 
 class SelectDateWidget extends StatelessWidget {
   final ButtonStyle style = ElevatedButton.styleFrom(
@@ -13,8 +11,9 @@ class SelectDateWidget extends StatelessWidget {
   );
 
   Widget _selectDateText(String text) {
-    return new Text(text,
-        style: TextStyle(
+    return new Text(
+        text,
+        style: const TextStyle(
           fontSize: 18,
           color: Colors.white,
         ));
@@ -32,9 +31,7 @@ class SelectDateWidget extends StatelessWidget {
         // Convert selected date to string for showing
         String _selectedDate = picked.toString().split(" ")[0];
 
-        // Write the selected date to system
-        StartDayRepository.saveStartDate(_selectedDate);
-        await daysBloc.fetchLoveStartDate();
+        await daysBloc.updateLoveStartDate(_selectedDate);
       }
     }
 
