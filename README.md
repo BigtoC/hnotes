@@ -57,9 +57,9 @@ A Flutter notes app with blockchain storage.
 
 ### Stage pre-4
 > Housekeeping jobs before stage 4
-- [ ] Upgrade to flutter 3 ([What’s new in Flutter 3](https://medium.com/flutter/whats-new-in-flutter-3-8c74a5bc32d0))
-- [ ] Merge v2 to main branch and make release the latest version
-- [ ] GitHub Action for building release packages ([reference](https://github.com/marketplace/actions/release-changelog-builder))
+- [x] {4.0.1} Upgrade to flutter 3 ([What’s new in Flutter 3](https://medium.com/flutter/whats-new-in-flutter-3-8c74a5bc32d0))
+- [ ] {4.0.2} Merge v2 to main branch and make release the latest version
+- [ ] {4.0.3} GitHub Action for building release packages ([reference](https://github.com/marketplace/actions/release-changelog-builder))
 
 ### Stage 4
 > More functions
@@ -82,14 +82,10 @@ A Flutter notes app with blockchain storage.
 * More page route transitions: [关于 Flutter 页面路由过渡动画，你所需要知道的一切](https://juejin.im/post/5ceb6179f265da1bc23f55d0)
 
 ## Getting Started with Flutter
-
 This project is a starting point for a Flutter application.
-
 A few resources to get you started if this is your first Flutter project:
-
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
 For help getting started with Flutter, view the
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.

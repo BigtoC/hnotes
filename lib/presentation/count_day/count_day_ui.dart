@@ -34,7 +34,7 @@ class _DaySince extends State<CountDay> {
   void initState() {
     super.initState();
     // this will be called after first draw, and then call _recordSize() method _recordSize() method
-    WidgetsBinding.instance!.addPostFrameCallback((_) => _recordSize());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _recordSize());
   }
 
   void _recordSize() {
