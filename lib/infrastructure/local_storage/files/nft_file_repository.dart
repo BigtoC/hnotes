@@ -26,8 +26,8 @@ class NftFileRepository extends FolderRepository {
   }
 
   Future<bool> deleteNftFiles(String fileName) async {
-    await deleteFile(importedDataFolderName, fileName);
-    await deleteFile(imagesFolderName, fileName);
+    await deleteFile(importedDataFolderName, "$fileName.json");
+    await deleteFile(imagesFolderName, "$fileName.png");
     return true;
   }
 

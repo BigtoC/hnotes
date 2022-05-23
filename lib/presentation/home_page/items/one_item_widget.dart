@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:hnotes/presentation/theme.dart';
 import 'package:hnotes/domain/blockchain/models/nft_info_model.dart';
+import 'package:hnotes/application/local_storage/nft_files_bloc.dart';
 import 'package:hnotes/presentation/home_page/items/swipe_widget.dart';
 import 'package:hnotes/presentation/home_page/items/swipe_icon_widget.dart';
 import 'package:hnotes/presentation/home_page/items/item_details_page.dart';
@@ -75,6 +76,7 @@ class OneItem extends StatelessWidget {
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
+                  nftFilesBloc.deleteOneNft(nftItem.ipfsHash);
                   return null;
                 },
               ),

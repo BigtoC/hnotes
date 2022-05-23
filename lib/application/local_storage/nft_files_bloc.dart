@@ -25,6 +25,10 @@ class NftFilesBloc {
     return nftInfoModels;
   }
 
+  Future<void> deleteOneNft(String fileName) async {
+    await _nftFileRepository.deleteNftFiles(fileName);
+  }
+
   void dispose() {
     _localNftDataList.close();
   }
