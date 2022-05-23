@@ -8,13 +8,13 @@ A Flutter notes app with blockchain storage.
 ## Usage guide
 
 ### Quick start
-1. Download app from release page (Android only for now)
+1. Download the latest version of this app from the [release page](https://github.com/BigtoC/hnotes/releases) (Android only for now)
 2. Open App, set your date
 
 ### Blockchain functions
 > To use NFT functions, please setup blockchain connection services
-1. Sign up an Alchemy account ([here](https://auth.alchemyapi.io/signup)) and create an Alchemy key ([tutorial](https://auth.alchemyapi.io/signup))
-2. Click `IMPORT NFT` button in the home page to show NFTs
+1. Sign up for an Alchemy account ([here](https://auth.alchemyapi.io/signup)) and create an Alchemy key ([tutorial](https://auth.alchemyapi.io/signup))
+2. Click the `IMPORT NFT` button on the home page to show NFTs
 3. Create a Metamask wallet and connect to Ropsten testnet
 4. Use [Pixura beta](https://ropsten-platform.pixura.io/) to publish your NFTs
 
@@ -22,7 +22,7 @@ A Flutter notes app with blockchain storage.
 ## Development Stages
 
 ### Stage 1
-> Basic notes mobile app developments  
+> Basic notes on mobile app developments  
 > Target finish before 2020-05-22  
 > Finished on 2020-05-08
 - [x] Show how many days we've been together
@@ -34,7 +34,7 @@ A Flutter notes app with blockchain storage.
 - [x] Set the love start date first for the first time open this app
 
 ### Stage 2 (Migration and clean up)
-> New blockchain related developments
+> New blockchain-related developments
 > Target finish before 2022-05-10
 > Finished on 2022-05-06
 
@@ -47,29 +47,29 @@ A Flutter notes app with blockchain storage.
 ### Stage 3 (The Next Generation)
 > Import and present ERC-721
 > Target finish before 2022-05-27 (1000 days)
-> Merge v2 to main branch and release new version
+> Merge v2 to the main branch and release a new version
 
-- [x] {3.0.1} Allow user import the API key, instead of read a secret file.
-- [x] {3.1} Import and show NFTs in the home page
+- [x] {3.0.1} Allow users to import the API key, instead of reading a secret file.
+- [x] {3.1} Import and show NFTs on the home page
 - [x] {3.2} Show details of an imported NFT from the home page
-- [x] {3.3} Navigate to usage guide webpage from drawer
-- [x] {3.4} Swipe right to delete a NFT
+- [x] {3.3} Navigate to usage the guide webpage from drawer
+- [x] {3.4} Swipe right to delete an NFT
 
 ### Stage pre-4
 > Housekeeping jobs before stage 4
 - [x] {4.0.1} Upgrade to flutter 3 ([What’s new in Flutter 3](https://medium.com/flutter/whats-new-in-flutter-3-8c74a5bc32d0))
-- [x] {4.0.2} Merge v2 to main branch and make release the latest version
+- [x] {4.0.2} Merge v2 to the main branch and release the latest version
 - [ ] {4.0.3} GitHub Action for building release packages ([reference](https://github.com/marketplace/actions/release-changelog-builder))
 
 ### Stage 4
 > More functions
 - [ ] {4.1} Search NFTs
-- [ ] {4.2} Mark one item as important and show the important item in home page
+- [ ] {4.2} Mark one item as important and show the important item on the home page
 
 ### Stage 5
 > More enhancements (and some fun functions)
 - [ ] Share notes content in a picture
-- [ ] Biometric authentications (Finger print, face unlock)
+- [ ] Biometric authentications (Fingerprint, face unlock)
 - [ ] More functions welcome pull requests and create issues
 
 ## References
