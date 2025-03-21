@@ -7,7 +7,7 @@ import 'package:hnotes/presentation/components/loading_circle.dart';
 Widget buildCardWidget(BuildContext context, Widget child) {
   return Container(
     decoration: BoxDecoration(
-      color: Theme.of(context).dialogBackgroundColor,
+      color: Theme.of(context).dialogTheme.backgroundColor,
       borderRadius: BorderRadius.circular(16),
       boxShadow: [
         BoxShadow(

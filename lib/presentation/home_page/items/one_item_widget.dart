@@ -28,7 +28,7 @@ class OneItem extends StatelessWidget {
       child: Material(
         borderRadius: BorderRadius.all(allBorderRadius),
         clipBehavior: Clip.antiAlias,
-        color: Theme.of(context).dialogBackgroundColor,
+        color: Theme.of(context).dialogTheme.backgroundColor,
         child: InkWell(
           borderRadius: BorderRadius.all(allBorderRadius),
           splashColor: colors.withAlpha(20),

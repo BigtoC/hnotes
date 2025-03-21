@@ -7,7 +7,7 @@ import 'package:hnotes/presentation/components/build_card_widget.dart';
 
 class SelectDateWidget extends StatelessWidget {
   final ButtonStyle style = ElevatedButton.styleFrom(
-    primary: btnColor,
+    backgroundColor: btnColor,
   );
 
   Widget _selectDateText(String text) {
@@ -27,13 +27,11 @@ class SelectDateWidget extends StatelessWidget {
           initialDate: new DateTime.now(),
           firstDate: new DateTime(1966),
           lastDate: new DateTime.now());
-      if (picked != null) {
-        // Convert selected date to string for showing
-        String _selectedDate = picked.toString().split(" ")[0];
+      // Convert selected date to string for showing
+      String _selectedDate = picked.toString().split(" ")[0];
 
-        await daysBloc.updateLoveStartDate(_selectedDate);
-      }
-    }
+      await daysBloc.updateLoveStartDate(_selectedDate);
+        }
 
     return buildCardWidget(
         context,
@@ -58,14 +56,14 @@ class SelectDateWidget extends StatelessWidget {
                             return Text('Error: ${snapshot.error}');
                           }
                           if (snapshot.hasData) {
-                            late String storedStartDate;
+                            late String? storedStartDate;
                             String? data = snapshot.data?.loveStartDate;
-                            if (data == null || data.isEmpty) {
+                            if (data != null) {
                               storedStartDate = buttonPlaceholder;
                             } else {
                               storedStartDate = data;
                             }
-                            return _selectDateText(storedStartDate);
+                            return _selectDateText(storedStartDate!);
                           }
                           return _selectDateText(buttonPlaceholder);
                         }),

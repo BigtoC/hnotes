@@ -149,8 +149,7 @@ class _DaySince extends State<CountDay> {
     final ButtonStyle style = ElevatedButton.styleFrom(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-      ),
-      primary: primaryColor.withOpacity(0.3),
+      ), backgroundColor: primaryColor.withAlpha(80),
       padding: EdgeInsets.all(12),
     );
 
