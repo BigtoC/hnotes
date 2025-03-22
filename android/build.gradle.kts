@@ -5,7 +5,7 @@ allprojects {
     }
 }
 
-ext.kotlin_version = '1.8.10'
+val kotlinVersion = "2.1.20"
 
 rootProject.buildDir = '../build'
 subprojects {
