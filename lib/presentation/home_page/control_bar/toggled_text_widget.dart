@@ -6,7 +6,7 @@ import 'package:hnotes/presentation/theme.dart';
 class ImportantIndicatorText extends StatelessWidget {
   final bool isFlagOn;
 
-  ImportantIndicatorText({required this.isFlagOn});
+  const ImportantIndicatorText({super.key, required this.isFlagOn});
 
   @override
   Widget build(BuildContext context) {

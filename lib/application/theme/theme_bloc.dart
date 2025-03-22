@@ -5,14 +5,14 @@ import 'package:hnotes/infrastructure/local_storage/theme/theme_repository.dart'
 
 
 class ThemeBloc {
-  final _themeRepository = new ThemeRepository();
-  final _themeModel = new PublishSubject<ThemeModel>();
+  final _themeRepository = ThemeRepository();
+  final _themeModel = PublishSubject<ThemeModel>();
 
   Stream<ThemeModel> get themeModel => _themeModel.stream;
 
   fetchStoredTheme() async {
-    ThemeModel _theme = await _themeRepository.getSavedTheme();
-    _themeModel.sink.add(_theme);
+    ThemeModel theme = await _themeRepository.getSavedTheme();
+    _themeModel.sink.add(theme);
   }
 
   void dispose() {
@@ -20,4 +20,4 @@ class ThemeBloc {
   }
 }
 
-final themeBloc = new ThemeBloc();
+final themeBloc = ThemeBloc();

@@ -6,14 +6,14 @@ import 'package:hnotes/infrastructure/blockchain/blockchain_info_repository.dart
 class BlockchainInfoBloc {
   final BlockchainInfoRepository _blockchainInfoRepository = BlockchainInfoRepository();
 
-  final _latestBlockNumberData = new PublishSubject<Map<String, dynamic>>();
-  final _currentGasPriceData = new PublishSubject<Map<String, dynamic>>();
+  final _latestBlockNumberData = PublishSubject<Map<String, dynamic>>();
+  final _currentGasPriceData = PublishSubject<Map<String, dynamic>>();
 
-  final _currentNetworkData = new PublishSubject<Map<String, dynamic>>();
-  final _chainIdData = new PublishSubject<Map<String, dynamic>>();
-  final _nodeClientVersionData = new PublishSubject<Map<String, dynamic>>();
+  final _currentNetworkData = PublishSubject<Map<String, dynamic>>();
+  final _chainIdData = PublishSubject<Map<String, dynamic>>();
+  final _nodeClientVersionData = PublishSubject<Map<String, dynamic>>();
 
-  final _accountData = new PublishSubject<Map<String, dynamic>>();
+  final _accountData = PublishSubject<Map<String, dynamic>>();
 
   Stream<Map<String, dynamic>> get latestBlockNumberData => _latestBlockNumberData.stream;
   Stream<Map<String, dynamic>> get currentGasPriceData => _currentGasPriceData.stream;
@@ -55,4 +55,4 @@ class BlockchainInfoBloc {
   }
 }
 
-final blockchainInfoBloc = new BlockchainInfoBloc();
+final blockchainInfoBloc = BlockchainInfoBloc();

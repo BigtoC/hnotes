@@ -6,7 +6,7 @@ import 'package:hnotes/presentation/home_page/add_items/add_item_dialog_widget.d
 class AddItemButton extends StatelessWidget {
   final bool isExtend;
 
-  AddItemButton({required this.isExtend});
+  const AddItemButton({super.key, required this.isExtend});
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +31,11 @@ class AddItemButton extends StatelessWidget {
   Widget _addItemButtonNormal(BuildContext context) {
     return FloatingActionButton(
       onPressed: () async => _handleAddNewItem(context),
+      backgroundColor: btnColor,
       child: Icon(
         Icons.link,
         color: Colors.white,
       ),
-      backgroundColor: btnColor,
     );
   }
 

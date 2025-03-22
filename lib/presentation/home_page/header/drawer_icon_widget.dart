@@ -5,7 +5,7 @@ import 'package:hnotes/presentation/theme.dart';
 class DrawerIcon extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
 
-  DrawerIcon({required this.scaffoldKey});
+  const DrawerIcon({super.key, required this.scaffoldKey});
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,4 @@
 enum TokenType {
-  ERC721,
-  ERC1155
+  erc_721,
+  erc_1155
 }

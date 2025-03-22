@@ -11,7 +11,7 @@ class SwipeWidget extends StatelessWidget {
   final Function(BuildContext context) confirmStartToEnd;
   final Function(BuildContext context) confirmEndToStart;
 
-  SwipeWidget({
+  const SwipeWidget({super.key, 
     required this.nftItem,
     required this.allBorderRadius,
     required this.confirmStartToEnd,
@@ -22,9 +22,8 @@ class SwipeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Dismissible(
+    return Dismissible(
       key: Key(nftItem.ipfsHash),
-      child: mainContent("${shortenText(nftItem.description, 50)}"),
       background: leftBackground,
       secondaryBackground: rightBackground,
       confirmDismiss: (DismissDirection direction) async {
@@ -36,28 +35,27 @@ class SwipeWidget extends StatelessWidget {
         return null;
       },
       dismissThresholds: {DismissDirection.startToEnd: 0.3, DismissDirection.endToStart: 0.88},
+      child: mainContent(shortenText(nftItem.description, 50)),
     );
   }
 
   Widget mainContent(String content) {
-    return new Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          new ItemImageWidget(
-            nftItem: nftItem,
-            topRadius: allBorderRadius,
-          ),
-          normalText(content),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        ItemImageWidget(
+          nftItem: nftItem,
+          topRadius: allBorderRadius,
+        ),
+        normalText(content),
+      ],
     );
   }
 
   Widget normalText(String text) {
-    return new Container(
+    return Container(
       margin: const EdgeInsets.fromLTRB(10, 2, 2, 10),
-      child: new Text(
+      child: Text(
         text,
         style: const TextStyle(fontSize: 16),
       ),

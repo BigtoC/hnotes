@@ -10,7 +10,7 @@ class ThemeModel {
   ThemeModel(this.themeText, this.brightness, this.appTheme);
 
   factory ThemeModel.fromAttribute(String? storedTheme) {
-    final String _defaultTheme = "dark";
+    final String defaultTheme = "dark";
 
     final Map<String, Map<String, dynamic>> themeTypes = {
       "light": {
@@ -23,16 +23,16 @@ class ThemeModel {
       }
     };
 
-    Brightness? _storedBrightness = themeTypes[storedTheme]?["brightness"];
-    ThemeData? _storedThemeData = themeTypes[storedTheme]?["themeDate"];
+    Brightness? storedBrightness = themeTypes[storedTheme]?["brightness"];
+    ThemeData? storedThemeData = themeTypes[storedTheme]?["themeDate"];
 
-    if (storedTheme != null && _storedBrightness != null && _storedThemeData != null) {
-      return ThemeModel(storedTheme, _storedBrightness, _storedThemeData);
+    if (storedTheme != null && storedBrightness != null && storedThemeData != null) {
+      return ThemeModel(storedTheme, storedBrightness, storedThemeData);
     } else {
       return ThemeModel(
-          _defaultTheme,
-          themeTypes[_defaultTheme]?["brightness"]!,
-          themeTypes[_defaultTheme]?["themeDate"]!
+          defaultTheme,
+          themeTypes[defaultTheme]?["brightness"]!,
+          themeTypes[defaultTheme]?["themeDate"]!
       );
     }
   }

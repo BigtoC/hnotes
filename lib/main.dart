@@ -24,6 +24,8 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   // This widget is the root of your application.
   @override
   _MyAppState createState() => _MyAppState();
@@ -33,7 +35,7 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   late bool dateIsSet;
   ThemeData theme = appThemeLight;
-  NftFileRepository _nftFileRepository = new NftFileRepository();
+  final NftFileRepository _nftFileRepository = NftFileRepository();
 
   @override
   void initState() {
@@ -58,8 +60,8 @@ class _MyAppState extends State<MyApp> {
             return Text('Error: ${snapshot.error}');
           }
           if (snapshot.hasData) {
-            bool _dateIsSet = snapshot.data?.loveStartDate != "";
-            return _dateIsSet
+            bool dateIsSet = snapshot.data?.loveStartDate != "";
+            return dateIsSet
                 ? CountDay(isSplash: true, changeTheme: setTheme)
                 : SettingsPage(changeTheme: setTheme, onlySetDate: true);
           }
@@ -77,26 +79,26 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _updateThemeFromSharedPref() async {
-    final _themeRepository = new ThemeRepository();
-    ThemeModel _theme = await _themeRepository.getSavedTheme();
-    setTheme(_theme.appTheme);
+    final themeRepository = ThemeRepository();
+    ThemeModel theme = await themeRepository.getSavedTheme();
+    setTheme(theme.appTheme);
   }
 
   Future<String> createFolderInAppDocDir(String folderName) async {
 
     // Get this App Document Directory
-    final Directory _appDocDir = await getApplicationDocumentsDirectory();
+    final Directory appDocDir = await getApplicationDocumentsDirectory();
 
     // App Document Directory + folder name
-    final Directory _appDocDirFolder =  Directory('${_appDocDir.path}/$folderName/');
+    final Directory appDocDirFolder =  Directory('${appDocDir.path}/$folderName/');
 
     // if folder already exists return path
-    if (await _appDocDirFolder.exists()) {
-      return _appDocDirFolder.path;
+    if (await appDocDirFolder.exists()) {
+      return appDocDirFolder.path;
     }
     else{  // if folder not exists create folder and then return its path
-      final Directory _appDocDirNewFolder=await _appDocDirFolder.create(recursive: true);
-      return _appDocDirNewFolder.path;
+      final Directory appDocDirNewFolder=await appDocDirFolder.create(recursive: true);
+      return appDocDirNewFolder.path;
     }
   }
 

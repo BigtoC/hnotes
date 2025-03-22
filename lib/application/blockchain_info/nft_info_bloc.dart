@@ -7,10 +7,10 @@ import 'package:hnotes/infrastructure/blockchain/nft_repository.dart';
 import 'package:hnotes/infrastructure/local_storage/files/nft_file_repository.dart';
 
 class NftInfoBloc {
-  final NftRepository _nftRepository = new NftRepository();
-  NftFileRepository _nftFileRepository = new NftFileRepository();
+  final NftRepository _nftRepository = NftRepository();
+  final NftFileRepository _nftFileRepository = NftFileRepository();
 
-  final _blockchainNftData = new PublishSubject<NftInfoModel>();
+  final _blockchainNftData = PublishSubject<NftInfoModel>();
 
   Stream<NftInfoModel> get blockchainNftData => _blockchainNftData;
 
@@ -36,4 +36,4 @@ class NftInfoBloc {
   }
 }
 
-final nftInfoBloc = new NftInfoBloc();
+final nftInfoBloc = NftInfoBloc();

@@ -5,16 +5,16 @@ import 'package:hnotes/infrastructure/local_storage/secrets/secrets_repository.d
 
 
 class SecretBloc {
-  final _repository = new SecretRepository();
+  final _repository = SecretRepository();
 
-  final _secretModel = new PublishSubject<SecretModel>();
+  final _secretModel = PublishSubject<SecretModel>();
 
   Stream<SecretModel> get secretModel => _secretModel.stream;
 
   fetchSecret() async {
-    SecretModel _apiSecretModel = await _repository.getApiSecret();
+    SecretModel apiSecretModel = await _repository.getApiSecret();
 
-    _secretModel.sink.add(_apiSecretModel);
+    _secretModel.sink.add(apiSecretModel);
   }
 
   void dispose() {
@@ -22,4 +22,4 @@ class SecretBloc {
   }
 }
 
-final secretBloc = new SecretBloc();
+final secretBloc = SecretBloc();

@@ -8,7 +8,7 @@ class TextFieldWidget extends StatelessWidget {
   final TextInputType keyboardType;
   final List<TextInputFormatter> formatters;
 
-  TextFieldWidget({
+  const TextFieldWidget({super.key, 
     required this.controller,
     required this.fieldLabel,
     required this.hintText,

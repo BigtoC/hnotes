@@ -10,7 +10,7 @@ import 'package:hnotes/presentation/home_page/items/item_details_page.dart';
 class OneItem extends StatelessWidget {
   final NftInfoModel nftItem;
 
-  OneItem({required this.nftItem});
+  const OneItem({super.key, required this.nftItem});
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +33,16 @@ class OneItem extends StatelessWidget {
           borderRadius: BorderRadius.all(allBorderRadius),
           splashColor: colors.withAlpha(20),
           highlightColor: colors.withAlpha(10),
-          child: new SwipeWidget(
+          child: SwipeWidget(
               nftItem: nftItem,
               allBorderRadius: allBorderRadius,
-              leftBackground: new SwipeIconWidget(
+              leftBackground: SwipeIconWidget(
                 color: Colors.green,
                 icon: Icons.content_paste_go,
                 text: "Details",
                 direction: DismissDirection.startToEnd,
               ),
-              rightBackground: new SwipeIconWidget(
+              rightBackground: SwipeIconWidget(
                 color: Colors.red,
                 icon: Icons.delete,
                 text: "Delete",
@@ -72,22 +72,22 @@ class OneItem extends StatelessWidget {
               SimpleDialogOption(
                 child: const Text(
                   "Delete",
-                  style: const TextStyle(color: Colors.redAccent),
+                  style: TextStyle(color: Colors.redAccent),
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
                   nftFilesBloc.deleteOneNft(nftItem.ipfsHash);
-                  return null;
+                  return;
                 },
               ),
               SimpleDialogOption(
                 child: const Text(
                   "Cancel",
-                  style: const TextStyle(color: Colors.lightBlue),
+                  style: TextStyle(color: Colors.lightBlue),
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  return null;
+                  return;
                 },
               ),
             ],

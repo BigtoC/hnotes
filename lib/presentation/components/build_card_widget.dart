@@ -47,7 +47,7 @@ Widget cardContentTitle(String cardContentTitle) {
 }
 
 Widget cardContent(BuildContext context, String contentText, {Color? textColor}) {
-  return new Center(
+  return Center(
     child: Padding(
       padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
       child: Text(
@@ -74,7 +74,7 @@ Widget buildTitleAndContent(
     String content,
     {Color? textColor, Widget Function(String value)? handleData}
     ) {
-  return new Column(
+  return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
       cardContentTitle(title),
@@ -90,7 +90,7 @@ Widget blockInfoStreamBuilder(
     String valueKey,
     {Color? textColor, Widget Function(String value)? handleData}
     ) {
-  return new StreamBuilder(
+  return StreamBuilder(
     stream: streamData,
     builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
       if (snapshot.hasError) {

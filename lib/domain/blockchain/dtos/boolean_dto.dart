@@ -15,19 +15,19 @@ class BooleanResultDto extends BaseResultDto {
     int statusCode = response.statusCode;
     if (statusCode == 200) {
       final bool result = jsonDecode(response.body)["result"];
-      this.boolean = result;
+      boolean = result;
     } else {
       final String errorMsg = "Query $method failed ($statusCode): ${response.body}";
       logger.e(errorMsg);
-      this.errorMessage = errorMessage;
+      errorMessage = errorMsg;
     }
   }
 
   Map<String, dynamic> toMap() {
     return {
-      "boolean": this.boolean,
-      "timestamp": this.timestamp,
-      "errorMessage": this.errorMessage
+      "boolean": boolean,
+      "timestamp": timestamp,
+      "errorMessage": errorMessage
     };
   }
 }

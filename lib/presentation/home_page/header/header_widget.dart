@@ -4,7 +4,9 @@ import 'package:hnotes/presentation/theme.dart';
 
 // ignore: must_be_immutable
 class HomeHeaderWidget extends StatelessWidget {
-  TextStyle _textStyle = TextStyle(fontWeight: FontWeight.w700, fontSize: 32, color: primaryColor);
+  final TextStyle _textStyle = TextStyle(fontWeight: FontWeight.w700, fontSize: 32, color: primaryColor);
+
+  HomeHeaderWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
