@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class DialogActionsWidget extends StatelessWidget {
   final Function() handleImportErc721;
 
-  DialogActionsWidget({required this.handleImportErc721});
+  const DialogActionsWidget({super.key, required this.handleImportErc721});
 
   @override
   Widget build(BuildContext context) {

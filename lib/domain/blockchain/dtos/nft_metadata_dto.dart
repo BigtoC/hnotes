@@ -16,27 +16,27 @@ class NftMetaDataDto {
       this.metaData, this.timeLastUpdated, this.error);
 
   factory NftMetaDataDto.fromJson(Map<String, dynamic> json) {
-    _Contract _contract = _Contract.fromAttribute(json["contract"]["address"]);
+    _Contract contract = _Contract.fromAttribute(json["contract"]["address"]);
 
     Map idMap = json["id"];
-    _Id _id = _Id.fromAttribute(idMap["tokenId"], idMap["tokenMetadata"]["tokenType"]);
+    _Id id = _Id.fromAttribute(idMap["tokenId"], idMap["tokenMetadata"]["tokenType"]);
 
-    String _title = json["title"];
-    String _description = json["description"];
+    String title = json["title"];
+    String description = json["description"];
 
     Map tokenUriMap = json["tokenUri"];
-    _TokenUri _tokenUri = _TokenUri.fromAttribute(tokenUriMap["raw"], tokenUriMap["gateway"]);
+    _TokenUri tokenUri = _TokenUri.fromAttribute(tokenUriMap["raw"], tokenUriMap["gateway"]);
 
-    List<dynamic> _media = json["media"];
+    List<dynamic> media = json["media"];
 
-    Map<String, dynamic> _metaDataMap = json["metadata"];
+    Map<String, dynamic> metaDataMap = json["metadata"];
 
-    String _timeLastUpdated = json["timeLastUpdated"];
+    String timeLastUpdated = json["timeLastUpdated"];
 
-    String? _error = json["error"];
+    String? error = json["error"];
 
-    return NftMetaDataDto(_contract, _id, _title, _description, _tokenUri, _media, _metaDataMap,
-        _timeLastUpdated, _error);
+    return NftMetaDataDto(contract, id, title, description, tokenUri, media, metaDataMap,
+        timeLastUpdated, error);
   }
 }
 
@@ -45,8 +45,8 @@ class _Contract {
 
   _Contract(this.address);
 
-  factory _Contract.fromAttribute(String _address) {
-    return new _Contract(_address);
+  factory _Contract.fromAttribute(String address) {
+    return _Contract(address);
   }
 }
 
@@ -56,8 +56,8 @@ class _Id {
 
   _Id(this.tokenId, this.tokenType);
 
-  factory _Id.fromAttribute(String _tokenId, String _tokenType) {
-    return new _Id(_tokenId, _tokenType);
+  factory _Id.fromAttribute(String tokenId, String tokenType) {
+    return _Id(tokenId, tokenType);
   }
 }
 
@@ -67,7 +67,7 @@ class _TokenUri {
 
   _TokenUri(this.raw, this.gateway);
 
-  factory _TokenUri.fromAttribute(String _raw, String _gateway) {
-    return new _TokenUri(_raw, _gateway);
+  factory _TokenUri.fromAttribute(String raw, String gateway) {
+    return _TokenUri(raw, gateway);
   }
 }

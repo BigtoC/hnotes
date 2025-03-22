@@ -14,11 +14,9 @@ import 'package:hnotes/presentation/home_page/add_items/add_item_button_widget.d
 // ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
   MyHomePage({
-    Key? key,
-    Function(ThemeData themeData)? changeTheme,
-  }) : super(key: key) {
-    this.changeTheme = changeTheme;
-  }
+    super.key,
+    this.changeTheme,
+  });
 
   Function(ThemeData themeData)? changeTheme;
 
@@ -30,10 +28,10 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isExtend = true;
   bool isFlagOn = false;
   bool isSearching = false;
-  ScrollController _scrollController = new ScrollController();
+  final ScrollController _scrollController = ScrollController();
   TextEditingController searchController = TextEditingController();
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<HashMap<String, dynamic>> noteContentsList = [];
   List<Widget> itemList = [];
@@ -51,16 +49,16 @@ class _MyHomePageState extends State<MyHomePage> {
       key: _scaffoldKey,
       drawer: DrawerWidget(widget.changeTheme),
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         child: AnimatedContainer(
           duration: Duration(milliseconds: 200),
           child: ListView(
             physics: BouncingScrollPhysics(),
             // controller: _scrollController,
             children: <Widget>[
-              new DrawerIcon(scaffoldKey: _scaffoldKey),
+              DrawerIcon(scaffoldKey: _scaffoldKey),
               HomeHeaderWidget(),
-              new ControlBar(
+              ControlBar(
                   isFlagOn: isFlagOn,
                   isSearching: isSearching,
                   toggleFlagOnOff: toggleFlagOnOff,
@@ -69,14 +67,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   handleCancelSearch: _handleCancelSearch,
                   handleTypingInSearchFiled: _handleTypingInSearchFiled),
               Container(height: 32),
-              new ImportantIndicatorText(isFlagOn: isFlagOn),
+              ImportantIndicatorText(isFlagOn: isFlagOn),
               ...itemList,
               Container(height: 100)
             ],
           ),
         ),
       ),
-      floatingActionButton: new AddItemButton(isExtend: isExtend),
+      floatingActionButton: AddItemButton(isExtend: isExtend),
     );
   }
 
@@ -93,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _handleCancelSearch() {
-    FocusScope.of(context).requestFocus(new FocusNode());
+    FocusScope.of(context).requestFocus(FocusNode());
     setState(() {
       searchController.clear();
       isSearching = false;

@@ -6,6 +6,8 @@ import 'package:hnotes/presentation/components/build_card_widget.dart';
 import 'package:hnotes/application/blockchain_info/blockchain_info_bloc.dart';
 
 class AboutAppWidget extends StatelessWidget {
+  const AboutAppWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     blockchainInfoBloc.fetchNetworkData();
@@ -15,8 +17,8 @@ class AboutAppWidget extends StatelessWidget {
     );
 
     void openGitHub() {
-      Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
-        return new Browser(title: "BigtoC/hnotes", url: "https://github.com/BigtoC/hnotes");
+      Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+        return Browser(title: "BigtoC/hnotes", url: "https://github.com/BigtoC/hnotes");
       }));
     }
 
@@ -85,18 +87,18 @@ class AboutAppWidget extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: new FutureBuilder(
+                      child: FutureBuilder(
                         future: blockchainInfoBloc.fetchNetworkData(),
                         builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
-                          String _networkName = "......";
+                          String networkName = "......";
                           if (snapshot.hasError) {
                             logger.e(snapshot.error);
-                            return defaultNetwork(_networkName);
+                            return defaultNetwork(networkName);
                           }
                           if (snapshot.hasData) {
-                            _networkName = snapshot.data!["text"].toString();
+                            networkName = snapshot.data!["text"].toString();
                           }
-                          return defaultNetwork(_networkName);
+                          return defaultNetwork(networkName);
                         },
                       ),
                     ),
@@ -120,7 +122,7 @@ class AboutAppWidget extends StatelessWidget {
   }
 
   Widget defaultNetwork(String networkName) {
-    return new Text(
+    return Text(
       "Ethereum \n$networkName",
       style: TextStyle(fontSize: 22),
     );

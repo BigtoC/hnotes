@@ -11,11 +11,11 @@ class BaseBlockchainRepository {
   final client = http.Client();
 
   final _requestHeaders = {'Content-type': 'application/json'};
-  final SecretRepository _secretRepository = new SecretRepository();
+  final SecretRepository _secretRepository = SecretRepository();
 
   Future<SecretModel> _readSecrets() async {
-    SecretModel _secretModel = await _secretRepository.getApiSecret();
-    return _secretModel;
+    SecretModel secretModel = await _secretRepository.getApiSecret();
+    return secretModel;
   }
 
   String formPostRequestBody(String method, [var parameter]) {
@@ -39,9 +39,9 @@ class BaseBlockchainRepository {
   }
 
   Future<Response> makeGetRequest(String method, [String? parameters]) async {
-    SecretModel _secret = await _readSecrets();
+    SecretModel secret = await _readSecrets();
     parameters ??= "";
-    String baseUrl = "${_secret.urlWithKey}/$method";
+    String baseUrl = "${secret.urlWithKey}/$method";
 
     return await client.get(
       Uri.parse("$baseUrl?$parameters"),

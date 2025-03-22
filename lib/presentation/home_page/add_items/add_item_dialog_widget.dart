@@ -10,14 +10,14 @@ import 'package:hnotes/presentation/home_page/add_items/dialog_actions_widget.da
 class AddItemDialogWidget extends StatelessWidget {
   final BuildContext context;
 
-  AddItemDialogWidget(this.context);
+  AddItemDialogWidget(this.context, {super.key});
 
-  TextEditingController _contractAddressController = TextEditingController();
-  TextEditingController _tokenIdController = TextEditingController();
+  final TextEditingController _contractAddressController = TextEditingController();
+  final TextEditingController _tokenIdController = TextEditingController();
 
-  TextInputFormatter _addressFormatter =
+  final TextInputFormatter _addressFormatter =
       FilteringTextInputFormatter.allow(RegExp("^0x[a-zA-Z0-9]*"));
-  TextInputFormatter _numberFormatter = FilteringTextInputFormatter.digitsOnly;
+  final TextInputFormatter _numberFormatter = FilteringTextInputFormatter.digitsOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class AddItemDialogWidget extends StatelessWidget {
       insetPadding: EdgeInsets.all(10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       title: const Text("Import NFT"),
-      content: Container(
+      content: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,6 +56,6 @@ class AddItemDialogWidget extends StatelessWidget {
     final String contractAddress = _contractAddressController.text;
     final int tokenId = int.parse(_tokenIdController.text);
 
-    await nftInfoBloc.fetchBlockchainNftData(contractAddress, tokenId, TokenType.ERC721.name);
+    await nftInfoBloc.fetchBlockchainNftData(contractAddress, tokenId, TokenType.erc_721.name);
   }
 }

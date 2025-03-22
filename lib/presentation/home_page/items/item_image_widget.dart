@@ -7,7 +7,7 @@ class ItemImageWidget extends StatelessWidget {
   final NftInfoModel nftItem;
   final Radius topRadius;
 
-  ItemImageWidget({required this.nftItem, required this.topRadius});
+  const ItemImageWidget({super.key, required this.nftItem, required this.topRadius});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class ItemImageWidget extends StatelessWidget {
   }
 
   Widget titleText(String title) {
-    return new Text(
+    return Text(
       title,
       style: TextStyle(fontSize: 30, fontWeight: FontWeight.normal),
     );

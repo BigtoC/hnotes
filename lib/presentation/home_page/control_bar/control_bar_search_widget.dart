@@ -8,18 +8,14 @@ class SearchBarWidget extends StatefulWidget {
   late Function(String value) handleSubmitSearch;
   late Function(String value) handleTypingInSearchFiled;
 
-  SearchBarWidget(
-      {required bool isSearching,
-      required TextEditingController searchController,
-      required Function() handleCancelSearch,
-      required Function(String value) handleSubmitSearch,
-      required Function(String value) handleTypingInSearchFiled}) {
-    this.isSearching = isSearching;
-    this.searchController = searchController;
-    this.handleSubmitSearch = handleSubmitSearch;
-    this.handleCancelSearch = handleCancelSearch;
-    this.handleTypingInSearchFiled = handleTypingInSearchFiled;
-  }
+  SearchBarWidget({
+    super.key,
+    required this.isSearching,
+    required this.searchController,
+    required this.handleCancelSearch,
+    required this.handleSubmitSearch,
+    required this.handleTypingInSearchFiled,
+  });
 
   @override
   State<StatefulWidget> createState() => _SearchBarWidget();
@@ -35,14 +31,15 @@ class _SearchBarWidget extends State<SearchBarWidget> {
         padding: EdgeInsets.only(left: 16),
         height: 50,
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey.shade300),
-            borderRadius: BorderRadius.all(Radius.circular(16))),
+          border: Border.all(color: Colors.grey.shade300),
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+        ),
         child: Row(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                  child: TextField(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Expanded(
+              child: TextField(
                 controller: widget.searchController,
                 onSubmitted: widget.handleSubmitSearch,
                 maxLines: 1,
@@ -54,16 +51,23 @@ class _SearchBarWidget extends State<SearchBarWidget> {
                 decoration: InputDecoration.collapsed(
                   hintText: 'Search',
                   hintStyle: TextStyle(
-                      color: Colors.grey.shade300, fontSize: 18, fontWeight: FontWeight.w500),
+                    color: Colors.grey.shade300,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
                   border: InputBorder.none,
                 ),
-              )),
-              IconButton(
-                icon: Icon(widget.isSearching ? Icons.cancel : Icons.search,
-                    color: Colors.grey.shade300),
-                onPressed: widget.handleCancelSearch,
               ),
-            ]),
+            ),
+            IconButton(
+              icon: Icon(
+                widget.isSearching ? Icons.cancel : Icons.search,
+                color: Colors.grey.shade300,
+              ),
+              onPressed: widget.handleCancelSearch,
+            ),
+          ],
+        ),
       ),
     );
   }

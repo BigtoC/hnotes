@@ -4,10 +4,10 @@ class SecretModel {
 
   SecretModel(this.urlWithKey, this.key);
 
-  factory SecretModel.fromAttribute(String? _urlWithKey) {
-    if (_urlWithKey != null && _urlWithKey.isNotEmpty) {
-      String _key = _urlWithKey.split("/").last;
-      return SecretModel(_urlWithKey, _key);
+  factory SecretModel.fromAttribute(String? urlWithKey) {
+    if (urlWithKey != null && urlWithKey.isNotEmpty) {
+      String key = urlWithKey.split("/").last;
+      return SecretModel(urlWithKey, key);
     } else {
       return SecretModel("", "");
     }

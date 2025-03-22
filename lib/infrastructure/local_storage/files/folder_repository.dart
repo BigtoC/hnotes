@@ -53,7 +53,7 @@ class FolderRepository {
 
   Future<File> createFile(String fileName, String folderNameParam) async {
     String newFilePathAndName = await _formFileName(fileName, folderNameParam);
-    File newFile = new File(newFilePathAndName);
+    File newFile = File(newFilePathAndName);
     return newFile;
   }
 }

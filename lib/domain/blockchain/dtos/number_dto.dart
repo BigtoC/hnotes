@@ -15,25 +15,25 @@ class NumberResultDto extends BaseResultDto {
     if (statusCode == 200) {
       final String result = jsonDecode(response.body)["result"];
       if (result.contains("0x")) {
-        this.hexNumber = result;
+        hexNumber = result;
         final String number = int.tryParse(result).toString();
         this.number = number;
       } else {
-        this.number = result;
+        number = result;
       }
     } else {
       final String errorMsg = "Query $method failed ($statusCode): ${response.body}";
       logger.e(errorMsg);
-      this.errorMessage = errorMessage;
+      errorMessage = errorMessage;
     }
   }
 
   Map<String, dynamic> toMap() {
     return {
-      "number": this.number,
-      "hexNumber": this.hexNumber,
-      "timestamp": this.timestamp,
-      "errorMessage": this.errorMessage
+      "number": number,
+      "hexNumber": hexNumber,
+      "timestamp": timestamp,
+      "errorMessage": errorMessage
     };
   }
 }

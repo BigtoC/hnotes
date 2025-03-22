@@ -13,19 +13,19 @@ class TextResultDto extends BaseResultDto {
     int statusCode = response.statusCode;
     if (statusCode == 200) {
       final String result = jsonDecode(response.body)["result"];
-      this.text = result;
+      text = result;
     } else {
       final String errorMsg = "Query $method failed ($statusCode): ${response.body}";
       logger.e(errorMsg);
-      this.errorMessage = errorMessage;
+      errorMessage = errorMessage;
     }
   }
 
   Map<String, dynamic> toMap() {
     return {
-      "text": this.text,
-      "timestamp": this.timestamp,
-      "errorMessage": this.errorMessage
+      "text": text,
+      "timestamp": timestamp,
+      "errorMessage": errorMessage
     };
   }
 }

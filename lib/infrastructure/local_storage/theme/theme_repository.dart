@@ -3,12 +3,12 @@ import 'package:hnotes/infrastructure/local_storage/shared_preferences.dart';
 
 
 class ThemeRepository {
-  static String _themeSharedPrefKey = "theme";
+  static final String _themeSharedPrefKey = "theme";
 
   Future<ThemeModel> getSavedTheme() async {
-    String? _storedThemeText = await getDataFromSharedPref(_themeSharedPrefKey);
-    ThemeModel _theme = ThemeModel.fromAttribute(_storedThemeText);
-    return _theme;
+    String? storedThemeText = await getDataFromSharedPref(_themeSharedPrefKey);
+    ThemeModel theme = ThemeModel.fromAttribute(storedThemeText);
+    return theme;
   }
 
   static void saveThemeInLocal(String? value) {

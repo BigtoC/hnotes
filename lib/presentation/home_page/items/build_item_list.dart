@@ -7,9 +7,9 @@ import 'package:hnotes/presentation/home_page/items/one_item_widget.dart';
 Future<List<Widget>> buildItemList(Function(List<Widget> aList) setList) async {
   List<Widget> tmpList = [];
   List<NftInfoModel> nftList = await nftFilesBloc.fetchLocalNftData();
-  nftList.forEach((nftItem) {
-    tmpList.add(new OneItem(nftItem: nftItem));
-  });
+  for (var nftItem in nftList) {
+    tmpList.add(OneItem(nftItem: nftItem));
+  }
   setList(tmpList);
   return tmpList;
 }

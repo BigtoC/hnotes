@@ -14,14 +14,14 @@ import 'package:hnotes/presentation/drawer/blockchain_info/blockchain_info_ui.da
 class DrawerWidget extends StatelessWidget {
   Function(ThemeData themeData)? changeTheme;
 
-  DrawerWidget(this.changeTheme);
+  DrawerWidget(this.changeTheme, {super.key});
 
   final double subtitleFontSize = 18.0;
   final itemFontWeight = FontWeight.w400;
 
   @override
   Widget build(BuildContext context) {
-    return new Drawer(
+    return Drawer(
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
@@ -102,20 +102,20 @@ class DrawerWidget extends StatelessWidget {
   }
 
   void tapBlockchain(BuildContext context) {
-    Navigator.of(context).push(new CupertinoPageRoute(builder: (_) {
-      return new BlockchainInfoPage();
+    Navigator.of(context).push(CupertinoPageRoute(builder: (_) {
+      return BlockchainInfoPage();
     }));
   }
 
   void tapSettings(BuildContext context) {
-    Navigator.of(context).push(new CupertinoPageRoute(builder: (_) {
-      return new SettingsPage(changeTheme: changeTheme, onlySetDate: false);
+    Navigator.of(context).push(CupertinoPageRoute(builder: (_) {
+      return SettingsPage(changeTheme: changeTheme, onlySetDate: false);
     }));
   }
 
   void tapUsageGuide(BuildContext context) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
-      return new Browser(
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+      return Browser(
           title: "hnotes README",
           url: "https://github.com/BigtoC/hnotes/blob/main/README.md#hnotes"
       );

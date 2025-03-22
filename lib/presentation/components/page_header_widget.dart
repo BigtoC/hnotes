@@ -5,7 +5,7 @@ import 'package:hnotes/presentation/theme.dart';
 class PageHeaderWidget extends StatelessWidget {
   final String title;
 
-  PageHeaderWidget({required this.title});
+  const PageHeaderWidget({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {

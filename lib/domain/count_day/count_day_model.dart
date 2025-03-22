@@ -17,7 +17,7 @@ class CountDayModel {
       rtnDayCount = today.difference(DateTime.parse(loveStartDateParam)).inDays;
     }
 
-    return new CountDayModel(rtnLoveDate, rtnDayCount);
+    return CountDayModel(rtnLoveDate, rtnDayCount);
   }
 
 }

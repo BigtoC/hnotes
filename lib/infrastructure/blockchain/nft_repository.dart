@@ -9,7 +9,7 @@ import 'package:hnotes/infrastructure/local_storage/files/nft_file_repository.da
 import 'package:hnotes/infrastructure/blockchain/base_blockchain_repository.dart';
 
 class NftRepository extends BaseBlockchainRepository {
-  NftFileRepository _nftFileRepository = new NftFileRepository();
+  final NftFileRepository _nftFileRepository = NftFileRepository();
 
   Future<NftMetaDataDto> getNFTMetadata(
       String contractAddress, int tokenId, String tokenType) async {
@@ -18,7 +18,7 @@ class NftRepository extends BaseBlockchainRepository {
 
     return await makeGetRequest(methodName, param).then((response) async {
       // Convert response body bytes to UTF8, so that the app can display non-English language
-      Utf8Decoder decoder = new Utf8Decoder();
+      Utf8Decoder decoder = Utf8Decoder();
       NftMetaDataDto dto = NftMetaDataDto.fromJson(jsonDecode(decoder.convert(response.bodyBytes)));
       dto = await validateMetadata(dto);
       return dto;

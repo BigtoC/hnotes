@@ -7,7 +7,7 @@ class Browser extends StatelessWidget {
   final String title;
   final String url;
 
-  Browser({required this.title, required this.url});
+  const Browser({super.key, required this.title, required this.url});
 
   @override
   Widget build(BuildContext context) {

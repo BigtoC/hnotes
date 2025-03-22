@@ -6,7 +6,7 @@ class SwipeIconWidget extends StatelessWidget {
   final IconData icon;
   final DismissDirection direction;
 
-  SwipeIconWidget({
+  const SwipeIconWidget({super.key, 
     required this.color, required this.text, required this.icon, required this.direction
   });
 
@@ -19,16 +19,16 @@ class SwipeIconWidget extends StatelessWidget {
       directional = AlignmentDirectional.centerEnd;
     }
 
-    return new Container(
+    return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
       alignment: directional,
       color: color,
-      child: new Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          new Icon(icon),
-          new Text(
+          Icon(icon),
+          Text(
               text,
               style: const TextStyle(fontSize: 20,)
           ),

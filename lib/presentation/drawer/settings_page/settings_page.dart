@@ -15,12 +15,7 @@ class SettingsPage extends StatefulWidget {
   Function(ThemeData themeData)? changeTheme;
   bool? onlySetDate;
 
-  SettingsPage(
-      {Key? key, required Function(ThemeData themeData)? changeTheme, required bool onlySetDate})
-      : super(key: key) {
-    this.changeTheme = changeTheme;
-    this.onlySetDate = onlySetDate;
-  }
+  SettingsPage({super.key, this.changeTheme, required bool this.onlySetDate});
 
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -38,59 +33,65 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     setState(() {
-      selectedTheme = Theme.of(context).brightness == Brightness.dark ? "dark" : "light";
+      selectedTheme =
+          Theme.of(context).brightness == Brightness.dark ? "dark" : "light";
     });
 
-    return new Scaffold(
-      body: new ListView(
+    return Scaffold(
+      body: ListView(
         physics: BouncingScrollPhysics(),
         children: <Widget>[
-          Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: handleBack,
-                    child: Container(
-                      padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
-                      child: const Icon(Icons.arrow_back),
-                    ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: handleBack,
+                child: Container(
+                  padding: const EdgeInsets.only(
+                    top: 24,
+                    left: 24,
+                    right: 24,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16, top: 36, right: 24),
-                    child: PageHeaderWidget(title: "Setting"),
-                  ),
-                  widgets(),
-                ],
-              )
-          )
+                  child: const Icon(Icons.arrow_back),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 16, top: 36, right: 24),
+                child: PageHeaderWidget(title: "Setting"),
+              ),
+              widgets(),
+            ],
+          ),
         ],
       ),
     );
-
   }
 
   Widget widgets() {
-    return new Column(
+    return Column(
       children: [
-        new SelectDateWidget(),
+        SelectDateWidget(),
         buildAppThemeChoice(),
-        new InputApiSecretWidget(),
-        new AboutAppWidget(),
+        InputApiSecretWidget(),
+        AboutAppWidget(),
       ],
     );
   }
 
   void handleBack() {
     if (widget.onlySetDate == true) {
-      Navigator.of(context).push(new MaterialPageRoute(builder: (_) {
-        return new CountDay(
-          isSplash: true,
-          changeTheme: widget.changeTheme,
-          key: null,
-        );
-      }));
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) {
+            return CountDay(
+              isSplash: true,
+              changeTheme: widget.changeTheme,
+              key: null,
+            );
+          },
+        ),
+      );
     } else {
       Navigator.pop(context);
     }
@@ -98,42 +99,35 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget buildAppThemeChoice() {
     return buildCardWidget(
-        context,
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            cardTitle('App Theme'),
-            Container(
-              height: 20,
-            ),
-            Row(
-              children: <Widget>[
-                Radio(
-                  value: 'light',
-                  groupValue: selectedTheme,
-                  onChanged: handleThemeSelection,
-                ),
-                Text(
-                  'Light theme',
-                  style: TextStyle(fontSize: 18),
-                )
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Radio(
-                  value: 'dark',
-                  groupValue: selectedTheme,
-                  onChanged: handleThemeSelection,
-                ),
-                Text(
-                  'Dark theme',
-                  style: TextStyle(fontSize: 18),
-                )
-              ],
-            ),
-          ],
-        ));
+      context,
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          cardTitle('App Theme'),
+          Container(height: 20),
+          Row(
+            children: <Widget>[
+              Radio(
+                value: 'light',
+                groupValue: selectedTheme,
+                onChanged: handleThemeSelection,
+              ),
+              Text('Light theme', style: TextStyle(fontSize: 18)),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Radio(
+                value: 'dark',
+                groupValue: selectedTheme,
+                onChanged: handleThemeSelection,
+              ),
+              Text('Dark theme', style: TextStyle(fontSize: 18)),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   void handleThemeSelection(String? value) {
