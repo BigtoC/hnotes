@@ -27,11 +27,13 @@ class SelectDateWidget extends StatelessWidget {
           initialDate: new DateTime.now(),
           firstDate: new DateTime(1966),
           lastDate: new DateTime.now());
-      // Convert selected date to string for showing
-      String _selectedDate = picked.toString().split(" ")[0];
+      if (picked != null) {
+        // Convert selected date to string for showing
+        String _selectedDate = picked.toString().split(" ")[0];
 
-      await daysBloc.updateLoveStartDate(_selectedDate);
-        }
+        await daysBloc.updateLoveStartDate(_selectedDate);
+      }
+    }
 
     return buildCardWidget(
         context,
@@ -58,12 +60,12 @@ class SelectDateWidget extends StatelessWidget {
                           if (snapshot.hasData) {
                             late String? storedStartDate;
                             String? data = snapshot.data?.loveStartDate;
-                            if (data != null) {
+                            if (data == null || data.isEmpty) {
                               storedStartDate = buttonPlaceholder;
                             } else {
                               storedStartDate = data;
                             }
-                            return _selectDateText(storedStartDate!);
+                            return _selectDateText(storedStartDate);
                           }
                           return _selectDateText(buttonPlaceholder);
                         }),
