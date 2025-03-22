@@ -19,7 +19,7 @@ class BooleanResultDto extends BaseResultDto {
     } else {
       final String errorMsg = "Query $method failed ($statusCode): ${response.body}";
       logger.e(errorMsg);
-      errorMessage = errorMessage;
+      errorMessage = errorMsg;
     }
   }
 

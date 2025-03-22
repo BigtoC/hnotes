@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'base_dto.dart';
 import 'package:hnotes/domain/common_data.dart';
 
-
 // For response results that only contain a text string
 class TextResultDto extends BaseResultDto {
   String? text;
@@ -17,15 +16,11 @@ class TextResultDto extends BaseResultDto {
     } else {
       final String errorMsg = "Query $method failed ($statusCode): ${response.body}";
       logger.e(errorMsg);
-      errorMessage = errorMessage;
+      errorMessage = errorMsg;
     }
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      "text": text,
-      "timestamp": timestamp,
-      "errorMessage": errorMessage
-    };
+    return {"text": text, "timestamp": timestamp, "errorMessage": errorMessage};
   }
 }

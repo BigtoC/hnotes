@@ -36,8 +36,7 @@ class _DaySince extends State<CountDay> {
   void _recordSize() {
     // now we set the RenderBox and trigger a redraw
     setState(() {
-      colorTextRenderBox =
-          colorTextKey.currentContext?.findRenderObject()! as RenderBox;
+      colorTextRenderBox = colorTextKey.currentContext?.findRenderObject()! as RenderBox;
     });
   }
 
@@ -47,9 +46,8 @@ class _DaySince extends State<CountDay> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    double fromTop = screenHeight * 0.31082019;
+    double fromTop = screenHeight * 0.31082019; // 彩蛋
 
-    /// 彩蛋
     return Scaffold(
       key: colorTextKey,
       body: Stack(

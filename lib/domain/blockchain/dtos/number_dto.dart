@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:hnotes/domain/common_data.dart';
 import 'package:hnotes/domain/blockchain/dtos/base_dto.dart';
 
-
 // For response results that only contain one number
 class NumberResultDto extends BaseResultDto {
   String? number;
@@ -24,7 +23,7 @@ class NumberResultDto extends BaseResultDto {
     } else {
       final String errorMsg = "Query $method failed ($statusCode): ${response.body}";
       logger.e(errorMsg);
-      errorMessage = errorMessage;
+      errorMessage = errorMsg;
     }
   }
 
@@ -33,7 +32,7 @@ class NumberResultDto extends BaseResultDto {
       "number": number,
       "hexNumber": hexNumber,
       "timestamp": timestamp,
-      "errorMessage": errorMessage
+      "errorMessage": errorMessage,
     };
   }
 }
