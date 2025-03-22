@@ -7,14 +7,14 @@ allprojects {
 
 val kotlinVersion = "2.1.20"
 
-rootProject.buildDir = '../build'
+rootProject.layout.buildDirectory.set(File("../build"))
 subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
+    project.layout.buildDirectory.set(File("${rootProject.layout.buildDirectory.get()}/${project.name}"))
 }
 subprojects {
-    project.evaluationDependsOn(':app')
+    project.evaluationDependsOn(":app")
 }
 
-tasks.register("clean", Delete) {
-    delete rootProject.layout.buildDirectory
+tasks.register("clean", Delete::class) {
+    delete(rootProject.layout.buildDirectory)
 }
