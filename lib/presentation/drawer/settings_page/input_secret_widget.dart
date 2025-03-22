@@ -44,7 +44,7 @@ class _InputApiSecretWidget extends State<InputApiSecretWidget> {
     final String _defaultHintText = "https://xx.xx/v2/<API KEY>";
 
     final ButtonStyle style = ElevatedButton.styleFrom(
-      primary: btnColor,
+      backgroundColor: btnColor,
     );
 
     Widget _inputTextField(TextEditingController _controller) {

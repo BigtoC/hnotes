@@ -9,7 +9,7 @@ List<Color> colorList = [
   Colors.amber.shade900,
   Colors.deepOrange,
   Colors.red,
-  Colors.purple
+  Colors.purple,
 ];
 
 Color primaryColor = Colors.pinkAccent.shade200;
@@ -18,15 +18,60 @@ Color reallyLightGrey = Colors.grey.withAlpha(25);
 
 ThemeData appThemeLight = ThemeData.light().copyWith(
   primaryColor: primaryColor,
-  textTheme: ThemeData.light().textTheme.apply(
-    fontFamily: 'ZillaSlab',
-  ),
+  textTheme: ThemeData.light().textTheme.apply(fontFamily: 'ZillaSlab'),
 );
 ThemeData appThemeDark = ThemeData.dark().copyWith(
   primaryColor: primaryColor,
-  toggleableActiveColor: primaryColor,
   buttonTheme: ButtonThemeData(buttonColor: btnColor),
-  textTheme: ThemeData.dark().textTheme.apply(
-    fontFamily: 'ZillaSlab',
+  textTheme: ThemeData.dark().textTheme.apply(fontFamily: 'ZillaSlab'),
+  checkboxTheme: CheckboxThemeData(
+    fillColor: WidgetStateProperty.resolveWith<Color?>((
+      Set<WidgetState> states,
+    ) {
+      if (states.contains(WidgetState.disabled)) {
+        return null;
+      }
+      if (states.contains(WidgetState.selected)) {
+        return primaryColor;
+      }
+      return null;
+    }),
+  ),
+  radioTheme: RadioThemeData(
+    fillColor: WidgetStateProperty.resolveWith<Color?>((
+      Set<WidgetState> states,
+    ) {
+      if (states.contains(WidgetState.disabled)) {
+        return null;
+      }
+      if (states.contains(WidgetState.selected)) {
+        return primaryColor;
+      }
+      return null;
+    }),
+  ),
+  switchTheme: SwitchThemeData(
+    thumbColor: WidgetStateProperty.resolveWith<Color?>((
+      Set<WidgetState> states,
+    ) {
+      if (states.contains(WidgetState.disabled)) {
+        return null;
+      }
+      if (states.contains(WidgetState.selected)) {
+        return primaryColor;
+      }
+      return null;
+    }),
+    trackColor: WidgetStateProperty.resolveWith<Color?>((
+      Set<WidgetState> states,
+    ) {
+      if (states.contains(WidgetState.disabled)) {
+        return null;
+      }
+      if (states.contains(WidgetState.selected)) {
+        return primaryColor;
+      }
+      return null;
+    }),
   ),
 );

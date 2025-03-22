@@ -7,7 +7,7 @@ import 'package:hnotes/presentation/components/build_card_widget.dart';
 
 class SelectDateWidget extends StatelessWidget {
   final ButtonStyle style = ElevatedButton.styleFrom(
-    primary: btnColor,
+    backgroundColor: btnColor,
   );
 
   Widget _selectDateText(String text) {
@@ -58,7 +58,7 @@ class SelectDateWidget extends StatelessWidget {
                             return Text('Error: ${snapshot.error}');
                           }
                           if (snapshot.hasData) {
-                            late String storedStartDate;
+                            late String? storedStartDate;
                             String? data = snapshot.data?.loveStartDate;
                             if (data == null || data.isEmpty) {
                               storedStartDate = buttonPlaceholder;
