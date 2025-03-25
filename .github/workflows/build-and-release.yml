@@ -1,0 +1,99 @@
+name: Build and Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: pubspec.yaml
+      - run: flutter --version
+
+      - name: Parse pubspec.yaml for version
+        id: version
+        run: |
+          # Extract current version from pubspec.yaml
+          CURRENT_VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
+          echo "Current version: $CURRENT_VERSION"
+
+          # Output version for use in release job
+          echo "CURRENT_VERSION=$CURRENT_VERSION" >> $GITHUB_ENV
+
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
+      - name: Build APKs
+        run: |
+          flutter build apk --split-per-abi
+          mkdir -p build/apks
+          cp build/app/outputs/flutter-apk/*.apk build/apks/
+
+      - name: Upload APK artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: apks
+          path: build/apks/
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download APK artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: apks
+          path: build/apks/
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ env.CURRENT_VERSION }} # 使用 pubspec.yaml 中的版本号
+          release_name: Release v${{ env.CURRENT_VERSION }}
+          body: |
+            Changes in this release:
+            - See GitHub
+          draft: false
+          prerelease: false
+
+      - name: Upload APK Release Assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/apks/app-armeabi-v7a-release.apk
+          asset_name: app-armeabi-v7a-release.apk
+          asset_content_type: application/vnd.android.package-archive
+
+      - name: Upload APK Release Assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/apks/app-arm64-v8a-release.apk
+          asset_name: app-arm64-v8a-release.apk
+          asset_content_type: application/vnd.android.package-archive
+
+      - name: Upload APK Release Assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/apks/app-x86_64-release.apk
+          asset_name: app-x86_64-release.apk
+          asset_content_type: application/vnd.android.package-archive
