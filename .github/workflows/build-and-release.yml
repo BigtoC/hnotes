@@ -38,7 +38,7 @@ jobs:
           cp build/app/outputs/flutter-apk/*.apk build/apks/
 
       - name: Upload APK artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: apks
           path: build/apks/
@@ -60,8 +60,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ env.CURRENT_VERSION }} # 使用 pubspec.yaml 中的版本号
-          release_name: Release v${{ env.CURRENT_VERSION }}
+          tag_name: ${{ env.CURRENT_VERSION }}
+          release_name: Release ${{ env.CURRENT_VERSION }}
           body: |
             Changes in this release:
             - See GitHub
@@ -69,31 +69,7 @@ jobs:
           prerelease: false
 
       - name: Upload APK Release Assets
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: actions/upload-artifact@v4
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/apks/app-armeabi-v7a-release.apk
-          asset_name: app-armeabi-v7a-release.apk
-          asset_content_type: application/vnd.android.package-archive
-
-      - name: Upload APK Release Assets
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/apks/app-arm64-v8a-release.apk
-          asset_name: app-arm64-v8a-release.apk
-          asset_content_type: application/vnd.android.package-archive
-
-      - name: Upload APK Release Assets
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/apks/app-x86_64-release.apk
-          asset_name: app-x86_64-release.apk
-          asset_content_type: application/vnd.android.package-archive
+          name: release-apks
+          path: build/apks/
