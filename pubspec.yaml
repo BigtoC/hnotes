@@ -64,10 +64,9 @@ flutter:
     - "assets/Images/sun-bg.png"
     - "assets/Images/heart-bg.png"
     - "assets/Images/sun-splash.png"
-    - "assets/Images/logo/Ethereum-Logo.png"
-    - "assets/Images/logo/alchemy-logo-black.png"
-    - "assets/Images/logo/alchemy-logo-white.png"
-    - "assets/Images/logo/alchemy-logo-blue-gradient.png"
+    - "assets/Images/logo/MANTRA-Gradient.png"
+    - "assets/Images/logo/CosmWasm-black.png"
+    - "assets/Images/logo/CosmWasm-white.png"
 
   # To add assets to your application, add an assets section, like this:
   # assets:
