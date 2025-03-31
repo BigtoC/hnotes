@@ -1,93 +1,82 @@
-name: Build and Release
+name: Build and Release Android
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
-    name: Build & Release
-    runs-on: macos-latest
+    name: Build & Release Android
+    runs-on: ubuntu-latest
 
     steps:
-      #1 Checkout Repository
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-        #2 Setup Java
       - name: Set Up Java
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '21'
 
-        #3 Setup Flutter
       - name: Set Up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+          cache: true
       - run: flutter --version
 
-        #4 Install Dependencies
       - name: Install Dependencies
         run: flutter pub get
 
-        #5 Setup Keystore
-      - name: Decode Keystore
-        run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/keystore.jks
+      - name: Flutter Clean
+        run: flutter clean
 
-      #6 Building APK
-      - name: Build APK
-        run: flutter build apk --release
-
-        #7 Building App Bundle (aab)
-      - name: Build appBundle
-        run: flutter build appbundle
-
-      - name: Compress Archives and IPAs
-        run: |
-          cd build
-          tar -czf ios_build.tar.gz ios
-
-        #8 Upload Artifacts
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: Releases
-          path: |
-            build/app/outputs/flutter-apk/app-release.apk
-            build/app/outputs/bundle/release/app-release.aab
-            build/ios_build.tar.gz
-
-        #9 Extract Version
       - name: Extract version from pubspec.yaml
         id: extract_version
         run: |
-          version=$(grep '^version: ' pubspec.yaml | cut -d ' ' -f 2 | tr -d '\r')
+          version=$(grep '^version:' pubspec.yaml | sed 's/version:\s*\([0-9]*\.[0-9]*\.[0-9]*.*\)/\1/' | tr -d '\r')
           echo "VERSION=$version" >> $GITHUB_ENV
+          echo "Extracted version: $version"
 
-        #10 Check if Tag Exists
-      - name: Check if Tag Exists
-        id: check_tag
+      - name: Build APK
+        run: flutter build apk --release --build-name=${{ env.VERSION }} --build-number=${{ github.run_number }}
+
+      - name: Build App Bundle
+        run: flutter build appbundle --build-name=${{ env.VERSION }} --build-number=${{ github.run_number }}
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Android-Releases
+          path: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/bundle/release/app-release.aab
+          retention-days: 7
+
+      - name: Generate Release Tag
+        id: tag_version
         run: |
-          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
-            echo "TAG_EXISTS=true" >> $GITHUB_ENV
+          if [ "${{ github.event.inputs.release_type }}" == "production" ]; then
+            RELEASE_TAG="v${{ env.VERSION }}"
           else
-            echo "TAG_EXISTS=false" >> $GITHUB_ENV
+            RELEASE_TAG="v${{ env.VERSION }}-${{ github.event.inputs.release_type }}"
           fi
+          echo "RELEASE_TAG=$RELEASE_TAG" >> $GITHUB_ENV
 
-        #11 Modify Tag if it Exists
-      - name: Modify Tag
-        if: env.TAG_EXISTS == 'true'
-        id: modify_tag
-        run: |
-          new_version="${{ env.VERSION }}-build-${{ github.run_number }}"
-          echo "VERSION=$new_version" >> $GITHUB_ENV
-
-        #12 Create Release
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/flutter-apk/app-release.apk,build/app/outputs/bundle/release/app-release.aab,build/ios_build.tar.gz"
-          tag: v${{ env.VERSION }}
+          artifacts: "build/app/outputs/flutter-apk/app-release.apk,build/app/outputs/bundle/release/app-release.aab"
+          tag: ${{ env.RELEASE_TAG }}
+          name: "Android Release ${{ env.RELEASE_TAG }}"
+          body: |
+            Android Release ${{ env.RELEASE_TAG }}
+            Version: ${{ env.VERSION }}
+            Build Number: ${{ github.run_number }}
+            Release Type: ${{ github.event.inputs.release_type }}
+            
+            Automated release from GitHub Actions workflow.
           token: ${{ secrets.TOKEN }}
+          prerelease: ${{ github.event.inputs.release_type != 'production' }}
