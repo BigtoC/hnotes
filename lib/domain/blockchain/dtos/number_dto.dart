@@ -1,8 +1,8 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import "dart:convert";
+import "package:http/http.dart" as http;
 
-import 'package:hnotes/domain/common_data.dart';
-import 'package:hnotes/domain/blockchain/dtos/base_dto.dart';
+import "package:hnotes/domain/common_data.dart";
+import "package:hnotes/domain/blockchain/dtos/base_dto.dart";
 
 // For response results that only contain one number
 class NumberResultDto extends BaseResultDto {
@@ -21,7 +21,8 @@ class NumberResultDto extends BaseResultDto {
         number = result;
       }
     } else {
-      final String errorMsg = "Query $method failed ($statusCode): ${response.body}";
+      final String errorMsg =
+          "Query $method failed ($statusCode): ${response.body}";
       logger.e(errorMsg);
       errorMessage = errorMsg;
     }

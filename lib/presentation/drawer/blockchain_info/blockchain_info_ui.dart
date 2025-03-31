@@ -1,19 +1,19 @@
-import 'package:intl/intl.dart';
-import 'package:flutter/material.dart';
+import "package:intl/intl.dart";
+import "package:flutter/material.dart";
 
-import 'package:hnotes/presentation/components/build_card_widget.dart';
-import 'package:hnotes/presentation/components/page_header_widget.dart';
-import 'package:hnotes/application/blockchain_info/blockchain_info_bloc.dart';
+import "package:hnotes/presentation/components/build_card_widget.dart";
+import "package:hnotes/presentation/components/page_header_widget.dart";
+import "package:hnotes/application/blockchain_info/blockchain_info_bloc.dart";
 
 // ignore: must_be_immutable
 class BlockchainInfoPage extends StatefulWidget {
   const BlockchainInfoPage({super.key});
 
   @override
-  _BlockchainInfoPageState createState() => _BlockchainInfoPageState();
+  BlockchainInfoPageState createState() => BlockchainInfoPageState();
 }
 
-class _BlockchainInfoPageState extends State<BlockchainInfoPage> {
+class BlockchainInfoPageState extends State<BlockchainInfoPage> {
   @override
   void initState() {
     super.initState();
@@ -98,7 +98,7 @@ class _BlockchainInfoPageState extends State<BlockchainInfoPage> {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          cardTitle('Latest Block Info'),
+          cardTitle("Latest Block Info"),
           contentGap(),
           buildTitleAndContent(
             context,
@@ -144,7 +144,7 @@ class _BlockchainInfoPageState extends State<BlockchainInfoPage> {
       Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          cardTitle('Node Client Info'),
+          cardTitle("Node Client Info"),
           contentGap(),
           buildTitleAndContent(
             context,

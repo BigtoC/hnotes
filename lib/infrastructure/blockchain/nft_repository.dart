@@ -1,25 +1,33 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:typed_data';
-import 'package:http/http.dart';
+import "dart:async";
+import "dart:convert";
+import "dart:typed_data";
+import "package:http/http.dart";
 
-import 'package:hnotes/domain/blockchain/dtos/nft_raw_dto.dart';
-import 'package:hnotes/domain/blockchain/dtos/nft_metadata_dto.dart';
-import 'package:hnotes/infrastructure/local_storage/files/nft_file_repository.dart';
-import 'package:hnotes/infrastructure/blockchain/base_blockchain_repository.dart';
+import "package:hnotes/domain/blockchain/dtos/nft_raw_dto.dart";
+import "package:hnotes/domain/blockchain/dtos/nft_metadata_dto.dart";
+import "package:hnotes/infrastructure/local_storage/files/nft_file_repository.dart";
+import "package:hnotes/infrastructure/blockchain/base_blockchain_repository.dart";
 
 class NftRepository extends BaseBlockchainRepository {
   final NftFileRepository _nftFileRepository = NftFileRepository();
 
   Future<NftMetaDataDto> getNFTMetadata(
-      String contractAddress, int tokenId, String tokenType) async {
+    String contractAddress,
+    int tokenId,
+    String tokenType,
+  ) async {
     final String methodName = "getNFTMetadata";
-    final String param = "contractAddress=$contractAddress&tokenId=$tokenId&tokenType=$tokenType";
+    final String param =
+        "contractAddress=$contractAddress&tokenId=$tokenId"
+        "&tokenType=$tokenType";
 
     return await makeGetRequest(methodName, param).then((response) async {
-      // Convert response body bytes to UTF8, so that the app can display non-English language
+      // Convert response body bytes to UTF8,
+      // so that the app can display non-English language
       Utf8Decoder decoder = Utf8Decoder();
-      NftMetaDataDto dto = NftMetaDataDto.fromJson(jsonDecode(decoder.convert(response.bodyBytes)));
+      NftMetaDataDto dto = NftMetaDataDto.fromJson(
+        jsonDecode(decoder.convert(response.bodyBytes)),
+      );
       dto = await validateMetadata(dto);
       return dto;
     });
@@ -44,7 +52,10 @@ class NftRepository extends BaseBlockchainRepository {
     // Reference: https://stackoverflow.com/questions/52299112/flutter-download-an-image-from-url
     Response response = await get(Uri.parse(url));
     Uint8List content = response.bodyBytes;
-    String savedFileName = await _nftFileRepository.saveBytesFile(content, "$fileName.png");
+    String savedFileName = await _nftFileRepository.saveBytesFile(
+      content,
+      "$fileName.png",
+    );
     return savedFileName;
   }
 

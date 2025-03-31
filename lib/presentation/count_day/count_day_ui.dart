@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-import 'package:hnotes/presentation/theme.dart';
-import 'package:hnotes/presentation/home_page/home_ui.dart';
-import 'package:hnotes/domain/count_day/count_day_model.dart';
-import 'package:hnotes/presentation/components/fade_route.dart';
-import 'package:hnotes/application/count_day/count_day_bloc.dart';
-import 'package:hnotes/presentation/count_day/count_day_background.dart';
+import "package:hnotes/presentation/theme.dart";
+import "package:hnotes/presentation/home_page/home_ui.dart";
+import "package:hnotes/domain/count_day/count_day_model.dart";
+import "package:hnotes/presentation/components/fade_route.dart";
+import "package:hnotes/application/count_day/count_day_bloc.dart";
+import "package:hnotes/presentation/count_day/count_day_background.dart";
 
 // ignore: must_be_immutable
 class CountDay extends StatefulWidget {
@@ -16,10 +16,10 @@ class CountDay extends StatefulWidget {
   final bool isSplash;
 
   @override
-  _DaySince createState() => _DaySince();
+  DaySince createState() => DaySince();
 }
 
-class _DaySince extends State<CountDay> {
+class DaySince extends State<CountDay> {
   // a key to set on our Text widget, so we can measure later
   GlobalKey colorTextKey = GlobalKey();
 
@@ -29,14 +29,16 @@ class _DaySince extends State<CountDay> {
   @override
   void initState() {
     super.initState();
-    // this will be called after first draw, and then call _recordSize() method _recordSize() method
+    // this will be called after first draw,
+    // and then call _recordSize() method _recordSize() method
     WidgetsBinding.instance.addPostFrameCallback((_) => _recordSize());
   }
 
   void _recordSize() {
     // now we set the RenderBox and trigger a redraw
     setState(() {
-      colorTextRenderBox = colorTextKey.currentContext?.findRenderObject()! as RenderBox;
+      colorTextRenderBox =
+          colorTextKey.currentContext?.findRenderObject()! as RenderBox;
     });
   }
 
@@ -73,7 +75,7 @@ class _DaySince extends State<CountDay> {
           stream: daysBloc.dayModel,
           builder: (context, AsyncSnapshot<CountDayModel> snapshot) {
             if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
+              return Text("Error: ${snapshot.error}");
             }
             if (snapshot.hasData) {
               int? daySince = snapshot.data?.dayCount;
@@ -92,7 +94,7 @@ class _DaySince extends State<CountDay> {
           stream: daysBloc.dayModel,
           builder: (context, AsyncSnapshot<CountDayModel> snapshot) {
             if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
+              return Text("Error: ${snapshot.error}");
             }
             if (snapshot.hasData) {
               String? startDateStr = snapshot.data?.loveStartDate;
@@ -154,18 +156,20 @@ class _DaySince extends State<CountDay> {
         onPressed: () async {
           if (widget.isSplash) {
             await Future.delayed(Duration(milliseconds: 200), () {});
-            Navigator.of(context).pushAndRemoveUntil(
-              FadeRoute(
-                page: MyHomePage(changeTheme: widget.changeTheme, key: null),
-              ),
-              (Route<dynamic> route) => false,
-            );
+            if (mounted) {
+              Navigator.of(context).pushAndRemoveUntil(
+                FadeRoute(
+                  page: MyHomePage(changeTheme: widget.changeTheme, key: null),
+                ),
+                (Route<dynamic> route) => false,
+              );
+            }
             await Future.delayed(Duration(milliseconds: 200), () {});
           } else {
             Navigator.pop(context);
           }
         },
-        child: Text('Love You~', style: TextStyle(color: Colors.white)),
+        child: Text("Love You~", style: TextStyle(color: Colors.white)),
       ),
     );
   }

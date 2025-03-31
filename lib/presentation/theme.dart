@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 List<Color> colorList = [
   Colors.indigo,
@@ -18,12 +18,12 @@ Color reallyLightGrey = Colors.grey.withAlpha(25);
 
 ThemeData appThemeLight = ThemeData.light().copyWith(
   primaryColor: primaryColor,
-  textTheme: ThemeData.light().textTheme.apply(fontFamily: 'ZillaSlab'),
+  textTheme: ThemeData.light().textTheme.apply(fontFamily: "ZillaSlab"),
 );
 ThemeData appThemeDark = ThemeData.dark().copyWith(
   primaryColor: primaryColor,
   buttonTheme: ButtonThemeData(buttonColor: btnColor),
-  textTheme: ThemeData.dark().textTheme.apply(fontFamily: 'ZillaSlab'),
+  textTheme: ThemeData.dark().textTheme.apply(fontFamily: "ZillaSlab"),
   checkboxTheme: CheckboxThemeData(
     fillColor: WidgetStateProperty.resolveWith<Color?>((
       Set<WidgetState> states,

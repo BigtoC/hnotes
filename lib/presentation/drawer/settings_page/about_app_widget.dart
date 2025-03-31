@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-import 'package:hnotes/domain/common_data.dart';
-import 'package:hnotes/domain/theme/theme_model.dart';
-import 'package:hnotes/presentation/components/browser.dart';
-import 'package:hnotes/presentation/components/build_card_widget.dart';
-import 'package:hnotes/application/blockchain_info/blockchain_info_bloc.dart';
-import 'package:hnotes/infrastructure/local_storage/theme/theme_repository.dart';
+import "package:hnotes/domain/common_data.dart";
+import "package:hnotes/domain/theme/theme_model.dart";
+import "package:hnotes/presentation/components/browser.dart";
+import "package:hnotes/presentation/components/build_card_widget.dart";
+import "package:hnotes/application/blockchain_info/blockchain_info_bloc.dart";
+import "package:hnotes/infrastructure/local_storage/theme/theme_repository.dart";
 
 class AboutAppWidget extends StatelessWidget {
   const AboutAppWidget({super.key});
@@ -37,16 +37,16 @@ class AboutAppWidget extends StatelessWidget {
       Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          cardTitle('About App'),
+          cardTitle("About App"),
           Container(height: 40),
-          cardContentTitle('Developer'),
-          cardContent(context, 'Bigto Chan'),
+          cardContentTitle("Developer"),
+          cardContent(context, "Bigto Chan"),
           Container(
             alignment: Alignment.center,
             child: OutlinedButton.icon(
               icon: Icon(Icons.code),
               label: Text(
-                'GITHUB',
+                "GITHUB",
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   letterSpacing: 1,
@@ -58,10 +58,10 @@ class AboutAppWidget extends StatelessWidget {
             ),
           ),
           cardContentGap(),
-          cardContentTitle('Co-Designer'),
-          cardContent(context, 'vv'),
+          cardContentTitle("Co-Designer"),
+          cardContent(context, "vv"),
           cardContentGap(),
-          cardContentTitle('Framework'),
+          cardContentTitle("Framework"),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
@@ -71,14 +71,14 @@ class AboutAppWidget extends StatelessWidget {
                   FlutterLogo(size: 40),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text('Flutter', style: TextStyle(fontSize: 24)),
+                    child: Text("Flutter", style: TextStyle(fontSize: 24)),
                   ),
                 ],
               ),
             ),
           ),
           Container(height: 30),
-          cardContentTitle('Blockchain'),
+          cardContentTitle("Blockchain"),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
@@ -93,7 +93,9 @@ class AboutAppWidget extends StatelessWidget {
                   //   padding: const EdgeInsets.all(8.0),
                   //   child: FutureBuilder(
                   //     future: blockchainInfoBloc.fetchNetworkData(),
-                  //     builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+                  //     builder: (context, AsyncSnapshot<Map<
+                  //         String,
+                  //         dynamic>> snapshot) {
                   //       String networkName = "......";
                   //       if (snapshot.hasError) {
                   //         logger.e(snapshot.error);
@@ -132,7 +134,7 @@ class AboutAppWidget extends StatelessWidget {
             ),
           ),
           cardContentGap(),
-          cardContentTitle('Version'),
+          cardContentTitle("Version"),
           cardContent(
             context,
             "${packageInfo.version}+${packageInfo.buildNumber}",

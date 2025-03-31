@@ -1,16 +1,16 @@
-import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart';
-import 'package:http/http.dart' as http;
+import "dart:async";
+import "dart:convert";
+import "package:http/http.dart";
+import "package:http/http.dart" as http;
 
-import 'package:hnotes/domain/secret/secret_model.dart';
-import 'package:hnotes/infrastructure/local_storage/secrets/secrets_repository.dart';
+import "package:hnotes/domain/secret/secret_model.dart";
+import "package:hnotes/infrastructure/local_storage/secrets/secrets_repository.dart";
 
 
 class BaseBlockchainRepository {
   final client = http.Client();
 
-  final _requestHeaders = {'Content-type': 'application/json'};
+  final _requestHeaders = {"Content-type": "application/json"};
   final SecretRepository _secretRepository = SecretRepository();
 
   Future<SecretModel> _readSecrets() async {

@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-import 'package:hnotes/domain/blockchain/models/nft_info_model.dart';
-import 'package:hnotes/presentation/home_page/items/item_image_widget.dart';
+import "package:hnotes/domain/blockchain/models/nft_info_model.dart";
+import "package:hnotes/presentation/home_page/items/item_image_widget.dart";
 
 class SwipeWidget extends StatelessWidget {
   final NftInfoModel nftItem;
@@ -11,13 +11,14 @@ class SwipeWidget extends StatelessWidget {
   final Function(BuildContext context) confirmStartToEnd;
   final Function(BuildContext context) confirmEndToStart;
 
-  const SwipeWidget({super.key, 
+  const SwipeWidget({
+    super.key,
     required this.nftItem,
     required this.allBorderRadius,
     required this.confirmStartToEnd,
     required this.confirmEndToStart,
     required this.leftBackground,
-    required this.rightBackground
+    required this.rightBackground,
   });
 
   @override
@@ -34,7 +35,10 @@ class SwipeWidget extends StatelessWidget {
         }
         return null;
       },
-      dismissThresholds: {DismissDirection.startToEnd: 0.3, DismissDirection.endToStart: 0.88},
+      dismissThresholds: {
+        DismissDirection.startToEnd: 0.3,
+        DismissDirection.endToStart: 0.88,
+      },
       child: mainContent(shortenText(nftItem.description, 50)),
     );
   }
@@ -43,10 +47,7 @@ class SwipeWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        ItemImageWidget(
-          nftItem: nftItem,
-          topRadius: allBorderRadius,
-        ),
+        ItemImageWidget(nftItem: nftItem, topRadius: allBorderRadius),
         normalText(content),
       ],
     );
@@ -55,14 +56,13 @@ class SwipeWidget extends StatelessWidget {
   Widget normalText(String text) {
     return Container(
       margin: const EdgeInsets.fromLTRB(10, 2, 2, 10),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 16),
-      ),
+      child: Text(text, style: const TextStyle(fontSize: 16)),
     );
   }
 
   String shortenText(String longText, int limit) {
-    return longText.length <= limit ? longText : "${longText.substring(0, limit)}...";
+    return longText.length <= limit
+        ? longText
+        : "${longText.substring(0, limit)}...";
   }
 }

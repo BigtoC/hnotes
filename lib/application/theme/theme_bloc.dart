@@ -1,7 +1,7 @@
-import 'package:rxdart/rxdart.dart';
+import "package:rxdart/rxdart.dart";
 
-import 'package:hnotes/domain/theme/theme_model.dart';
-import 'package:hnotes/infrastructure/local_storage/theme/theme_repository.dart';
+import "package:hnotes/domain/theme/theme_model.dart";
+import "package:hnotes/infrastructure/local_storage/theme/theme_repository.dart";
 
 
 class ThemeBloc {
