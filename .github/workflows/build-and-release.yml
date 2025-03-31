@@ -5,70 +5,89 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    name: Build & Release
+    runs-on: macos-latest
 
     steps:
-      - name: Checkout code
+      #1 Checkout Repository
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Set up Flutter
+        #2 Setup Java
+      - name: Set Up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+
+        #3 Setup Flutter
+      - name: Set Up Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: stable
+          channel: 'stable'
       - run: flutter --version
 
-      - name: Parse pubspec.yaml for version
-        id: version
-        run: |
-          # Extract current version from pubspec.yaml
-          CURRENT_VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
-          echo "Current version: $CURRENT_VERSION"
-
-          # Output version for use in release job
-          echo "CURRENT_VERSION=$CURRENT_VERSION" >> $GITHUB_ENV
-
-      - name: Install Flutter dependencies
+        #4 Install Dependencies
+      - name: Install Dependencies
         run: flutter pub get
 
-      - name: Build APKs
+        #5 Setup Keystore
+      - name: Decode Keystore
         run: |
-          flutter build apk --split-per-abi
-          mkdir -p build/apks
-          cp build/app/outputs/flutter-apk/*.apk build/apks/
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/keystore.jks
 
-      - name: Upload APK artifacts
-        uses: actions/upload-artifact@v4
+      #6 Building APK
+      - name: Build APK
+        run: flutter build apk --release
+
+        #7 Building App Bundle (aab)
+      - name: Build appBundle
+        run: flutter build appbundle
+
+      - name: Compress Archives and IPAs
+        run: |
+          cd build
+          tar -czf ios_build.tar.gz ios
+
+        #8 Upload Artifacts
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
         with:
-          name: apks
-          path: build/apks/
+          name: Releases
+          path: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/bundle/release/app-release.aab
+            build/ios_build.tar.gz
 
-  release:
-    needs: build
-    runs-on: ubuntu-latest
+        #9 Extract Version
+      - name: Extract version from pubspec.yaml
+        id: extract_version
+        run: |
+          version=$(grep '^version: ' pubspec.yaml | cut -d ' ' -f 2 | tr -d '\r')
+          echo "VERSION=$version" >> $GITHUB_ENV
 
-    steps:
-      - name: Download APK artifacts
-        uses: actions/download-artifact@v3
+        #10 Check if Tag Exists
+      - name: Check if Tag Exists
+        id: check_tag
+        run: |
+          if git rev-parse "v${{ env.VERSION }}" >/dev/null 2>&1; then
+            echo "TAG_EXISTS=true" >> $GITHUB_ENV
+          else
+            echo "TAG_EXISTS=false" >> $GITHUB_ENV
+          fi
+
+        #11 Modify Tag if it Exists
+      - name: Modify Tag
+        if: env.TAG_EXISTS == 'true'
+        id: modify_tag
+        run: |
+          new_version="${{ env.VERSION }}-build-${{ github.run_number }}"
+          echo "VERSION=$new_version" >> $GITHUB_ENV
+
+        #12 Create Release
+      - name: Create Release
+        uses: ncipollo/release-action@v1
         with:
-          name: apks
-          path: build/apks/
-
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ env.CURRENT_VERSION }}
-          release_name: Release ${{ env.CURRENT_VERSION }}
-          body: |
-            Changes in this release:
-            - See GitHub
-          draft: false
-          prerelease: false
-
-      - name: Upload APK Release Assets
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-apks
-          path: build/apks/
+          artifacts: "build/app/outputs/flutter-apk/app-release.apk,build/app/outputs/bundle/release/app-release.aab,build/ios_build.tar.gz"
+          tag: v${{ env.VERSION }}
+          token: ${{ secrets.TOKEN }}
