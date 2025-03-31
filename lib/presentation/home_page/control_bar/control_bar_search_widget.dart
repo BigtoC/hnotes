@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // ignore: must_be_immutable
 class SearchBarWidget extends StatefulWidget {
@@ -49,7 +49,7 @@ class _SearchBarWidget extends State<SearchBarWidget> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 textInputAction: TextInputAction.search,
                 decoration: InputDecoration.collapsed(
-                  hintText: 'Search',
+                  hintText: "Search",
                   hintStyle: TextStyle(
                     color: Colors.grey.shade300,
                     fontSize: 18,

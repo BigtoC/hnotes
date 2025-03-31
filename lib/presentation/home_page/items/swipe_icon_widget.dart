@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import "package:flutter/cupertino.dart";
 
 class SwipeIconWidget extends StatelessWidget {
   final Color color;
@@ -6,8 +6,12 @@ class SwipeIconWidget extends StatelessWidget {
   final IconData icon;
   final DismissDirection direction;
 
-  const SwipeIconWidget({super.key, 
-    required this.color, required this.text, required this.icon, required this.direction
+  const SwipeIconWidget({
+    super.key,
+    required this.color,
+    required this.text,
+    required this.icon,
+    required this.direction,
   });
 
   @override
@@ -28,10 +32,7 @@ class SwipeIconWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(icon),
-          Text(
-              text,
-              style: const TextStyle(fontSize: 20,)
-          ),
+          Text(text, style: const TextStyle(fontSize: 20)),
         ],
       ),
     );

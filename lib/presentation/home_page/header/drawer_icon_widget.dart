@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-import 'package:hnotes/presentation/theme.dart';
+import "package:hnotes/presentation/theme.dart";
 
 class DrawerIcon extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;

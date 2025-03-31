@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 
-import 'package:hnotes/presentation/components/text_field_widget.dart';
-import 'package:hnotes/domain/blockchain/models/token_type_model.dart';
-import 'package:hnotes/application/blockchain_info/nft_info_bloc.dart';
-import 'package:hnotes/presentation/home_page/add_items/dialog_actions_widget.dart';
+import "package:hnotes/presentation/components/text_field_widget.dart";
+import "package:hnotes/domain/blockchain/models/token_type_model.dart";
+import "package:hnotes/application/blockchain_info/nft_info_bloc.dart";
+import "package:hnotes/presentation/home_page/add_items/dialog_actions_widget.dart";
 
 // ignore: must_be_immutable
 class AddItemDialogWidget extends StatelessWidget {
@@ -12,12 +12,14 @@ class AddItemDialogWidget extends StatelessWidget {
 
   AddItemDialogWidget(this.context, {super.key});
 
-  final TextEditingController _contractAddressController = TextEditingController();
+  final TextEditingController _contractAddressController =
+      TextEditingController();
   final TextEditingController _tokenIdController = TextEditingController();
 
   final TextInputFormatter _addressFormatter =
       FilteringTextInputFormatter.allow(RegExp("^0x[a-zA-Z0-9]*"));
-  final TextInputFormatter _numberFormatter = FilteringTextInputFormatter.digitsOnly;
+  final TextInputFormatter _numberFormatter =
+      FilteringTextInputFormatter.digitsOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -32,23 +34,23 @@ class AddItemDialogWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextFieldWidget(
-                controller: _contractAddressController,
-                fieldLabel: "Contract Address",
-                hintText: "0x...",
-                keyboardType: TextInputType.text,
-                formatters: [_addressFormatter]),
+              controller: _contractAddressController,
+              fieldLabel: "Contract Address",
+              hintText: "0x...",
+              keyboardType: TextInputType.text,
+              formatters: [_addressFormatter],
+            ),
             TextFieldWidget(
-                controller: _tokenIdController,
-                fieldLabel: "Token Id",
-                hintText: "Number",
-                keyboardType: TextInputType.number,
-                formatters: [_numberFormatter]),
+              controller: _tokenIdController,
+              fieldLabel: "Token Id",
+              hintText: "Number",
+              keyboardType: TextInputType.number,
+              formatters: [_numberFormatter],
+            ),
           ],
         ),
       ),
-      actions: [
-        DialogActionsWidget(handleImportErc721: _handleImport),
-      ],
+      actions: [DialogActionsWidget(handleImportErc721: _handleImport)],
     );
   }
 
@@ -56,6 +58,10 @@ class AddItemDialogWidget extends StatelessWidget {
     final String contractAddress = _contractAddressController.text;
     final int tokenId = int.parse(_tokenIdController.text);
 
-    await nftInfoBloc.fetchBlockchainNftData(contractAddress, tokenId, TokenType.erc_721.name);
+    await nftInfoBloc.fetchBlockchainNftData(
+      contractAddress,
+      tokenId,
+      TokenType.erc_721.name,
+    );
   }
 }

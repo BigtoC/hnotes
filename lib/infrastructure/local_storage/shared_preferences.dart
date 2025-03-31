@@ -1,4 +1,4 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import "package:shared_preferences/shared_preferences.dart";
 
 // Set data in shared preferences
 Future<void> setDataInSharedPref(String key, String val) async {

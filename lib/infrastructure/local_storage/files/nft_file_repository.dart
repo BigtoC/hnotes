@@ -1,7 +1,7 @@
-import 'dart:io';
-import 'dart:typed_data';
+import "dart:io";
+import "dart:typed_data";
 
-import 'package:hnotes/infrastructure/local_storage/files/folder_repository.dart';
+import "package:hnotes/infrastructure/local_storage/files/folder_repository.dart";
 
 class NftFileRepository extends FolderRepository {
   final String imagesFolderName = "images";

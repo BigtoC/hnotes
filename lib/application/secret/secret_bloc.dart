@@ -1,7 +1,7 @@
-import 'package:rxdart/rxdart.dart';
+import "package:rxdart/rxdart.dart";
 
-import 'package:hnotes/domain/secret/secret_model.dart';
-import 'package:hnotes/infrastructure/local_storage/secrets/secrets_repository.dart';
+import "package:hnotes/domain/secret/secret_model.dart";
+import "package:hnotes/infrastructure/local_storage/secrets/secrets_repository.dart";
 
 
 class SecretBloc {

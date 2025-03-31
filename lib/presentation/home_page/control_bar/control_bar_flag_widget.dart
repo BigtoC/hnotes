@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-import 'package:hnotes/presentation/theme.dart';
+import "package:hnotes/presentation/theme.dart";
 
 // ignore: must_be_immutable
 class FlagToggleWidget extends StatefulWidget {

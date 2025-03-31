@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import "package:flutter/material.dart";
+import "package:webview_flutter/webview_flutter.dart";
 
-import 'package:hnotes/presentation/theme.dart';
+import "package:hnotes/presentation/theme.dart";
 
 class Browser extends StatelessWidget {
   final String title;
@@ -35,7 +35,7 @@ class Browser extends StatelessWidget {
                   onHttpError: (HttpResponseError error) {},
                   onWebResourceError: (WebResourceError error) {},
                   onNavigationRequest: (NavigationRequest request) {
-                    if (request.url.startsWith('https://www.youtube.com/')) {
+                    if (request.url.startsWith("https://www.youtube.com/")) {
                       return NavigationDecision.prevent;
                     }
                     return NavigationDecision.navigate;

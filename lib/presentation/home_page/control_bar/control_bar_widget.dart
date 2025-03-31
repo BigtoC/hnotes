@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-import 'package:hnotes/presentation/home_page/control_bar/control_bar_flag_widget.dart';
-import 'package:hnotes/presentation/home_page/control_bar/control_bar_search_widget.dart';
+import "package:hnotes/presentation/home_page/control_bar/control_bar_flag_widget.dart";
+import "package:hnotes/presentation/home_page/control_bar/control_bar_search_widget.dart";
 
 // ignore: must_be_immutable
 class ControlBar extends StatefulWidget {

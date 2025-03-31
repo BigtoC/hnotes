@@ -1,10 +1,14 @@
-import 'package:flutter/cupertino.dart';
+import "package:flutter/cupertino.dart";
 
-import 'package:hnotes/presentation/theme.dart';
+import "package:hnotes/presentation/theme.dart";
 
 // ignore: must_be_immutable
 class HomeHeaderWidget extends StatelessWidget {
-  final TextStyle _textStyle = TextStyle(fontWeight: FontWeight.w700, fontSize: 32, color: primaryColor);
+  final TextStyle _textStyle = TextStyle(
+    fontWeight: FontWeight.w700,
+    fontSize: 32,
+    color: primaryColor,
+  );
 
   HomeHeaderWidget({super.key});
 

@@ -1,5 +1,5 @@
-import 'package:hnotes/domain/theme/theme_model.dart';
-import 'package:hnotes/infrastructure/local_storage/shared_preferences.dart';
+import "package:hnotes/domain/theme/theme_model.dart";
+import "package:hnotes/infrastructure/local_storage/shared_preferences.dart";
 
 
 class ThemeRepository {

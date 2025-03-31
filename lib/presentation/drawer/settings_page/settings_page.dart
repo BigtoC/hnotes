@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:hnotes/domain/theme/theme_model.dart';
+import "package:flutter/material.dart";
+import "package:hnotes/domain/theme/theme_model.dart";
 
-import 'package:hnotes/presentation/count_day/count_day_ui.dart';
-import 'package:hnotes/application/count_day/count_day_bloc.dart';
-import 'package:hnotes/presentation/components/build_card_widget.dart';
-import 'package:hnotes/presentation/components/page_header_widget.dart';
-import 'package:hnotes/presentation/drawer/settings_page/about_app_widget.dart';
-import 'package:hnotes/infrastructure/local_storage/theme/theme_repository.dart';
-import 'package:hnotes/presentation/drawer/settings_page/select_date_widget.dart';
-import 'package:hnotes/presentation/drawer/settings_page/input_secret_widget.dart';
+import "package:hnotes/presentation/count_day/count_day_ui.dart";
+import "package:hnotes/application/count_day/count_day_bloc.dart";
+import "package:hnotes/presentation/components/build_card_widget.dart";
+import "package:hnotes/presentation/components/page_header_widget.dart";
+import "package:hnotes/presentation/drawer/settings_page/about_app_widget.dart";
+import "package:hnotes/infrastructure/local_storage/theme/theme_repository.dart";
+import "package:hnotes/presentation/drawer/settings_page/select_date_widget.dart";
+import "package:hnotes/presentation/drawer/settings_page/input_secret_widget.dart";
 
 // ignore: must_be_immutable
 class SettingsPage extends StatefulWidget {
@@ -18,10 +18,10 @@ class SettingsPage extends StatefulWidget {
   SettingsPage({super.key, this.changeTheme, required bool this.onlySetDate});
 
   @override
-  _SettingsPageState createState() => _SettingsPageState();
+  SettingsPageState createState() => SettingsPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class SettingsPageState extends State<SettingsPage> {
   String? selectedTheme;
 
   @override
@@ -103,26 +103,26 @@ class _SettingsPageState extends State<SettingsPage> {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          cardTitle('App Theme'),
+          cardTitle("App Theme"),
           Container(height: 20),
           Row(
             children: <Widget>[
               Radio(
-                value: 'light',
+                value: "light",
                 groupValue: selectedTheme,
                 onChanged: handleThemeSelection,
               ),
-              Text('Light theme', style: TextStyle(fontSize: 18)),
+              Text("Light theme", style: TextStyle(fontSize: 18)),
             ],
           ),
           Row(
             children: <Widget>[
               Radio(
-                value: 'dark',
+                value: "dark",
                 groupValue: selectedTheme,
                 onChanged: handleThemeSelection,
               ),
-              Text('Dark theme', style: TextStyle(fontSize: 18)),
+              Text("Dark theme", style: TextStyle(fontSize: 18)),
             ],
           ),
         ],

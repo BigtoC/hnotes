@@ -1,4 +1,4 @@
-import 'package:hnotes/domain/blockchain/dtos/nft_metadata_dto.dart';
+import "package:hnotes/domain/blockchain/dtos/nft_metadata_dto.dart";
 
 class NftInfoModel {
   final String title;

@@ -1,31 +1,46 @@
-import 'package:hnotes/domain/blockchain/dtos/nft_raw_dto.dart';
+import "package:hnotes/domain/blockchain/dtos/nft_raw_dto.dart";
 
 class NftMetaDataDto {
-  final _Contract contract;
-  final _Id id;
+  final Contract contract;
+  final Id id;
   late String title;
   late String description;
-  final _TokenUri tokenUri;
+  final TokenUri tokenUri;
   final List<dynamic> media;
   late Map<String, dynamic> metaData;
   final String timeLastUpdated;
   final String? error;
   NftRawDto? nftRawDto;
 
-  NftMetaDataDto(this.contract, this.id, this.title, this.description, this.tokenUri, this.media,
-      this.metaData, this.timeLastUpdated, this.error);
+  NftMetaDataDto(
+    this.contract,
+    this.id,
+    this.title,
+    this.description,
+    this.tokenUri,
+    this.media,
+    this.metaData,
+    this.timeLastUpdated,
+    this.error,
+  );
 
   factory NftMetaDataDto.fromJson(Map<String, dynamic> json) {
-    _Contract contract = _Contract.fromAttribute(json["contract"]["address"]);
+    Contract contract = Contract.fromAttribute(json["contract"]["address"]);
 
     Map idMap = json["id"];
-    _Id id = _Id.fromAttribute(idMap["tokenId"], idMap["tokenMetadata"]["tokenType"]);
+    Id id = Id.fromAttribute(
+      idMap["tokenId"],
+      idMap["tokenMetadata"]["tokenType"],
+    );
 
     String title = json["title"];
     String description = json["description"];
 
     Map tokenUriMap = json["tokenUri"];
-    _TokenUri tokenUri = _TokenUri.fromAttribute(tokenUriMap["raw"], tokenUriMap["gateway"]);
+    TokenUri tokenUri = TokenUri.fromAttribute(
+      tokenUriMap["raw"],
+      tokenUriMap["gateway"],
+    );
 
     List<dynamic> media = json["media"];
 
@@ -35,39 +50,48 @@ class NftMetaDataDto {
 
     String? error = json["error"];
 
-    return NftMetaDataDto(contract, id, title, description, tokenUri, media, metaDataMap,
-        timeLastUpdated, error);
+    return NftMetaDataDto(
+      contract,
+      id,
+      title,
+      description,
+      tokenUri,
+      media,
+      metaDataMap,
+      timeLastUpdated,
+      error,
+    );
   }
 }
 
-class _Contract {
+class Contract {
   final String address;
 
-  _Contract(this.address);
+  Contract(this.address);
 
-  factory _Contract.fromAttribute(String address) {
-    return _Contract(address);
+  factory Contract.fromAttribute(String address) {
+    return Contract(address);
   }
 }
 
-class _Id {
+class Id {
   final String tokenId;
   final String tokenType;
 
-  _Id(this.tokenId, this.tokenType);
+  Id(this.tokenId, this.tokenType);
 
-  factory _Id.fromAttribute(String tokenId, String tokenType) {
-    return _Id(tokenId, tokenType);
+  factory Id.fromAttribute(String tokenId, String tokenType) {
+    return Id(tokenId, tokenType);
   }
 }
 
-class _TokenUri {
+class TokenUri {
   final String raw;
   final String gateway;
 
-  _TokenUri(this.raw, this.gateway);
+  TokenUri(this.raw, this.gateway);
 
-  factory _TokenUri.fromAttribute(String raw, String gateway) {
-    return _TokenUri(raw, gateway);
+  factory TokenUri.fromAttribute(String raw, String gateway) {
+    return TokenUri(raw, gateway);
   }
 }

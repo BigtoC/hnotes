@@ -1,5 +1,5 @@
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
+import "dart:io";
+import "package:path_provider/path_provider.dart";
 
 class FolderRepository {
   Future<String> createFolderInAppDocDir(String folderNameParam) async {
@@ -9,7 +9,9 @@ class FolderRepository {
     if (await appDocDirFolder.exists()) {
       return appDocDirFolder.path;
     } else {
-      final Directory appDocDirNewFolder = await appDocDirFolder.create(recursive: true);
+      final Directory appDocDirNewFolder = await appDocDirFolder.create(
+        recursive: true,
+      );
       return appDocDirNewFolder.path;
     }
   }
@@ -39,7 +41,9 @@ class FolderRepository {
   Future<Directory> folderUnderAppDir(String folderName) async {
     final Directory appDocDir = await getApplicationDocumentsDirectory();
 
-    final Directory appDocDirFolder = Directory('${appDocDir.path}/$folderName/');
+    final Directory appDocDirFolder = Directory(
+      "${appDocDir.path}/$folderName/",
+    );
 
     return appDocDirFolder;
   }

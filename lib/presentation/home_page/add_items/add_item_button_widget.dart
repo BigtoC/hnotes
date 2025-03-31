@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-import 'package:hnotes/presentation/theme.dart';
-import 'package:hnotes/presentation/home_page/add_items/add_item_dialog_widget.dart';
+import "package:hnotes/presentation/theme.dart";
+import "package:hnotes/presentation/home_page/add_items/add_item_dialog_widget.dart";
 
 class AddItemButton extends StatelessWidget {
   final bool isExtend;
@@ -10,20 +10,19 @@ class AddItemButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return isExtend ? _addItemButtonExtend(context) : _addItemButtonNormal(context);
+    return isExtend
+        ? _addItemButtonExtend(context)
+        : _addItemButtonNormal(context);
   }
 
   Widget _addItemButtonExtend(BuildContext context) {
     return FloatingActionButton.extended(
       onPressed: () async => _handleAddNewItem(context),
       label: Text(
-        'Import NFT'.toUpperCase(),
+        "Import NFT".toUpperCase(),
         style: TextStyle(color: Colors.white),
       ),
-      icon: Icon(
-        Icons.link,
-        color: Colors.white,
-      ),
+      icon: Icon(Icons.link, color: Colors.white),
       backgroundColor: btnColor,
     );
   }
@@ -32,19 +31,17 @@ class AddItemButton extends StatelessWidget {
     return FloatingActionButton(
       onPressed: () async => _handleAddNewItem(context),
       backgroundColor: btnColor,
-      child: Icon(
-        Icons.link,
-        color: Colors.white,
-      ),
+      child: Icon(Icons.link, color: Colors.white),
     );
   }
 
   Future<void> _handleAddNewItem(BuildContext context) async {
     showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AddItemDialogWidget(context);
-        });
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AddItemDialogWidget(context);
+      },
+    );
   }
 }
