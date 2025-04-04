@@ -12,7 +12,6 @@ class AboutAppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    blockchainInfoBloc.fetchNetworkData();
     final themeRepository = ThemeRepository();
 
     final ButtonStyle style = ElevatedButton.styleFrom(
@@ -40,7 +39,7 @@ class AboutAppWidget extends StatelessWidget {
           cardTitle("About App"),
           Container(height: 40),
           cardContentTitle("Developer"),
-          cardContent(context, "Bigto Chan"),
+          cardContent(context, "Bigto vv"),
           Container(
             alignment: Alignment.center,
             child: OutlinedButton.icon(
@@ -57,9 +56,6 @@ class AboutAppWidget extends StatelessWidget {
               onPressed: openGitHub,
             ),
           ),
-          cardContentGap(),
-          cardContentTitle("Co-Designer"),
-          cardContent(context, "vv"),
           cardContentGap(),
           cardContentTitle("Framework"),
           Padding(
@@ -89,25 +85,6 @@ class AboutAppWidget extends StatelessWidget {
                     "assets/Images/logo/MANTRA-Gradient.png",
                     height: 40,
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: FutureBuilder(
-                  //     future: blockchainInfoBloc.fetchNetworkData(),
-                  //     builder: (context, AsyncSnapshot<Map<
-                  //         String,
-                  //         dynamic>> snapshot) {
-                  //       String networkName = "......";
-                  //       if (snapshot.hasError) {
-                  //         logger.e(snapshot.error);
-                  //         return defaultNetwork(networkName);
-                  //       }
-                  //       if (snapshot.hasData) {
-                  //         networkName = snapshot.data!["text"].toString();
-                  //       }
-                  //       return defaultNetwork(networkName);
-                  //     },
-                  //   ),
-                  // ),
                 ],
               ),
             ),
@@ -134,7 +111,7 @@ class AboutAppWidget extends StatelessWidget {
             ),
           ),
           cardContentGap(),
-          cardContentTitle("Version"),
+          cardContentTitle("App Version"),
           cardContent(
             context,
             "${packageInfo.version}+${packageInfo.buildNumber}",
@@ -143,9 +120,5 @@ class AboutAppWidget extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Widget defaultNetwork(String networkName) {
-    return Text("Ethereum \n$networkName", style: TextStyle(fontSize: 22));
   }
 }

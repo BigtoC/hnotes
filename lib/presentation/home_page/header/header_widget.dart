@@ -23,7 +23,7 @@ class HomeHeaderWidget extends StatelessWidget {
           margin: EdgeInsets.only(top: 8, bottom: 19, left: 20),
           width: MediaQuery.of(context).size.width * 0.88,
           child: Text(
-            "ERC-721 Tokens",
+            "dApps",
             style: _textStyle,
             overflow: TextOverflow.clip,
             softWrap: false,
