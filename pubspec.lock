@@ -256,6 +256,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.5.0"
+  mantrachain_dart_sdk:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: d664a9634381d35da2cf2c97eec29455e2f8d7ea
+      url: "https://github.com/BigtoC/mantrachain-dart.git"
+    source: git
+    version: "1.0.0"
   matcher:
     dependency: transitive
     description:

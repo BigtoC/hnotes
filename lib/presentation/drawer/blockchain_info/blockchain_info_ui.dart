@@ -17,7 +17,7 @@ class BlockchainInfoPageState extends State<BlockchainInfoPage> {
   @override
   void initState() {
     super.initState();
-    blockchainInfoBloc.fetchAllBlockchainInfo();
+    blockchainInfoBloc.sinkAllBlockchainInfo();
   }
 
   @override
@@ -77,15 +77,15 @@ class BlockchainInfoPageState extends State<BlockchainInfoPage> {
           contentGap(),
           buildTitleAndContent(
             context,
-            blockchainInfoBloc.currentNetworkData,
-            "Current Network",
-            "text",
+            blockchainInfoBloc.nodeInfoStream,
+            "Chain Name",
+            "chainName",
           ),
           buildTitleAndContent(
             context,
-            blockchainInfoBloc.chainIdData,
+            blockchainInfoBloc.nodeInfoStream,
             "Chain Id",
-            "number",
+            "chainId",
           ),
         ],
       ),
@@ -102,22 +102,21 @@ class BlockchainInfoPageState extends State<BlockchainInfoPage> {
           contentGap(),
           buildTitleAndContent(
             context,
-            blockchainInfoBloc.latestBlockNumberData,
+            blockchainInfoBloc.latestBlockStream,
             "Block Number",
-            "number",
+            "blockNumber",
           ),
           buildTitleAndContent(
             context,
-            blockchainInfoBloc.currentGasPriceData,
-            "Gas Price (wei)",
-            "number",
+            blockchainInfoBloc.gasPriceStream,
+            "Gas Price",
+            "gasPrice",
           ),
           buildTitleAndContent(
             context,
-            blockchainInfoBloc.currentGasPriceData,
-            "Last Updated",
-            "timestamp",
-            handleData: handleBuildTimeInfo,
+            blockchainInfoBloc.latestBlockStream,
+            "Block Time",
+            "blockTime",
           ),
         ],
       ),
@@ -144,28 +143,26 @@ class BlockchainInfoPageState extends State<BlockchainInfoPage> {
       Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          cardTitle("Node Client Info"),
+          cardTitle("Node Info"),
           contentGap(),
           buildTitleAndContent(
             context,
-            blockchainInfoBloc.nodeClientVersionData,
-            "Client Name",
-            "text",
-            handleData: extractClientName,
+            blockchainInfoBloc.nodeInfoStream,
+            "Node Version",
+            "version",
           ),
           buildTitleAndContent(
             context,
-            blockchainInfoBloc.nodeClientVersionData,
-            "Client Version",
-            "text",
-            handleData: extractClientVersion,
+            blockchainInfoBloc.nodeInfoStream,
+            "Go Version",
+            "goVersion",
+            handleData: extractGoVersion,
           ),
           buildTitleAndContent(
             context,
-            blockchainInfoBloc.nodeClientVersionData,
-            "Client Environment",
-            "text",
-            handleData: extractClientEnvironment,
+            blockchainInfoBloc.nodeInfoStream,
+            "Cosmos SDK Version",
+            "cosmosSdkVersion",
           ),
         ],
       ),
@@ -184,9 +181,8 @@ class BlockchainInfoPageState extends State<BlockchainInfoPage> {
     return cardContent(context, clientVersion);
   }
 
-  Widget extractClientEnvironment(String detail) {
-    final String clientEnvironment =
-        "${detail.split("/")[2]} / ${detail.split("/")[3]}";
-    return cardContent(context, clientEnvironment);
+  Widget extractGoVersion(String detail) {
+    final String goVersion = detail.replaceFirst("go version", "");
+    return cardContent(context, goVersion);
   }
 }
