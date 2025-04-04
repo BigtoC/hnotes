@@ -40,6 +40,9 @@ dependencies:
   flutter_native_splash: ^2.4.5
   mantrachain_dart_sdk:
     git: https://github.com/BigtoC/mantrachain-dart.git
+  cosmos_sdk: ^2.3.0
+  blockchain_utils: ^4.3.0
+  flutter_secure_storage: ^9.2.4
 
 dev_dependencies:
   flutter_test:
