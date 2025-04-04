@@ -11,7 +11,7 @@ class BaseBlockchainRepository {
   final client = http.Client();
 
   final _requestHeaders = {"Content-type": "application/json"};
-  final SecretRepository _secretRepository = SecretRepository();
+  final SecretsRepository _secretRepository = SecretsRepository();
 
   Future<SecretModel> _readSecrets() async {
     SecretModel secretModel = await _secretRepository.getApiSecret();

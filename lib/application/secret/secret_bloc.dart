@@ -5,7 +5,7 @@ import "package:hnotes/infrastructure/local_storage/secrets/secrets_repository.d
 
 
 class SecretBloc {
-  final _repository = SecretRepository();
+  final _repository = SecretsRepository();
 
   final _secretModel = PublishSubject<SecretModel>();
 

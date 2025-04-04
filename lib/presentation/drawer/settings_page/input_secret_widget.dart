@@ -31,7 +31,7 @@ class _InputApiSecretWidget extends State<InputApiSecretWidget> {
   }
 
   void saveInputUrl() {
-    SecretRepository.saveApiSecret(_secretController.text);
+    SecretsRepository.saveApiSecret(_secretController.text);
     setState(() {
       _isSaved = true;
       _hidePassword = true;
