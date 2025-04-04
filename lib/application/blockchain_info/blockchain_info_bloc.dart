@@ -6,15 +6,9 @@ class BlockchainInfoBloc {
   final BlockchainInfoRepository _blockchainInfoRepository =
       BlockchainInfoRepository();
 
-
-  final _latestBlockNumberData = PublishSubject<Map<String, String>>();
-
   final _latestBlockData = PublishSubject<Map<String, String>>();
   final _gasPriceData = PublishSubject<Map<String, String>>();
   final _nodeInfoData = PublishSubject<Map<String, String>>();
-
-  Stream<Map<String, String>> get latestBlockNumberStream =>
-      _latestBlockNumberData.stream;
 
   Stream<Map<String, String>> get gasPriceStream => _gasPriceData.stream;
 
