@@ -1,8 +1,7 @@
 import "package:flutter/material.dart";
 
 import "package:hnotes/presentation/theme.dart";
-import "package:hnotes/domain/secret/secret_model.dart";
-import "package:hnotes/application/secret/secrets_bloc.dart";
+import "package:hnotes/application/wallet/wallet_bloc.dart";
 import "package:hnotes/presentation/components/build_card_widget.dart";
 
 class ImportWalletWidget extends StatefulWidget {
@@ -20,8 +19,8 @@ class _ImportWalletWidget extends State<ImportWalletWidget> {
   @override
   void initState() {
     super.initState();
-    secretsBloc.fetchSecret();
-    secretsBloc.getImportedWalletAddress();
+    walletBloc.fetchSecret();
+    walletBloc.getImportedWalletAddress();
   }
 
   @override
@@ -31,13 +30,13 @@ class _ImportWalletWidget extends State<ImportWalletWidget> {
   }
 
   void importWallet() {
-    secretsBloc.importPrivateKey(_secretController.text);
+    walletBloc.importPrivateKey(_secretController.text);
     setState(() {
       _isSaved = true;
       _hidePassword = true;
     });
     FocusScope.of(context).unfocus();
-    secretsBloc.getImportedWalletAddress();
+    walletBloc.getImportedWalletAddress();
   }
 
   @override
@@ -70,6 +69,7 @@ class _ImportWalletWidget extends State<ImportWalletWidget> {
                     ? Icon(Icons.visibility_off)
                     : Icon(Icons.visibility),
             onPressed: () {
+              // TODO: Add authentication logic
               setState(() {
                 _hidePassword = !_hidePassword;
               });
@@ -89,7 +89,7 @@ class _ImportWalletWidget extends State<ImportWalletWidget> {
           Padding(
             padding: EdgeInsets.all(5),
             child: StreamBuilder(
-                stream: secretsBloc.walletAddressStream,
+                stream: walletBloc.walletAddressStream,
                 builder: (context, AsyncSnapshot<String> snapshot) {
                   if (snapshot.hasError) {
                     return Container(height: 0);
@@ -109,14 +109,14 @@ class _ImportWalletWidget extends State<ImportWalletWidget> {
           Padding(
             padding: EdgeInsets.all(5),
             child: StreamBuilder(
-              stream: secretsBloc.secretModel,
-              builder: (context, AsyncSnapshot<SecretModel> snapshot) {
+              stream: walletBloc.walletPrivateKeyStream,
+              builder: (context, AsyncSnapshot<String> snapshot) {
                 if (snapshot.hasError) {
                   return Text("Error: ${snapshot.error}");
                 }
                 if (snapshot.hasData) {
-                  String? urlWithKey = snapshot.data?.urlWithKey;
-                  _secretController = TextEditingController(text: urlWithKey);
+                  String? privateKey = snapshot.data;
+                  _secretController = TextEditingController(text: privateKey);
                   return inputTextField(_secretController);
                 }
                 return inputTextField(_secretController);

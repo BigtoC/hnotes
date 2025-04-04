@@ -55,11 +55,12 @@ class SecretsRepository {
     await storage.write(key: _privateKeyStoreKey, value: privateKeyStr);
   }
 
-  Future<String?> exportPrivateKey() async {
+  Future<String> exportPrivateKey() async {
     final storage = FlutterSecureStorage(
       aOptions: AndroidOptions(encryptedSharedPreferences: true)
     );
-    return await storage.read(key: _privateKeyStoreKey);
+    final key = await storage.read(key: _privateKeyStoreKey);
+    return key ?? "";
   }
 
   Future<String> getImportedWalletAddress() async {
