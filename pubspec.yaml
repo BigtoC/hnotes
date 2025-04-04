@@ -36,7 +36,7 @@ dependencies:
   webview_flutter: ^4.10.0
   cupertino_icons: ^1.0.8
   package_info_plus: ^8.3.0
-  shared_preferences: ^2.5.2
+  shared_preferences: ^2.5.3
   flutter_native_splash: ^2.4.5
   mantrachain_dart_sdk:
     git: https://github.com/BigtoC/mantrachain-dart.git
