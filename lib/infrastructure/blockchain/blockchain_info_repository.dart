@@ -1,68 +1,44 @@
 import "dart:async";
 
-import "package:hnotes/domain/blockchain/dtos/dto_collections.dart";
 import "package:hnotes/infrastructure/blockchain/base_blockchain_repository.dart";
+import "package:mantrachain_dart_sdk/api.dart";
 
 class BlockchainInfoRepository extends BaseBlockchainRepository {
-  /// Returns the number of the most recent block.
-  Future<Map<String, dynamic>> getLatestBlockNumber() async {
-    return (await _parseNumberResultDto("eth_blockNumber")).toMap();
-  }
+  static const basePath = "https://api.dukong.mantrachain.io";
+  final queryApi = QueryApi(ApiClient(basePath: basePath));
+  final serviceApi = ServiceApi(ApiClient(basePath: basePath));
 
-  /// Returns the current price per gas in wei.
-  Future<Map<String, dynamic>> getCurrentGasPrice() async {
-    return (await _parseNumberResultDto("eth_gasPrice")).toMap();
-  }
-
-  /// Returns the current network name.
-  Future<Map<String, dynamic>> getNetwork() async {
-    final NumberResultDto networkResult = await _parseNumberResultDto(
-      "net_version",
-    );
-    final Map<String, String> networkNames = {
-      "1": "Ethereum Mainnet",
-      "2": "Morden Testnet (deprecated)",
-      "3": "Ropsten Testnet",
-      "4": "Rinkeby Testnet",
-      "42": "Kovan Testnet",
-    };
-
-    final String? currentNetworkName = networkNames[networkResult.number];
-
+  Future<Map<String, String>> fetchNodeInfo() async {
+    final nodeInfo = await serviceApi.getNodeInfo();
+    final String version = nodeInfo?.applicationVersion?.version ?? "";
+    final String chainName = nodeInfo?.applicationVersion?.name ?? "";
+    final String chainId = nodeInfo?.defaultNodeInfo?.network ?? "";
+    final String goVersion = nodeInfo?.applicationVersion?.goVersion ?? "";
+    final cosmosSdkVersion =
+        nodeInfo?.applicationVersion?.cosmosSdkVersion ?? "";
     return {
-      "text": currentNetworkName,
-      "timestamp": networkResult.timestamp,
-      "errorMessage": networkResult.errorMessage,
+      "version": version,
+      "chainName": chainName,
+      "chainId": chainId,
+      "goVersion": goVersion,
+      "cosmosSdkVersion": cosmosSdkVersion,
     };
   }
 
-  /// Returns the currently configured chain ID
-  Future<Map<String, dynamic>> getChainId() async {
-    return (await _parseNumberResultDto("eth_chainId")).toMap();
+  /// Returns the number of the most recent block.
+  Future<Map<String, String>> fetchLatestBlockInfo() async {
+    final latestBLockInfo = await serviceApi.getLatestBlock();
+    final String blockNumber = latestBLockInfo?.block?.header?.height ?? "0";
+    final String blockTime =
+        latestBLockInfo?.block?.header?.time?.toLocal().toIso8601String() ?? "";
+    return {"blockNumber": blockNumber, "blockTime": blockTime};
   }
 
-  /// Returns the current client version.
-  Future<Map<String, dynamic>> getNodeClientVersion() async {
-    return (await _parseTextResult("web3_clientVersion")).toMap();
-  }
-
-  /// For API responses that only contain a number (hex or decimal)
-  Future<NumberResultDto> _parseNumberResultDto(String methodName) async {
-    final String requestBody = formPostRequestBody(methodName);
-
-    return await makePostRequest(requestBody).then((response) {
-      NumberResultDto dto = NumberResultDto.fromResponse(response, methodName);
-      return dto;
-    });
-  }
-
-  /// For API responses that only contain a text string
-  Future<TextResultDto> _parseTextResult(String methodName) async {
-    final String requestBody = formPostRequestBody(methodName);
-
-    return await makePostRequest(requestBody).then((response) {
-      TextResultDto dto = TextResultDto.fromResponse(response, methodName);
-      return dto;
-    });
+  Future<Map<String, String>> fetchGasPrice() async {
+    final GasPrices200Response? gasPrice = await queryApi.gasPrices();
+    final price = gasPrice?.prices.firstOrNull;
+    final double? gasPriceValue = double.tryParse(price?.amount ?? "0");
+    final String denom = price?.denom ?? "";
+    return {"gasPrice": "$gasPriceValue $denom"};
   }
 }
