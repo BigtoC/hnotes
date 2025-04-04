@@ -5,14 +5,14 @@ import "package:hnotes/domain/secret/secret_model.dart";
 import "package:hnotes/application/secret/secrets_bloc.dart";
 import "package:hnotes/presentation/components/build_card_widget.dart";
 
-class InputApiSecretWidget extends StatefulWidget {
-  const InputApiSecretWidget({super.key});
+class ImportWalletWidget extends StatefulWidget {
+  const ImportWalletWidget({super.key});
 
   @override
-  State<StatefulWidget> createState() => _InputApiSecretWidget();
+  State<StatefulWidget> createState() => _ImportWalletWidget();
 }
 
-class _InputApiSecretWidget extends State<InputApiSecretWidget> {
+class _ImportWalletWidget extends State<ImportWalletWidget> {
   TextEditingController _secretController = TextEditingController();
   bool _hidePassword = true;
   bool _isSaved = false;
