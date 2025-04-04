@@ -2,9 +2,8 @@ import "package:flutter/material.dart";
 
 import "package:hnotes/presentation/theme.dart";
 import "package:hnotes/domain/secret/secret_model.dart";
-import "package:hnotes/application/secret/secret_bloc.dart";
+import "package:hnotes/application/secret/secrets_bloc.dart";
 import "package:hnotes/presentation/components/build_card_widget.dart";
-import "package:hnotes/infrastructure/local_storage/secrets/secrets_repository.dart";
 
 class InputApiSecretWidget extends StatefulWidget {
   const InputApiSecretWidget({super.key});
@@ -21,7 +20,8 @@ class _InputApiSecretWidget extends State<InputApiSecretWidget> {
   @override
   void initState() {
     super.initState();
-    secretBloc.fetchSecret();
+    secretsBloc.fetchSecret();
+    secretsBloc.getImportedWalletAddress();
   }
 
   @override
@@ -30,19 +30,20 @@ class _InputApiSecretWidget extends State<InputApiSecretWidget> {
     super.dispose();
   }
 
-  void saveInputUrl() {
-    SecretsRepository.saveApiSecret(_secretController.text);
+  void importWallet() {
+    secretsBloc.importPrivateKey(_secretController.text);
     setState(() {
       _isSaved = true;
       _hidePassword = true;
     });
     FocusScope.of(context).unfocus();
+    secretsBloc.getImportedWalletAddress();
   }
 
   @override
   Widget build(BuildContext context) {
-    final String fieldLabel = "API URL";
-    final String defaultHintText = "https://xx.xx/v2/<API KEY>";
+    final String fieldLabel = "Private Key";
+    final String defaultHintText = "Import or generate a new wallet";
 
     final ButtonStyle style = ElevatedButton.styleFrom(
       backgroundColor: btnColor,
@@ -83,12 +84,32 @@ class _InputApiSecretWidget extends State<InputApiSecretWidget> {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          cardTitle("Input $fieldLabel"),
+          cardTitle("Manage your wallet"),
           Container(height: 20),
           Padding(
             padding: EdgeInsets.all(5),
             child: StreamBuilder(
-              stream: secretBloc.secretModel,
+                stream: secretsBloc.walletAddressStream,
+                builder: (context, AsyncSnapshot<String> snapshot) {
+                  if (snapshot.hasError) {
+                    return Container(height: 0);
+                  }
+                  if (snapshot.hasData) {
+                    String? walletAddress = snapshot.data;
+                    if (walletAddress != "") {
+                      return Text(
+                          "Wallet Address \n$walletAddress"
+                      );
+                    }
+                  }
+                  return Container(height: 0);
+                }
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(5),
+            child: StreamBuilder(
+              stream: secretsBloc.secretModel,
               builder: (context, AsyncSnapshot<SecretModel> snapshot) {
                 if (snapshot.hasError) {
                   return Text("Error: ${snapshot.error}");
@@ -106,9 +127,9 @@ class _InputApiSecretWidget extends State<InputApiSecretWidget> {
           Center(
             child: ElevatedButton(
               style: style,
-              onPressed: saveInputUrl,
+              onPressed: importWallet,
               child: Text(
-                "Save",
+                "Import",
                 style: TextStyle(fontSize: 18, color: Colors.white),
               ),
             ),
