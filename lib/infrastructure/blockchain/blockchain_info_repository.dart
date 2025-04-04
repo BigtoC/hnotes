@@ -1,12 +1,12 @@
 import "dart:async";
 
-import "package:hnotes/infrastructure/blockchain/base_blockchain_repository.dart";
+import "package:hnotes/infrastructure/constants.dart";
 import "package:mantrachain_dart_sdk/api.dart";
 
-class BlockchainInfoRepository extends BaseBlockchainRepository {
-  static const basePath = "https://api.dukong.mantrachain.io";
-  final queryApi = QueryApi(ApiClient(basePath: basePath));
-  final serviceApi = ServiceApi(ApiClient(basePath: basePath));
+class BlockchainInfoRepository {
+  // REST clients
+  final queryApi = QueryApi(ApiClient(basePath: chainRestUrl));
+  final serviceApi = ServiceApi(ApiClient(basePath: chainRestUrl));
 
   Future<Map<String, String>> fetchNodeInfo() async {
     final nodeInfo = await serviceApi.getNodeInfo();
