@@ -8,7 +8,7 @@ import "package:hnotes/presentation/components/page_header_widget.dart";
 import "package:hnotes/presentation/drawer/settings_page/about_app_widget.dart";
 import "package:hnotes/infrastructure/local_storage/theme/theme_repository.dart";
 import "package:hnotes/presentation/drawer/settings_page/select_date_widget.dart";
-import "package:hnotes/presentation/drawer/settings_page/input_secret_widget.dart";
+import "package:hnotes/presentation/drawer/settings_page/import_wallet_widget.dart";
 
 // ignore: must_be_immutable
 class SettingsPage extends StatefulWidget {
@@ -73,7 +73,7 @@ class SettingsPageState extends State<SettingsPage> {
       children: [
         SelectDateWidget(),
         buildAppThemeChoice(),
-        InputApiSecretWidget(),
+        ImportWalletWidget(),
         AboutAppWidget(),
       ],
     );

@@ -1,19 +1,17 @@
 import "package:flutter/material.dart";
 
 import "package:hnotes/presentation/theme.dart";
-import "package:hnotes/domain/secret/secret_model.dart";
-import "package:hnotes/application/secret/secret_bloc.dart";
+import "package:hnotes/application/wallet/wallet_bloc.dart";
 import "package:hnotes/presentation/components/build_card_widget.dart";
-import "package:hnotes/infrastructure/local_storage/secrets/secrets_repository.dart";
 
-class InputApiSecretWidget extends StatefulWidget {
-  const InputApiSecretWidget({super.key});
+class ImportWalletWidget extends StatefulWidget {
+  const ImportWalletWidget({super.key});
 
   @override
-  State<StatefulWidget> createState() => _InputApiSecretWidget();
+  State<StatefulWidget> createState() => _ImportWalletWidget();
 }
 
-class _InputApiSecretWidget extends State<InputApiSecretWidget> {
+class _ImportWalletWidget extends State<ImportWalletWidget> {
   TextEditingController _secretController = TextEditingController();
   bool _hidePassword = true;
   bool _isSaved = false;
@@ -21,7 +19,8 @@ class _InputApiSecretWidget extends State<InputApiSecretWidget> {
   @override
   void initState() {
     super.initState();
-    secretBloc.fetchSecret();
+    walletBloc.fetchSecret();
+    walletBloc.getImportedWalletAddress();
   }
 
   @override
@@ -30,19 +29,20 @@ class _InputApiSecretWidget extends State<InputApiSecretWidget> {
     super.dispose();
   }
 
-  void saveInputUrl() {
-    SecretRepository.saveApiSecret(_secretController.text);
+  void importWallet() {
+    walletBloc.importPrivateKey(_secretController.text);
     setState(() {
       _isSaved = true;
       _hidePassword = true;
     });
     FocusScope.of(context).unfocus();
+    walletBloc.getImportedWalletAddress();
   }
 
   @override
   Widget build(BuildContext context) {
-    final String fieldLabel = "API URL";
-    final String defaultHintText = "https://xx.xx/v2/<API KEY>";
+    final String fieldLabel = "Private Key";
+    final String defaultHintText = "Import or generate a new wallet";
 
     final ButtonStyle style = ElevatedButton.styleFrom(
       backgroundColor: btnColor,
@@ -69,6 +69,7 @@ class _InputApiSecretWidget extends State<InputApiSecretWidget> {
                     ? Icon(Icons.visibility_off)
                     : Icon(Icons.visibility),
             onPressed: () {
+              // TODO: Add authentication logic
               setState(() {
                 _hidePassword = !_hidePassword;
               });
@@ -83,19 +84,39 @@ class _InputApiSecretWidget extends State<InputApiSecretWidget> {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          cardTitle("Input $fieldLabel"),
+          cardTitle("Manage your wallet"),
           Container(height: 20),
           Padding(
             padding: EdgeInsets.all(5),
             child: StreamBuilder(
-              stream: secretBloc.secretModel,
-              builder: (context, AsyncSnapshot<SecretModel> snapshot) {
+                stream: walletBloc.walletAddressStream,
+                builder: (context, AsyncSnapshot<String> snapshot) {
+                  if (snapshot.hasError) {
+                    return Container(height: 0);
+                  }
+                  if (snapshot.hasData) {
+                    String? walletAddress = snapshot.data;
+                    if (walletAddress != "") {
+                      return Text(
+                          "Wallet Address \n$walletAddress"
+                      );
+                    }
+                  }
+                  return Container(height: 0);
+                }
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(5),
+            child: StreamBuilder(
+              stream: walletBloc.walletPrivateKeyStream,
+              builder: (context, AsyncSnapshot<String> snapshot) {
                 if (snapshot.hasError) {
                   return Text("Error: ${snapshot.error}");
                 }
                 if (snapshot.hasData) {
-                  String? urlWithKey = snapshot.data?.urlWithKey;
-                  _secretController = TextEditingController(text: urlWithKey);
+                  String? privateKey = snapshot.data;
+                  _secretController = TextEditingController(text: privateKey);
                   return inputTextField(_secretController);
                 }
                 return inputTextField(_secretController);
@@ -106,9 +127,9 @@ class _InputApiSecretWidget extends State<InputApiSecretWidget> {
           Center(
             child: ElevatedButton(
               style: style,
-              onPressed: saveInputUrl,
+              onPressed: importWallet,
               child: Text(
-                "Save",
+                "Import",
                 style: TextStyle(fontSize: 18, color: Colors.white),
               ),
             ),
