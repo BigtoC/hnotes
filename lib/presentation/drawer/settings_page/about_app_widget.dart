@@ -4,7 +4,6 @@ import "package:hnotes/domain/common_data.dart";
 import "package:hnotes/domain/theme/theme_model.dart";
 import "package:hnotes/presentation/components/browser.dart";
 import "package:hnotes/presentation/components/build_card_widget.dart";
-import "package:hnotes/application/blockchain_info/blockchain_info_bloc.dart";
 import "package:hnotes/infrastructure/local_storage/theme/theme_repository.dart";
 
 class AboutAppWidget extends StatelessWidget {
