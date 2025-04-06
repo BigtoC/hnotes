@@ -2,8 +2,7 @@
 
 A Flutter notes app with blockchain storage.
 > The letter "**h**" stands for **him/her** or **happiness**.  
-> Notes(NFTs) about him/her, or about happiness
-
+> Notes(~~NFTs~~) about him/her, or about happiness
  
 ## Usage guide
 
@@ -44,7 +43,7 @@ A Flutter notes app with blockchain storage.
 - [x] {2.2} Show more blockchain information
 - [x] {2.3} Implement DDD Architecture ([reference](https://github.com/ResoCoder/flutter-ddd-firebase-course))
 
-### Stage 3 (The Next Generation)
+### Stage 3
 > Import and present ERC-721  
 > Target finish before 2022-05-27 (1000 days)  
 > Finished on 2022-05-23  
@@ -55,22 +54,16 @@ A Flutter notes app with blockchain storage.
 - [x] {3.3} Navigate to usage the guide webpage from drawer
 - [x] {3.4} Swipe right to delete an NFT
 
-### Stage pre-4
-> Housekeeping jobs before stage 4  
-- [x] {4.0.1} Upgrade to flutter 3 ([What’s new in Flutter 3](https://medium.com/flutter/whats-new-in-flutter-3-8c74a5bc32d0))
-- [x] {4.0.2} Merge v2 to the main branch and release the latest version
-- [ ] {4.0.3} GitHub Action for building release packages ([reference](https://github.com/marketplace/actions/release-changelog-builder))
-
-### Stage 4
-> More functions  
-- [ ] {4.1} Search NFTs
-- [ ] {4.2} Mark one item as important and show the important item on the home page
-
-### Stage 5
-> More enhancements (and some fun functions)  
-- [ ] Share notes content in a picture
+### Next Gen (refactor and new blockchain)
+> Updated at April 2025
+> Check [issues](https://github.com/BigtoC/hnotes/issues)
+- [x] Migrate to Flutter 3 and latest Dart version ([What’s new in Flutter 3](https://medium.com/flutter/whats-new-in-flutter-3-8c74a5bc32d0))
+- [x] Integrate a new blockchain
+- [x] Import crypto wallet
+- [ ] Basic functions of the new blockchain (e.g. display balances and send tokens)
+- [ ] Interact dApps
 - [ ] Biometric authentications (Fingerprint, face unlock)
-- [ ] More functions welcome pull requests and create issues
+- [ ] MCP?
 
 ## References
 * Alchemy: [documents](https://docs.alchemy.com/alchemy/)  
