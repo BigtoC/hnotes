@@ -1,9 +1,10 @@
 import "dart:math";
-
 import "package:cosmos_sdk/cosmos_sdk.dart";
+import "package:mantrachain_dart_sdk/api.dart";
+
+import "package:hnotes/domain/common_data.dart";
 import "package:hnotes/infrastructure/constants.dart";
 import "package:hnotes/infrastructure/local_storage/secrets/secrets_repository.dart";
-import "package:mantrachain_dart_sdk/api.dart";
 
 class WalletRepository {
   final SecretsRepository _secretRepository = SecretsRepository();
@@ -28,13 +29,18 @@ class WalletRepository {
   }
 
   fetchSymbolMetadata(String denom) async {
-    final metadata = await queryApi.denomMetadata(feeDenom);
-    final display = metadata?.metadata?.display;
-    final denomUnit = metadata?.metadata?.denomUnits.firstWhere(
-      (unit) => unit.denom == display,
-    );
-    final exponent = denomUnit?.exponent;
-    final symbol = metadata?.metadata?.symbol;
-    return {"symbol": symbol, "exponent": exponent};
+    try {
+      final metadata = await queryApi.denomMetadata(feeDenom);
+      final display = metadata?.metadata?.display;
+      final denomUnit = metadata?.metadata?.denomUnits.firstWhere(
+        (unit) => unit.denom == display,
+      );
+      final exponent = denomUnit?.exponent;
+      final symbol = metadata?.metadata?.symbol;
+      return {"symbol": symbol, "exponent": exponent};
+    } catch (e) {
+      logger.e("Error fetching symbol metadata: $e");
+      return {"symbol": denom, "exponent": 0};
+    }
   }
 }
