@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 
 import "package:hnotes/presentation/theme.dart";
-import "package:hnotes/application/wallet/wallet_bloc.dart";
+import "package:hnotes/application/wallet/address_bloc.dart";
 import "package:hnotes/presentation/components/build_card_widget.dart";
 
 class ImportWalletWidget extends StatefulWidget {
@@ -19,8 +19,8 @@ class _ImportWalletWidget extends State<ImportWalletWidget> {
   @override
   void initState() {
     super.initState();
-    walletBloc.fetchSecret();
-    walletBloc.getImportedWalletAddress();
+    addressBloc.fetchSecret();
+    addressBloc.getImportedWalletAddress();
   }
 
   @override
@@ -30,13 +30,13 @@ class _ImportWalletWidget extends State<ImportWalletWidget> {
   }
 
   void importWallet() {
-    walletBloc.importPrivateKey(_secretController.text);
+    addressBloc.importPrivateKey(_secretController.text);
     setState(() {
       _isSaved = true;
       _hidePassword = true;
     });
     FocusScope.of(context).unfocus();
-    walletBloc.getImportedWalletAddress();
+    addressBloc.getImportedWalletAddress();
   }
 
   @override
@@ -89,7 +89,7 @@ class _ImportWalletWidget extends State<ImportWalletWidget> {
           Padding(
             padding: EdgeInsets.all(5),
             child: StreamBuilder(
-                stream: walletBloc.walletAddressStream,
+                stream: addressBloc.walletAddressStream,
                 builder: (context, AsyncSnapshot<String> snapshot) {
                   if (snapshot.hasError) {
                     return Container(height: 0);
@@ -109,7 +109,7 @@ class _ImportWalletWidget extends State<ImportWalletWidget> {
           Padding(
             padding: EdgeInsets.all(5),
             child: StreamBuilder(
-              stream: walletBloc.walletPrivateKeyStream,
+              stream: addressBloc.walletPrivateKeyStream,
               builder: (context, AsyncSnapshot<String> snapshot) {
                 if (snapshot.hasError) {
                   return Text("Error: ${snapshot.error}");
