@@ -1,18 +1,20 @@
 import "package:flutter/material.dart";
+import "package:hnotes/presentation/home_page/base/dapp_details_page.dart";
 
 import "package:hnotes/presentation/theme.dart";
 import "package:hnotes/presentation/home_page/base/swipe_widget.dart";
 import "package:hnotes/presentation/home_page/items/swipe_icon_widget.dart";
-import "package:hnotes/presentation/home_page/items/item_details_page.dart";
 
 class OneDappWidget extends StatelessWidget {
   final String dAppName;
   final String cardContent;
+  final Widget dAppDetailsWidget;
 
   const OneDappWidget({
     super.key,
     required this.dAppName,
-    required this.cardContent
+    required this.cardContent,
+    required this.dAppDetailsWidget,
   });
 
   @override
@@ -61,13 +63,27 @@ class OneDappWidget extends StatelessWidget {
   }
 
   confirmStartToEnd(BuildContext context) {
-    // Navigator.of(context).push(newPageRoute(ItemDetailsPage(nftItem: nftItem)));
+    Navigator.of(context).push(
+      newPageRoute(
+        DAppDetailsPage(
+          dAppName: dAppName,
+          dAppDetailsWidget: dAppDetailsWidget,
+        ),
+      ),
+    );
     // Return null so the item won't be dismissed
     return null;
   }
 
   confirmEndToStart(BuildContext context) async {
-    // Navigator.of(context).push(newPageRoute(ItemDetailsPage(nftItem: nftItem)));
+    Navigator.of(context).push(
+      newPageRoute(
+        DAppDetailsPage(
+          dAppName: dAppName,
+          dAppDetailsWidget: dAppDetailsWidget,
+        ),
+      ),
+    );
     // Return null so the item won't be dismissed
     return null;
   }
