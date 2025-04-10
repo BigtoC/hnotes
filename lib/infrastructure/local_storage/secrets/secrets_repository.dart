@@ -8,7 +8,7 @@ import "package:flutter_secure_storage/flutter_secure_storage.dart";
 
 class SecretsRepository {
   static final String _secretSharedPrefKey = "apiSecret";
-  static const String _publicKeyStoreKey = "walletPublicKey";
+  static const String _walletAddressStoreKey = "walletAddress";
   static const String _privateKeyStoreKey = "walletPrivateKey";
 
   Future<SecretModel> getApiSecret() async {
@@ -38,7 +38,7 @@ class SecretsRepository {
         CosmosSecp256K1PublicKey.fromBytes(bip44.publicKey.compressed);
 
     final walletAddress = publicKey.toAddress(hrp: chainWalletPrefix);
-    await setDataInSharedPref(_publicKeyStoreKey, walletAddress.address);
+    await setDataInSharedPref(_walletAddressStoreKey, walletAddress.address);
     return walletAddress.address;
   }
 
@@ -64,7 +64,7 @@ class SecretsRepository {
   }
 
   Future<String> getImportedWalletAddress() async {
-    final address = await getDataFromSharedPref(_publicKeyStoreKey);
+    final address = await getDataFromSharedPref(_walletAddressStoreKey);
     return address ?? "";
   }
 }
