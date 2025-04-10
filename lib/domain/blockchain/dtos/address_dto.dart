@@ -21,17 +21,20 @@ class SymbolMetadataDto {
 class CoinWithExponent {
   final String denom;
   final String amount;
+  final String symbol;
   final int exponent;
 
   CoinWithExponent({
     required this.denom,
     required this.amount,
+    required this.symbol,
     required this.exponent,
   });
 
   Map<String, dynamic> toJson() => {
     "denom": denom,
     "amount": amount,
+    "symbol": symbol,
     "exponent": exponent,
   };
 
@@ -39,6 +42,7 @@ class CoinWithExponent {
     return CoinWithExponent(
       denom: json["denom"] as String,
       amount: json["amount"] as String,
+      symbol: json["symbol"] as String,
       exponent: json["exponent"] as int,
     );
   }
