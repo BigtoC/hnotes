@@ -1,4 +1,5 @@
 import "dart:math";
+import "package:hnotes/domain/blockchain/dtos/address_dto.dart";
 import "package:mantrachain_dart_sdk/api.dart";
 
 import "package:hnotes/domain/common_data.dart";
@@ -16,12 +17,12 @@ class AddressRepository {
     }
     final balance = await queryApi.balance(address, denom: feeDenom);
     final metadata = await fetchSymbolMetadata(feeDenom);
-    final symbol = metadata["symbol"];
-    final exponent = metadata["exponent"];
+    final symbol = metadata.symbol;
+    final exponent = metadata.exponent;
     final amountRaw = balance?.balance?.amount ?? "0";
     final denomRaw = balance?.balance?.denom ?? feeDenom;
     final amount = (int.parse(amountRaw) / pow(10, exponent)).toStringAsFixed(
-      metadata["exponent"] ?? 0,
+      metadata.exponent,
     );
     return {
       "address": address,
@@ -30,11 +31,21 @@ class AddressRepository {
     };
   }
 
-  Future<List<Coin>> fetchAddressBalances(String address) async {
+  Future<List<CoinWithExponent>> fetchAddressBalances(String address) async {
     try {
       final balances = await queryApi.allBalances(address);
       if (balances != null) {
-        return balances.balances;
+        final metadataFutures =
+            balances.balances.map((coin) async {
+              final metadata = await fetchSymbolMetadata(coin.denom ?? "");
+              return CoinWithExponent(
+                denom: coin.denom ?? "",
+                amount: coin.amount ?? "0",
+                exponent: metadata.exponent,
+              );
+            }).toList();
+
+        return await Future.wait(metadataFutures);
       } else {
         return [];
       }
@@ -43,7 +54,7 @@ class AddressRepository {
     }
   }
 
-  fetchSymbolMetadata(String denom) async {
+  Future<SymbolMetadataDto> fetchSymbolMetadata(String denom) async {
     try {
       final metadata = await queryApi.denomMetadata(feeDenom);
       final display = metadata?.metadata?.display;
@@ -52,10 +63,15 @@ class AddressRepository {
       );
       final exponent = denomUnit?.exponent;
       final symbol = metadata?.metadata?.symbol;
-      return {"symbol": symbol, "exponent": exponent};
+
+      if (symbol == null || exponent == null) {
+        return SymbolMetadataDto(symbol: denom, exponent: 0);
+      }
+
+      return SymbolMetadataDto(symbol: symbol, exponent: exponent);
     } catch (e) {
       logger.e("Error fetching symbol metadata: $e");
-      return {"symbol": denom, "exponent": 0};
+      return SymbolMetadataDto(symbol: denom, exponent: 0);
     }
   }
 }
