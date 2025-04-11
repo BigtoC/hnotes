@@ -66,7 +66,7 @@ class SecretsRepository {
       return "";
     }
     final publicKey = CosmosSecp256K1PublicKey.fromHex(pubKeyHex);
-    final cosmosBaseAddress = publicKey.toAddress(hrp: chainWalletPrefix);
+    final cosmosBaseAddress = publicKey.toAddress(hrp: chainAddressPrefix);
     return cosmosBaseAddress.address;
   }
 }
