@@ -1,4 +1,3 @@
-
 class SymbolMetadataDto {
   final String symbol;
   final int exponent;
