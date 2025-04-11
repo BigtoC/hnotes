@@ -1,8 +1,9 @@
+import "dart:convert";
 import "dart:math";
+import "package:flutter/services.dart";
 import "package:hnotes/domain/blockchain/dtos/address_dto.dart";
 import "package:mantrachain_dart_sdk/api.dart";
 
-import "package:hnotes/domain/common_data.dart";
 import "package:hnotes/infrastructure/constants.dart";
 import "package:hnotes/infrastructure/local_storage/secrets/secrets_repository.dart";
 
@@ -17,12 +18,12 @@ class AddressRepository {
     }
     final balance = await queryApi.balance(address, denom: feeDenom);
     final metadata = await fetchSymbolMetadata(feeDenom);
-    final symbol = metadata.symbol;
-    final exponent = metadata.exponent;
+    final symbol = metadata?.symbol;
+    final exponent = metadata?.exponent ?? 6;
     final amountRaw = balance?.balance?.amount ?? "0";
     final denomRaw = balance?.balance?.denom ?? feeDenom;
     final amount = (int.parse(amountRaw) / pow(10, exponent)).toStringAsFixed(
-      metadata.exponent,
+      exponent,
     );
     return {
       "address": address,
@@ -37,15 +38,22 @@ class AddressRepository {
       if (balances != null) {
         final metadataFutures =
             balances.balances.map((coin) async {
-              final metadata = await fetchSymbolMetadata(coin.denom ?? "");
-              return CoinWithExponent(
-                denom: coin.denom ?? "",
-                amount: coin.amount ?? "0",
-                exponent: metadata.exponent,
+              final metadata = await lookupMetadataFromRegistry(
+                coin.denom ?? "",
               );
+              if (metadata == null) {
+                return null;
+              } else {
+                return CoinWithExponent(
+                  denom: coin.denom ?? "",
+                  amount: coin.amount ?? "0",
+                  symbol: metadata.symbol,
+                  exponent: metadata.exponent,
+                );
+              }
             }).toList();
 
-        return await Future.wait(metadataFutures);
+        return (await Future.wait(metadataFutures)).nonNulls.toList();
       } else {
         return [];
       }
@@ -54,24 +62,65 @@ class AddressRepository {
     }
   }
 
-  Future<SymbolMetadataDto> fetchSymbolMetadata(String denom) async {
+  Future<SymbolMetadataDto?> fetchSymbolMetadata(String denom) async {
     try {
-      final metadata = await queryApi.denomMetadata(feeDenom);
+      final metadata = await queryApi.denomMetadataByQueryString(denom: denom);
       final display = metadata?.metadata?.display;
       final denomUnit = metadata?.metadata?.denomUnits.firstWhere(
         (unit) => unit.denom == display,
       );
-      final exponent = denomUnit?.exponent;
-      final symbol = metadata?.metadata?.symbol;
-
-      if (symbol == null || exponent == null) {
-        return SymbolMetadataDto(symbol: denom, exponent: 0);
+      final symbol = metadata?.metadata?.symbol ?? "";
+      if (denomUnit != null) {
+        final exponent = denomUnit.exponent!;
+        return SymbolMetadataDto(symbol: symbol, exponent: exponent);
+      } else {
+        return null;
       }
-
-      return SymbolMetadataDto(symbol: symbol, exponent: exponent);
     } catch (e) {
-      logger.e("Error fetching symbol metadata: $e");
+      print("Error fetching $denom metadata: $e");
       return SymbolMetadataDto(symbol: denom, exponent: 0);
     }
+  }
+}
+
+Future<SymbolMetadataDto?> lookupMetadataFromRegistry(String denom) async {
+  try {
+    final coinLists = [
+      "assets/chain-registry/mantrachain-assetlist.json",
+      "assets/chain-registry/mantrachaintestnet2-assetlist.json",
+    ];
+
+    for (final filePath in coinLists) {
+      String jsonString = await rootBundle.loadString(filePath);
+      final data = json.decode(jsonString);
+
+      if (data["assets"] != null) {
+        for (final asset in data["assets"]) {
+          // Check if this asset matches our denom
+          if (asset["base"] == denom) {
+            // Find the display unit
+            final displayDenom = asset["display"];
+            final symbol = asset["symbol"] ?? displayDenom;
+
+            // Find the exponent for the display unit
+            final denomUnit = asset["denom_units"]?.firstWhere(
+              (unit) => unit["denom"] == displayDenom,
+              orElse: () => null,
+            );
+
+            if (denomUnit != null) {
+              return SymbolMetadataDto(
+                symbol: symbol,
+                exponent: denomUnit["exponent"] ?? 6,
+              );
+            }
+          }
+        }
+      }
+    }
+    return null;
+  } catch (e) {
+    print("Error loading metadata from local registry: $e");
+    return null;
   }
 }
