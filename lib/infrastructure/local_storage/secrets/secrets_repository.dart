@@ -41,20 +41,20 @@ class SecretsRepository {
 
   Future<void> storeKeys(String privateKeyStr) async {
     final storage = FlutterSecureStorage(
-      aOptions: AndroidOptions(encryptedSharedPreferences: true)
+      aOptions: AndroidOptions(encryptedSharedPreferences: true),
     );
     await storage.write(key: _privateKeyStoreKey, value: privateKeyStr);
 
     final Bip44 bip44 = buildBip44(privateKeyStr);
     final CosmosSecp256K1PublicKey publicKey =
-    CosmosSecp256K1PublicKey.fromBytes(bip44.publicKey.compressed);
+        CosmosSecp256K1PublicKey.fromBytes(bip44.publicKey.compressed);
 
     await setDataInSharedPref(_publicKeyStoreKey, publicKey.toString());
   }
 
   Future<String> exportPrivateKey() async {
     final storage = FlutterSecureStorage(
-      aOptions: AndroidOptions(encryptedSharedPreferences: true)
+      aOptions: AndroidOptions(encryptedSharedPreferences: true),
     );
     final key = await storage.read(key: _privateKeyStoreKey);
     return key ?? "";
