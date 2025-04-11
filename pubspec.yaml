@@ -74,6 +74,8 @@ flutter:
     - "assets/Images/logo/MANTRA-Gradient.png"
     - "assets/Images/logo/CosmWasm-black.png"
     - "assets/Images/logo/CosmWasm-white.png"
+    - "assets/chain-registry/mantrachain-assetlist.json"
+    - "assets/chain-registry/mantrachaintestnet2-assetlist.json"
 
   # To add assets to your application, add an assets section, like this:
   # assets:
