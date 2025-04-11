@@ -8,7 +8,7 @@ import "package:flutter_secure_storage/flutter_secure_storage.dart";
 
 class SecretsRepository {
   static final String _secretSharedPrefKey = "apiSecret";
-  static const String _walletAddressStoreKey = "walletAddress";
+  static const String _publicKeyStoreKey = "walletPublicKey";
   static const String _privateKeyStoreKey = "walletPrivateKey";
 
   Future<SecretModel> getApiSecret() async {
@@ -20,8 +20,8 @@ class SecretsRepository {
   }
 
   Future<String> deriveAndSaveWallet(String privateKeyStr) async {
-    await storePrivateKey(privateKeyStr);
-    return deriveAddress(privateKeyStr);
+    await storeKeys(privateKeyStr);
+    return await getImportedWalletAddress();
   }
 
   Bip44 buildBip44(String privateKeyStr) {
@@ -32,27 +32,24 @@ class SecretsRepository {
     return bip44;
   }
 
-  Future<String> deriveAddress(String privateKeyStr) async {
-    final Bip44 bip44 = buildBip44(privateKeyStr);
-    final CosmosSecp256K1PublicKey publicKey =
-        CosmosSecp256K1PublicKey.fromBytes(bip44.publicKey.compressed);
-
-    final walletAddress = publicKey.toAddress(hrp: chainWalletPrefix);
-    await setDataInSharedPref(_walletAddressStoreKey, walletAddress.address);
-    return walletAddress.address;
-  }
-
-  CosmosSecp256K1PrivateKey buildPrivateKey(String privateKeyStr) {
+  Future<CosmosSecp256K1PrivateKey> retrieveSignKey() async {
+    final privateKeyStr = await exportPrivateKey();
     final Bip44 bip44 = buildBip44(privateKeyStr);
 
     return CosmosSecp256K1PrivateKey.fromBytes(bip44.privateKey.raw);
   }
 
-  Future<void> storePrivateKey(String privateKeyStr) async {
+  Future<void> storeKeys(String privateKeyStr) async {
     final storage = FlutterSecureStorage(
       aOptions: AndroidOptions(encryptedSharedPreferences: true)
     );
     await storage.write(key: _privateKeyStoreKey, value: privateKeyStr);
+
+    final Bip44 bip44 = buildBip44(privateKeyStr);
+    final CosmosSecp256K1PublicKey publicKey =
+    CosmosSecp256K1PublicKey.fromBytes(bip44.publicKey.compressed);
+
+    await setDataInSharedPref(_publicKeyStoreKey, publicKey.toString());
   }
 
   Future<String> exportPrivateKey() async {
@@ -64,7 +61,12 @@ class SecretsRepository {
   }
 
   Future<String> getImportedWalletAddress() async {
-    final address = await getDataFromSharedPref(_walletAddressStoreKey);
-    return address ?? "";
+    final pubKeyHex = await getDataFromSharedPref(_publicKeyStoreKey);
+    if (pubKeyHex == null) {
+      return "";
+    }
+    final publicKey = CosmosSecp256K1PublicKey.fromHex(pubKeyHex);
+    final cosmosBaseAddress = publicKey.toAddress(hrp: chainWalletPrefix);
+    return cosmosBaseAddress.address;
   }
 }
