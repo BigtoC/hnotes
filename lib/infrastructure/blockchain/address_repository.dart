@@ -32,6 +32,16 @@ class AddressRepository {
     };
   }
 
+  Future<AccountInfo200Response?> fetchAccountInfo(String address) async {
+    try {
+      final accountInfo = await queryApi.accountInfo(address);
+      return accountInfo;
+    } catch (e) {
+      print("Error fetching account info: $e");
+      return null;
+    }
+  }
+
   Future<List<CoinWithExponent>> fetchAddressBalances(String address) async {
     try {
       final balances = await queryApi.allBalances(address);
