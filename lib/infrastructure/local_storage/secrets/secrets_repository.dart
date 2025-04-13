@@ -60,6 +60,14 @@ class SecretsRepository {
     return key ?? "";
   }
 
+  Future<CosmosSecp256K1PublicKey?> getImportedPublicKey() async {
+    final pubKeyHex = await getDataFromSharedPref(_publicKeyStoreKey);
+    if (pubKeyHex == null) {
+      return null;
+    }
+    return CosmosSecp256K1PublicKey.fromHex(pubKeyHex);
+  }
+
   Future<String> getImportedWalletAddress() async {
     final pubKeyHex = await getDataFromSharedPref(_publicKeyStoreKey);
     if (pubKeyHex == null) {
