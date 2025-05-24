@@ -39,7 +39,9 @@ dependencies:
   shared_preferences: ^2.5.3
   flutter_native_splash: ^2.4.5
   mantrachain_dart_sdk:
-    git: https://github.com/BigtoC/mantrachain-dart.git
+    git:
+      url: https://github.com/BigtoC/mantrachain-dart.git
+      ref: main
   cosmos_sdk: ^2.3.0
   blockchain_utils: ^4.3.0
   flutter_secure_storage: ^9.2.4
@@ -72,6 +74,8 @@ flutter:
     - "assets/Images/logo/MANTRA-Gradient.png"
     - "assets/Images/logo/CosmWasm-black.png"
     - "assets/Images/logo/CosmWasm-white.png"
+    - "assets/chain-registry/mantrachain-assetlist.json"
+    - "assets/chain-registry/mantrachaintestnet2-assetlist.json"
 
   # To add assets to your application, add an assets section, like this:
   # assets:

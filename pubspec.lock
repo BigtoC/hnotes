@@ -332,8 +332,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: HEAD
-      resolved-ref: d664a9634381d35da2cf2c97eec29455e2f8d7ea
+      ref: main
+      resolved-ref: "63edd4cc2da12b80a002e3111d7f957cc5b5a761"
       url: "https://github.com/BigtoC/mantrachain-dart.git"
     source: git
     version: "1.0.0"

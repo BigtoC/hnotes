@@ -1,7 +1,7 @@
+import "package:cosmos_sdk/cosmos_sdk.dart";
 import "package:hnotes/infrastructure/blockchain/wallet_repository.dart";
-import "package:rxdart/rxdart.dart";
-
 import "package:hnotes/infrastructure/local_storage/secrets/secrets_repository.dart";
+import "package:rxdart/rxdart.dart";
 
 class WalletBloc {
   final _secretsRepository = SecretsRepository();
@@ -9,12 +9,10 @@ class WalletBloc {
 
   final _walletPrivateKey = PublishSubject<String>();
   final _walletAddress = PublishSubject<String>();
-  final _addressAndBalance = PublishSubject<Map<String, String>>();
 
   Stream<String> get walletPrivateKeyStream => _walletPrivateKey.stream;
+
   Stream<String> get walletAddressStream => _walletAddress.stream;
-  Stream<Map<String, String>> get addressAndBalanceStream =>
-      _addressAndBalance.stream;
 
   fetchSecret() async {
     await getImportedWalletAddress();
@@ -31,13 +29,24 @@ class WalletBloc {
 
   getImportedWalletAddress() async {
     _walletAddress.sink.add(
-        await _secretsRepository.getImportedWalletAddress()
+      await _secretsRepository.getImportedWalletAddress(),
     );
   }
 
-  getAddressAndBalance() async {
-    final addressAndBalance = await _walletRepository.fetchAddressAndBalance();
-    _addressAndBalance.sink.add(addressAndBalance);
+  Future<String?> sendToken(
+      String sender,
+      BigInt amount,
+      String denom,
+      String receiver
+      ) async {
+    final message = MsgSend(
+        fromAddress: CosmosBaseAddress(sender),
+        toAddress:
+        CosmosBaseAddress(receiver),
+        amount: [Coin(denom: denom, amount: amount)]
+    );
+    final txHash = await _walletRepository.signAndBroadcast(sender, [message]);
+    return txHash;
   }
 
   void dispose() {

@@ -37,8 +37,12 @@ class BlockchainInfoRepository {
   Future<Map<String, String>> fetchGasPrice() async {
     final GasPrices200Response? gasPrice = await queryApi.gasPrices();
     final price = gasPrice?.prices.firstOrNull;
-    final double? gasPriceValue = double.tryParse(price?.amount ?? "0");
-    final String denom = price?.denom ?? "";
-    return {"gasPrice": "$gasPriceValue $denom"};
+    final double? gasPriceValue = double.tryParse(price?.amount ?? "0.01");
+    final String denom = price?.denom ?? feeDenom;
+    return {
+      "gasPrice": "$gasPriceValue $denom",
+      "amount": gasPriceValue.toString(),
+      "denom": denom
+    };
   }
 }

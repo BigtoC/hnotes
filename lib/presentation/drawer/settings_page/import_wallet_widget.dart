@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
+import "package:hnotes/application/wallet/wallet_bloc.dart";
 
 import "package:hnotes/presentation/theme.dart";
-import "package:hnotes/application/wallet/wallet_bloc.dart";
 import "package:hnotes/presentation/components/build_card_widget.dart";
 
 class ImportWalletWidget extends StatefulWidget {
@@ -89,21 +89,19 @@ class _ImportWalletWidget extends State<ImportWalletWidget> {
           Padding(
             padding: EdgeInsets.all(5),
             child: StreamBuilder(
-                stream: walletBloc.walletAddressStream,
-                builder: (context, AsyncSnapshot<String> snapshot) {
-                  if (snapshot.hasError) {
-                    return Container(height: 0);
-                  }
-                  if (snapshot.hasData) {
-                    String? walletAddress = snapshot.data;
-                    if (walletAddress != "") {
-                      return Text(
-                          "Wallet Address \n$walletAddress"
-                      );
-                    }
-                  }
+              stream: walletBloc.walletAddressStream,
+              builder: (context, AsyncSnapshot<String> snapshot) {
+                if (snapshot.hasError) {
                   return Container(height: 0);
                 }
+                if (snapshot.hasData) {
+                  String? walletAddress = snapshot.data;
+                  if (walletAddress != "") {
+                    return Text("Wallet Address \n$walletAddress");
+                  }
+                }
+                return Container(height: 0);
+              },
             ),
           ),
           Padding(
