@@ -17,7 +17,7 @@ class WalletRepository {
     mantra.ApiClient(basePath: chainRestUrl),
   );
 
-  signAndBroadcast(String sender, List<CosmosMessage> messages) async {
+  Future<String?> signAndBroadcast(String sender, List<CosmosMessage> messages) async {
     final tx = await buildTx(sender, messages);
     final txBody = tx["txBody"] as TXBody;
     final authInfo = tx["authInfo"] as AuthInfo;
@@ -38,6 +38,8 @@ class WalletRepository {
       ),
     );
     print(result);
+    final txHash = result?.txResponse?.txhash;
+    return txHash;
   }
 
   Future<Map<dynamic, dynamic>> buildTx(
