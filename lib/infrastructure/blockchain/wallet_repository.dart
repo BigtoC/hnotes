@@ -134,7 +134,10 @@ class WalletRepository {
     }
   }
 
-  _buildAuthInfo(CosmosSecp256K1PublicKey publicKey, BigInt sequence, Fee fee) {
+  AuthInfo _buildAuthInfo(
+      CosmosSecp256K1PublicKey publicKey,
+      BigInt sequence, Fee fee
+      ) {
     return AuthInfo(
       signerInfos: [
         SignerInfo(
@@ -153,7 +156,9 @@ class WalletRepository {
     mantra.Simulate200ResponseGasInfo gasInfo,
   ) {
     final gasPrice = double.parse(gasPriceStr);
-    final gasLimit = double.parse(gasInfo.gasUsed ?? "30000") * 1.5;
+    final gasLimit = double.parse(
+        gasInfo.gasUsed ?? defaultGasUsed
+    ) * gasLimitMultiplier;
 
     final gasAmount = gasPrice * gasLimit;
 
