@@ -62,9 +62,7 @@ class WalletRepository {
     final nodeInfo = chainResults[0];
     final gasPrice = chainResults[1];
     final mantra.AccountInfo200Response accountInfo = chainResults[2];
-
-    final CosmosSecp256K1PublicKey? publicKey =
-    await _secretsRepository.getImportedPublicKey();
+    final CosmosSecp256K1PublicKey? publicKey = chainResults[3];
 
     final chainId = nodeInfo["chainId"];
     final accountNumber = BigInt.from(
@@ -141,7 +139,7 @@ class WalletRepository {
     return AuthInfo(
       signerInfos: [
         SignerInfo(
-          publicKey: publicKey as Any,
+          publicKey: publicKey.toAny(),
           modeInfo: const ModeInfo(ModeInfoSignle(SignMode.signModeDirect)),
           sequence: sequence,
         ),

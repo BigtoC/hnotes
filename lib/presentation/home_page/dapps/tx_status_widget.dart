@@ -24,6 +24,10 @@ class _TxStatusWidgetState extends State<TxStatusWidget> {
   Timer? _timer;
   String? _status;
   bool _done = false;
+  bool _hasError = false;
+  String _errorMessage = "";
+  int _retryCount = 0;
+  static const int _maxRetries = 3;
 
   @override
   void initState() {
@@ -48,14 +52,46 @@ class _TxStatusWidgetState extends State<TxStatusWidget> {
         final code = resp!.txResponse!.code;
         setState(() {
           _status = code == 0 ? "Success" : "Failed";
+          _hasError = false;
           _done = true;
         });
         _timer?.cancel();
         widget.onComplete?.call(code == 0);
+      } else {
+        // Transaction not found yet, but API responded
+        _retryCount = 0; // Reset retry count on successful API call
       }
     } catch (e) {
-      // Still pending, do nothing
+      _retryCount++;
+      if (_retryCount >= _maxRetries) {
+        setState(() {
+          _hasError = true;
+          if (e is mantra.ApiException) {
+            // Handle API-specific errors
+            if (e.code == 404) {
+              _errorMessage = "Transaction not found. It may still be processing.";
+            } else {
+              _errorMessage = "API error: ${e.message}";
+            }
+          } else if (e.toString().contains("SocketException") ||
+                    e.toString().contains("ConnectionRefused")) {
+            _errorMessage = "Network connection error. Please check your internet connection.";
+          } else {
+            _errorMessage = "Error checking transaction: ${e.toString()}";
+          }
+        });
+        _timer?.cancel(); // Stop polling on persistent errors
+      }
+      // For fewer than max retries, we'll continue polling
     }
+  }
+
+  void _retryCheck() {
+    setState(() {
+      _hasError = false;
+      _retryCount = 0;
+    });
+    _startPolling();
   }
 
   @override
@@ -82,6 +118,25 @@ class _TxStatusWidgetState extends State<TxStatusWidget> {
         ],
       );
     }
+
+    if (_hasError) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.warning_amber_rounded, size: 48, color: Colors.orange),
+          SizedBox(height: 16),
+          Text(_errorMessage,
+              style: TextStyle(fontSize: 16),
+              textAlign: TextAlign.center),
+          SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: _retryCheck,
+            child: Text("Retry"),
+          ),
+        ],
+      );
+    }
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: const [
