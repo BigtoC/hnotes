@@ -95,7 +95,9 @@ class CoinWithExponent {
     }
 
     if (exponent < 0) {
-      throw ArgumentError("'exponent' must be a non-negative integer, got $exponent");
+      throw ArgumentError(
+          "'exponent' must be a non-negative integer, got $exponent"
+      );
     }
 
     return CoinWithExponent(

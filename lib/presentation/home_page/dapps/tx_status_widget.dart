@@ -92,7 +92,8 @@ class _TxStatusWidgetState extends State<TxStatusWidget> {
         setState(() {
           _hasError = true;
           if (e.code == 404) {
-            _errorMessage = "Transaction not found. It may still be processing.";
+            _errorMessage = "Transaction not found. "
+                "It may still be processing.";
           } else {
             _errorMessage = "API error (${e.code}): ${e.message}";
           }
