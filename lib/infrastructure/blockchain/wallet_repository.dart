@@ -1,5 +1,4 @@
 import "dart:convert";
-import "dart:math";
 
 import "package:blockchain_utils/utils/binary/bytes_tracker.dart";
 import "package:cosmos_sdk/cosmos_sdk.dart";
@@ -147,16 +146,14 @@ class WalletRepository {
     String gasPriceStr,
     mantra.Simulate200ResponseGasInfo gasInfo,
   ) {
-    final gasPrice = BigInt.from(
-      double.parse(gasPriceStr) * pow(10, feeExponent),
-    );
-    final gasLimit = BigInt.parse(gasInfo.gasUsed ?? "30000") * BigInt.from(2);
+    final gasPrice = double.parse(gasPriceStr);
+    final gasLimit = double.parse(gasInfo.gasUsed ?? "30000") * 1.5;
 
     final gasAmount = gasPrice * gasLimit;
 
     return Fee(
-      amount: [Coin(denom: feeDenom, amount: gasAmount)],
-      gasLimit: gasLimit,
+      amount: [Coin(denom: feeDenom, amount: BigInt.parse(gasAmount.toStringAsFixed(0)))],
+      gasLimit: BigInt.parse(gasLimit.toStringAsFixed(0)),
     );
   }
 }
