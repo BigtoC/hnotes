@@ -58,6 +58,16 @@ class _TxStatusWidgetState extends State<TxStatusWidget> {
   }
 
   Future<void> _checkTxStatus() async {
+    // Early return if _txHash is null to prevent crashes
+    if (_txHash == null) {
+      setState(() {
+        _hasError = true;
+        _errorMessage = "Transaction hash is missing. Cannot check status.";
+      });
+      _timer?.cancel();
+      return;
+    }
+
     try {
       final resp = await _serviceApi.getTx(_txHash!);
       if (resp?.txResponse != null) {
