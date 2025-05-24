@@ -8,6 +8,13 @@ import "package:hnotes/infrastructure/constants.dart";
 import "package:hnotes/infrastructure/local_storage/secrets/secrets_repository.dart";
 import "package:mantrachain_dart_sdk/api.dart" as mantra;
 
+/// Function type for transaction confirmation callback
+typedef TransactionConfirmationCallback = Future<bool> Function({
+  required String sender,
+  required List<CosmosMessage> messages,
+  required Fee transactionFee,
+});
+
 class WalletRepository {
   final AddressRepository _addressRepository;
   final BlockchainInfoRepository _blockchainInfoRepository;
@@ -32,10 +39,18 @@ class WalletRepository {
     return WalletRepository();
   }
 
+  /// Signs and broadcasts a transaction with optional confirmation
+  ///
+  /// If a [confirmTransaction] callback is provided,
+  /// it will be called before broadcasting
+  /// to allow the user to confirm the transaction.
+  /// If the callback returns false,
+  /// the transaction will not be broadcast.
   Future<String?> signAndBroadcast(
       String sender,
-      List<CosmosMessage> messages
-      ) async {
+      List<CosmosMessage> messages,
+      {TransactionConfirmationCallback? confirmTransaction}
+  ) async {
     try {
       // Build the transaction
       final tx = await buildTx(sender, messages);
@@ -43,6 +58,21 @@ class WalletRepository {
       final txBody = tx["txBody"] as TXBody;
       final authInfo = tx["authInfo"] as AuthInfo;
       final signDoc = tx["signDoc"] as SignDoc;
+      final fee = authInfo.fee;
+
+      // Request user confirmation if callback is provided
+      if (confirmTransaction != null) {
+        final isConfirmed = await confirmTransaction(
+          sender: sender,
+          messages: messages,
+          transactionFee: fee,
+        );
+
+        if (!isConfirmed) {
+          print("Transaction cancelled by user");
+          return null;
+        }
+      }
 
       // Retrieve signing key and sign the transaction
       try {
@@ -55,6 +85,8 @@ class WalletRepository {
           authInfoBytes: authInfo.toBuffer(),
           signatures: [signed],
         );
+
+        print("Signed transaction: ${txRaw.txId()}");
 
         // Broadcast the transaction
         try {
@@ -71,7 +103,7 @@ class WalletRepository {
           }
 
           // Check if there's an error code in the response
-          if (result.txResponse!.code != null && result.txResponse!.code! > 0) {
+          if (result.txResponse?.code != null && result.txResponse!.code! > 0) {
             print(
                 "Transaction error code: ${result.txResponse!.code}, "
                     "message: ${result.txResponse!.rawLog}"

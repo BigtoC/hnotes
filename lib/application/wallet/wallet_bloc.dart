@@ -37,15 +37,19 @@ class WalletBloc {
       String sender,
       BigInt amount,
       String denom,
-      String receiver
+      String receiver,
+      {TransactionConfirmationCallback? confirmTransaction}
       ) async {
     final message = MsgSend(
         fromAddress: CosmosBaseAddress(sender),
-        toAddress:
-        CosmosBaseAddress(receiver),
+        toAddress: CosmosBaseAddress(receiver),
         amount: [Coin(denom: denom, amount: amount)]
     );
-    final txHash = await _walletRepository.signAndBroadcast(sender, [message]);
+    final txHash = await _walletRepository.signAndBroadcast(
+      sender,
+      [message],
+      confirmTransaction: confirmTransaction,
+    );
     return txHash;
   }
 
