@@ -33,7 +33,12 @@ class WalletBloc {
     );
   }
 
-  Future<String?> sendToken(String sender, BigInt amount, String denom, String receiver) async {
+  Future<String?> sendToken(
+      String sender,
+      BigInt amount,
+      String denom,
+      String receiver
+      ) async {
     final message = MsgSend(
         fromAddress: CosmosBaseAddress(sender),
         toAddress:

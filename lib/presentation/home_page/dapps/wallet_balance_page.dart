@@ -48,7 +48,10 @@ class _WalletBalancePageState extends State<WalletBalancePage> {
   }
 
   Future<void> sendToken() async {
-    if (_selectedDenom == null || _sendAmountController.text.isEmpty || _receiverAddressController.text.isEmpty) {
+    if (_selectedDenom == null
+        || _sendAmountController.text.isEmpty
+        || _receiverAddressController.text.isEmpty
+    ) {
       return;
     }
 
@@ -81,7 +84,9 @@ class _WalletBalancePageState extends State<WalletBalancePage> {
       // Use a function to handle transaction status to avoid context issues
       if (txHash == null) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Transaction failed"), backgroundColor: Colors.red),
+          SnackBar(
+              content: Text("Transaction failed"), backgroundColor: Colors.red
+          ),
         );
         return;
       } else {
@@ -91,7 +96,10 @@ class _WalletBalancePageState extends State<WalletBalancePage> {
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error sending transaction: $e"), backgroundColor: Colors.red),
+        SnackBar(
+            content: Text("Error sending transaction: $e"),
+            backgroundColor: Colors.red
+        ),
       );
     } finally {
       if (mounted) {
@@ -183,11 +191,6 @@ class _WalletBalancePageState extends State<WalletBalancePage> {
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return const Text("No balances found");
               } else {
-                // Find the selected coin if any
-                final selectedCoin = _selectedDenom != null
-                    ? snapshot.data!.where((coin) => coin.denom == _selectedDenom).firstOrNull
-                    : null;
-
                 return DropdownButtonFormField<String>(
                   value: _selectedDenom,
                   hint: Text("Select a token"),
@@ -293,7 +296,12 @@ class _WalletBalancePageState extends State<WalletBalancePage> {
                   onPressed: sendToken,
                   style: ElevatedButton.styleFrom(backgroundColor: btnColor),
                   child: _isTransactionInProgress ?
-                    SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)) :
+                    SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                            color: Colors.white, strokeWidth: 2
+                        )) :
                     Text(
                       "Send",
                       style: TextStyle(fontSize: 18, color: Colors.white),

@@ -17,7 +17,10 @@ class WalletRepository {
     mantra.ApiClient(basePath: chainRestUrl),
   );
 
-  Future<String?> signAndBroadcast(String sender, List<CosmosMessage> messages) async {
+  Future<String?> signAndBroadcast(
+      String sender,
+      List<CosmosMessage> messages
+      ) async {
     final tx = await buildTx(sender, messages);
     final txBody = tx["txBody"] as TXBody;
     final authInfo = tx["authInfo"] as AuthInfo;
@@ -60,7 +63,8 @@ class WalletRepository {
     final gasPrice = chainResults[1];
     final mantra.AccountInfo200Response accountInfo = chainResults[2];
 
-    final CosmosSecp256K1PublicKey? publicKey = await _secretsRepository.getImportedPublicKey();
+    final CosmosSecp256K1PublicKey? publicKey =
+    await _secretsRepository.getImportedPublicKey();
 
     final chainId = nodeInfo["chainId"];
     final accountNumber = BigInt.from(
@@ -134,7 +138,7 @@ class WalletRepository {
     return AuthInfo(
       signerInfos: [
         SignerInfo(
-          publicKey: publicKey,
+          publicKey: publicKey as Any,
           modeInfo: const ModeInfo(ModeInfoSignle(SignMode.signModeDirect)),
           sequence: sequence,
         ),
@@ -154,7 +158,12 @@ class WalletRepository {
     final gasAmount = gasPrice * gasLimit;
 
     return Fee(
-      amount: [Coin(denom: feeDenom, amount: BigInt.parse(gasAmount.toStringAsFixed(0)))],
+      amount: [
+        Coin(
+            denom: feeDenom,
+            amount: BigInt.parse(gasAmount.toStringAsFixed(0))
+        )
+      ],
       gasLimit: BigInt.parse(gasLimit.toStringAsFixed(0)),
     );
   }
