@@ -9,40 +9,89 @@ import "package:hnotes/infrastructure/local_storage/secrets/secrets_repository.d
 import "package:mantrachain_dart_sdk/api.dart" as mantra;
 
 class WalletRepository {
-  final AddressRepository _addressRepository = AddressRepository();
-  final BlockchainInfoRepository _blockchainInfoRepository =
-      BlockchainInfoRepository();
-  final SecretsRepository _secretsRepository = SecretsRepository();
-  final _serviceApi = mantra.ServiceApi(
-    mantra.ApiClient(basePath: chainRestUrl),
-  );
+  final AddressRepository _addressRepository;
+  final BlockchainInfoRepository _blockchainInfoRepository;
+  final SecretsRepository _secretsRepository;
+  final mantra.ServiceApi _serviceApi;
+
+  /// Constructor that accepts dependencies, making the class more testable
+  WalletRepository({
+    AddressRepository? addressRepository,
+    BlockchainInfoRepository? blockchainInfoRepository,
+    SecretsRepository? secretsRepository,
+    mantra.ServiceApi? serviceApi,
+  }) :
+    _addressRepository = addressRepository ?? AddressRepository(),
+    _blockchainInfoRepository = blockchainInfoRepository
+        ?? BlockchainInfoRepository(),
+    _secretsRepository = secretsRepository ?? SecretsRepository(),
+    _serviceApi = serviceApi ??
+        mantra.ServiceApi(mantra.ApiClient(basePath: chainRestUrl));
+
+  factory WalletRepository.withDefaults() {
+    return WalletRepository();
+  }
 
   Future<String?> signAndBroadcast(
       String sender,
       List<CosmosMessage> messages
       ) async {
-    final tx = await buildTx(sender, messages);
-    final txBody = tx["txBody"] as TXBody;
-    final authInfo = tx["authInfo"] as AuthInfo;
-    final signDoc = tx["signDoc"] as SignDoc;
-    final signKey = await _secretsRepository.retrieveSignKey();
-    final signed = signKey.sign(signDoc.toBuffer());
+    try {
+      // Build the transaction
+      final tx = await buildTx(sender, messages);
 
-    final txRaw = TxRaw(
-      bodyBytes: txBody.toBuffer(),
-      authInfoBytes: authInfo.toBuffer(),
-      signatures: [signed],
-    );
+      final txBody = tx["txBody"] as TXBody;
+      final authInfo = tx["authInfo"] as AuthInfo;
+      final signDoc = tx["signDoc"] as SignDoc;
 
-    final result = await _serviceApi.broadcastTx(
-      mantra.BroadcastTxRequest(
-        txBytes: base64.encode(txRaw.toBuffer()),
-        mode: mantra.BroadcastTxRequestModeEnum.BROADCAST_MODE_ASYNC,
-      ),
-    );
-    print(result);
-    final txHash = result?.txResponse?.txhash;
-    return txHash;
+      // Retrieve signing key and sign the transaction
+      try {
+        final signKey = await _secretsRepository.retrieveSignKey();
+
+        final signed = signKey.sign(signDoc.toBuffer());
+
+        final txRaw = TxRaw(
+          bodyBytes: txBody.toBuffer(),
+          authInfoBytes: authInfo.toBuffer(),
+          signatures: [signed],
+        );
+
+        // Broadcast the transaction
+        try {
+          final result = await _serviceApi.broadcastTx(
+            mantra.BroadcastTxRequest(
+              txBytes: base64.encode(txRaw.toBuffer()),
+              mode: mantra.BroadcastTxRequestModeEnum.BROADCAST_MODE_ASYNC,
+            ),
+          );
+
+          if (result == null || result.txResponse == null) {
+            print("Error: Broadcast returned null response");
+            return null;
+          }
+
+          // Check if there's an error code in the response
+          if (result.txResponse!.code != null && result.txResponse!.code! > 0) {
+            print(
+                "Transaction error code: ${result.txResponse!.code}, "
+                    "message: ${result.txResponse!.rawLog}"
+            );
+          }
+
+          final txHash = result.txResponse?.txhash;
+          return txHash;
+        } catch (e) {
+          print("Error broadcasting transaction: ${e.toString()}");
+          return null;
+        }
+      } catch (e) {
+        print("Error signing transaction: ${e.toString()}");
+        return null;
+      }
+    } catch (e) {
+      print("Error in signAndBroadcast: ${e.toString()}");
+      return null;
+    }
   }
 
   Future<Map<dynamic, dynamic>> buildTx(
@@ -58,6 +107,10 @@ class WalletRepository {
       ] as Iterable<Future>,
     );
 
+    if (chainResults.length != 4) {
+      throw Exception("Failed to fetch all required blockchain info");
+    }
+
     final nodeInfo = chainResults[0];
     final gasPrice = chainResults[1];
     final mantra.AccountInfo200Response accountInfo = chainResults[2];
@@ -69,7 +122,7 @@ class WalletRepository {
     );
     final sequence = BigInt.from(int.parse(accountInfo.info?.sequence ?? "0"));
 
-    final memo = "Flutter Test";
+    final memo = "Sent from Flutter app";
 
     /// Creating transaction body with the message
     final txBody = TXBody(messages: messages, memo: memo);

@@ -1,4 +1,5 @@
 import "dart:async";
+import "dart:io"; // Added for SocketException
 import "package:flutter/material.dart";
 import "package:mantrachain_dart_sdk/api.dart" as mantra;
 import "package:hnotes/infrastructure/constants.dart";
@@ -61,24 +62,50 @@ class _TxStatusWidgetState extends State<TxStatusWidget> {
         // Transaction not found yet, but API responded
         _retryCount = 0; // Reset retry count on successful API call
       }
-    } catch (e) {
+    } on SocketException catch (_) {
+      // Handle network connectivity issues
       _retryCount++;
       if (_retryCount >= _maxRetries) {
         setState(() {
           _hasError = true;
-          if (e is mantra.ApiException) {
-            // Handle API-specific errors
-            if (e.code == 404) {
-              _errorMessage = "Transaction not found. It may still be processing.";
-            } else {
-              _errorMessage = "API error: ${e.message}";
-            }
-          } else if (e.toString().contains("SocketException") ||
-                    e.toString().contains("ConnectionRefused")) {
-            _errorMessage = "Network connection error. Please check your internet connection.";
+          _errorMessage = "Network connection error: "
+              "Unable to reach the server. "
+              "Please check your internet connection.";
+        });
+        _timer?.cancel();
+      }
+    } on TimeoutException catch (_) {
+      // Handle timeout issues
+      _retryCount++;
+      if (_retryCount >= _maxRetries) {
+        setState(() {
+          _hasError = true;
+          _errorMessage = "Connection timed out. "
+              "The server may be experiencing high load.";
+        });
+        _timer?.cancel();
+      }
+    } on mantra.ApiException catch (e) {
+      // Handle API-specific errors
+      _retryCount++;
+      if (_retryCount >= _maxRetries) {
+        setState(() {
+          _hasError = true;
+          if (e.code == 404) {
+            _errorMessage = "Transaction not found. It may still be processing.";
           } else {
-            _errorMessage = "Error checking transaction: ${e.toString()}";
+            _errorMessage = "API error (${e.code}): ${e.message}";
           }
+        });
+        _timer?.cancel();
+      }
+    } catch (e) {
+      // Catch any other unexpected errors
+      _retryCount++;
+      if (_retryCount >= _maxRetries) {
+        setState(() {
+          _hasError = true;
+          _errorMessage = "Unexpected error: ${e.toString()}";
         });
         _timer?.cancel(); // Stop polling on persistent errors
       }
@@ -147,4 +174,3 @@ class _TxStatusWidgetState extends State<TxStatusWidget> {
     );
   }
 }
-
