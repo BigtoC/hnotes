@@ -5,4 +5,4 @@ const String feeDenom = "uom";
 const int feeExponent = 6;
 // For building transactions, lib/infrastructure/blockchain/wallet_repository.dart
 const String defaultGasUsed = "30000";
-const double gasLimitMultiplier = 1.5;
+const double gasLimitMultiplier = 3;

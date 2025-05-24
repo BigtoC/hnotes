@@ -36,8 +36,8 @@ void main() {
         expect(fee.amount.length, 1);
         expect(fee.amount[0].denom, feeDenom);
 
-        // Expected amount = gasPrice * gasLimit = 0.025 * (100000 * 1.5) = 3750
-        expect(fee.amount[0].amount, BigInt.from(3750));
+        // Expected amount = gasPrice * gasLimit = 0.025 * (100000 * 3) = 7500
+        expect(fee.amount[0].amount, BigInt.from(7500));
       });
 
       test("should use default gas when gasUsed is null", () {
@@ -77,14 +77,14 @@ void main() {
 
         // Assert
         // Check that the result is properly rounded with no decimal places
-        // Expected calculation: 0.01234 * (123456 * 1.5) = 2283.24
+        // Expected calculation: 0.01234 * (123456 * 3) = 4570
         // But should be truncated to 2285
         final rawAmount = double.parse(gasPriceStr) *
                         double.parse(gasInfo.gasUsed!) *
                         gasLimitMultiplier;
         final expectedAmount = BigInt.parse(rawAmount.toStringAsFixed(0));
         expect(fee.amount[0].amount, expectedAmount);
-        expect(fee.amount[0].amount, BigInt.from(2285));
+        expect(fee.amount[0].amount, BigInt.from(4570));
       });
 
       test("should handle high gas values properly", () {
@@ -101,8 +101,8 @@ void main() {
         // Assert
         expect(fee.gasLimit, BigInt.from(10000000 * gasLimitMultiplier));
 
-        // Expected amount = 0.0001 * (10000000 * 1.5) = 1500
-        final expectedAmount = BigInt.from(1500);
+        // Expected amount = 0.0001 * (10000000 * 3) = 3000
+        final expectedAmount = BigInt.from(3000);
         expect(fee.amount[0].amount, expectedAmount);
       });
 

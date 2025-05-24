@@ -8,6 +8,8 @@ import "package:hnotes/domain/blockchain/dtos/address_dto.dart";
 import "package:hnotes/infrastructure/constants.dart";
 import "package:hnotes/presentation/theme.dart";
 import "package:hnotes/presentation/home_page/dapps/tx_status_widget.dart";
+import "package:hnotes/presentation/home_page/dapps/transaction_confirmation_dialog.dart";
+import "package:cosmos_sdk/cosmos_sdk.dart";
 
 class WalletBalancePage extends StatefulWidget {
   final String walletAddress;
@@ -55,37 +57,44 @@ class _WalletBalancePageState extends State<WalletBalancePage> {
       return;
     }
 
-    setState(() {
-      _isTransactionInProgress = true;
-    });
-
-    print(
-      "Sending ${_sendAmountController.text} $_selectedSymbol to "
-      "${_receiverAddressController.text}",
-    );
-
     final amount = BigInt.from(
       double.parse(_sendAmountController.text) * pow(10, _selectedExponent),
     );
+
+    final receiver = _receiverAddressController.text;
+
+    setState(() {
+      _isTransactionInProgress = true;
+    });
 
     try {
       final txHash = await walletBloc.sendToken(
         widget.walletAddress,
         amount,
         _selectedDenom!,
-        _receiverAddressController.text,
+        receiver,
+        confirmTransaction: ({
+          required String sender,
+          required List<CosmosMessage> messages,
+          required Fee transactionFee,
+        }) async {
+          // Show confirmation dialog and return user's choice
+          return showTransactionConfirmationDialog(
+            context: context,
+            fromAddress: sender,
+            messages: messages,
+            transactionFee: transactionFee,
+          );
+        },
       );
 
       if (!mounted) return;
 
-      setState(() {
-      });
-
-      // Use a function to handle transaction status to avoid context issues
       if (txHash == null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-              content: Text("Transaction failed"), backgroundColor: Colors.red
+              content: Text("Transaction cancelled or failed"),
+              backgroundColor: Colors.red
           ),
         );
         return;
