@@ -33,14 +33,15 @@ class WalletBloc {
     );
   }
 
-  sendToken(String sender, BigInt amount, String denom, String receiver) {
+  Future<String?> sendToken(String sender, BigInt amount, String denom, String receiver) async {
     final message = MsgSend(
         fromAddress: CosmosBaseAddress(sender),
         toAddress:
         CosmosBaseAddress(receiver),
         amount: [Coin(denom: denom, amount: amount)]
     );
-    final txHash = _walletRepository.signAndBroadcast(sender, [message]);
+    final txHash = await _walletRepository.signAndBroadcast(sender, [message]);
+    return txHash;
   }
 
   void dispose() {
