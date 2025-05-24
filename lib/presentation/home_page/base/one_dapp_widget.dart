@@ -62,7 +62,8 @@ class OneDappWidget extends StatelessWidget {
     );
   }
 
-  confirmStartToEnd(BuildContext context) {
+  // Common method to navigate to details page
+  Future<bool?> navigateToDetailsPage(BuildContext context) {
     Navigator.of(context).push(
       newPageRoute(
         DAppDetailsPage(
@@ -72,20 +73,15 @@ class OneDappWidget extends StatelessWidget {
       ),
     );
     // Return null so the item won't be dismissed
-    return null;
+    return Future.value(null);
+  }
+
+  confirmStartToEnd(BuildContext context) {
+    return navigateToDetailsPage(context);
   }
 
   confirmEndToStart(BuildContext context) async {
-    Navigator.of(context).push(
-      newPageRoute(
-        DAppDetailsPage(
-          dAppName: dAppName,
-          dAppDetailsWidget: dAppDetailsWidget,
-        ),
-      ),
-    );
-    // Return null so the item won't be dismissed
-    return null;
+    return navigateToDetailsPage(context);
   }
 
   Route newPageRoute(Widget newPage) {
