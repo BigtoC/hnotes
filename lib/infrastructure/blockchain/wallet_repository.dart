@@ -51,12 +51,11 @@ class WalletRepository {
   ) async {
     final chainResults = await Future.wait(
       [
-            _blockchainInfoRepository.fetchNodeInfo(),
-            _blockchainInfoRepository.fetchGasPrice(),
-            _addressRepository.fetchAccountInfo(sender),
-            _secretsRepository.getImportedPublicKey(),
-          ]
-          as Iterable<Future>,
+        _blockchainInfoRepository.fetchNodeInfo(),
+        _blockchainInfoRepository.fetchGasPrice(),
+        _addressRepository.fetchAccountInfo(sender),
+        _secretsRepository.getImportedPublicKey(),
+      ] as Iterable<Future>,
     );
 
     final nodeInfo = chainResults[0];
