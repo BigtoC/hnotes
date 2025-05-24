@@ -142,7 +142,7 @@ class WalletRepository {
       "Gas wanted: ${gasEstimation?.gasWanted}",
     );
 
-    final fee = _calculateFee(gasPrice["amount"], gasEstimation!);
+    final fee = calculateFee(gasPrice["amount"], gasEstimation!);
     final authInfo = _buildAuthInfo(publicKey, sequence, fee);
 
     /// Creating a sign document for the transaction
@@ -201,7 +201,7 @@ class WalletRepository {
   }
 
   /// Reference: https://github.com/cosmos/cosmjs/blob/main/packages/stargate/src/fee.ts
-  Fee _calculateFee(
+  Fee calculateFee(
     String gasPriceStr,
     mantra.Simulate200ResponseGasInfo gasInfo,
   ) {
