@@ -78,7 +78,7 @@ void main() {
         // Assert
         // Check that the result is properly rounded with no decimal places
         // Expected calculation: 0.01234 * (123456 * 1.5) = 2283.24
-        // But should be truncated to 2283
+        // But should be truncated to 2285
         final rawAmount = double.parse(gasPriceStr) *
                         double.parse(gasInfo.gasUsed!) *
                         gasLimitMultiplier;
