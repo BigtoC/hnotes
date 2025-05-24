@@ -29,9 +29,10 @@ class AddressBloc {
 
   Future<void> getAddressAndBalance() async {
     try {
-      final addressAndBalance = await _addressRepository.fetchAddressAndBalance();
+      final addressAndBalance =
+        await _addressRepository.fetchAddressAndBalance();
       _addressAndBalance.sink.add(addressAndBalance);
-    } catch (error, stackTrace) {
+    } catch (error) {
       _addressAndBalanceError.sink.add(
           "Failed to fetch address and balance: ${error.toString()}"
       );
@@ -42,7 +43,7 @@ class AddressBloc {
     try {
       final balances = await _addressRepository.fetchAddressBalances(address);
       _addressBalances.sink.add(balances);
-    } catch (error, stackTrace) {
+    } catch (error) {
       _addressBalancesError.sink.add(
           "Failed to fetch address balances: ${error.toString()}"
       );
