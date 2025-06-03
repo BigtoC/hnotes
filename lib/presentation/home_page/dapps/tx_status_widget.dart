@@ -3,6 +3,7 @@ import "dart:io"; // Added for SocketException
 import "package:flutter/material.dart";
 import "package:mantrachain_dart_sdk/api.dart" as mantra;
 import "package:hnotes/infrastructure/constants.dart";
+import "package:hnotes/presentation/components/browser.dart";
 
 class TxStatusWidget extends StatefulWidget {
   final String txHash;
@@ -141,36 +142,77 @@ class _TxStatusWidgetState extends State<TxStatusWidget> {
   Widget build(BuildContext context) {
     if (_done) {
       return Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-              _status == "Success"
-                  ? Icons.check_circle
-                  : Icons.error,
-              size: 48,
-              color: _status == "Success" ? Colors.green : Colors.red
+            _status == "Success" ? Icons.check_circle : Icons.error,
+            size: 48,
+            color: _status == "Success" ? Colors.green : Colors.red
           ),
           SizedBox(height: 16),
           Text(_status ?? "Unknown", style: TextStyle(fontSize: 18)),
+          if (_status == "Success" && _txHash != null) ...[
+            SizedBox(height: 10),
+            Text(
+              "Transaction Hash:",
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            SizedBox(
+              width: 280,
+              child: Text(
+                _txHash!,
+                style: TextStyle(fontSize: 12),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.clip,
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Browser(
+                      title: "MANTRA Explorer",
+                      url: "$explorerUrl/tx/$_txHash",
+                    ),
+                  ),
+                );
+              },
+              icon: Icon(Icons.open_in_new),
+              label: Text("View in Explorer"),
+            ),
+          ],
         ],
       );
     }
 
     if (_hasError) {
       return Column(
+        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(Icons.warning_amber_rounded, size: 48, color: Colors.orange),
           SizedBox(height: 16),
-          Text(_errorMessage,
+          Container(
+            width: 280,
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              _errorMessage,
               style: TextStyle(fontSize: 16),
-              textAlign: TextAlign.center),
-          SizedBox(height: 16),
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 3,
+            ),
+          ),
         ],
       );
     }
 
     return Column(
+      mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
       children: const [
         CircularProgressIndicator(),
