@@ -127,7 +127,7 @@ class _WalletBalancePageState extends State<WalletBalancePage> {
         title: Text("Transaction Status"),
         content: SizedBox(
           width: 300,
-          height: 200,
+          height: 250,
           child: TxStatusWidget(
             txHash: txHash,
             onComplete: (success) {
