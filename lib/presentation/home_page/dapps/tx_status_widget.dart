@@ -3,19 +3,18 @@ import "dart:io"; // Added for SocketException
 import "package:flutter/material.dart";
 import "package:mantrachain_dart_sdk/api.dart" as mantra;
 import "package:hnotes/infrastructure/constants.dart";
+import "package:hnotes/presentation/components/browser.dart";
 
 class TxStatusWidget extends StatefulWidget {
   final String txHash;
   final Duration pollInterval;
   final void Function(bool success)? onComplete;
-  final Future<String?> Function(String txHash)? onRebroadcastTransaction;
 
   const TxStatusWidget({
     super.key,
     required this.txHash,
     this.pollInterval = const Duration(seconds: 3),
     this.onComplete,
-    this.onRebroadcastTransaction,
   });
 
   @override
@@ -32,7 +31,6 @@ class _TxStatusWidgetState extends State<TxStatusWidget> {
   int _retryCount = 0;
   static const int _maxRetries = 3;
   String? _txHash;
-  bool _isRebroadcasting = false;
 
   @override
   void initState() {
@@ -113,8 +111,7 @@ class _TxStatusWidgetState extends State<TxStatusWidget> {
         setState(() {
           _hasError = true;
           if (e.code == 404) {
-            _errorMessage = "Transaction not found."
-                "Click 'Rebroadcast' to try sending it again.";
+            _errorMessage = "Transaction not found.";
           } else {
             _errorMessage = "API error (${e.code}): ${e.message}";
           }
@@ -135,57 +132,6 @@ class _TxStatusWidgetState extends State<TxStatusWidget> {
     }
   }
 
-  Future<void> _rebroadcastTransaction() async {
-    if (widget.onRebroadcastTransaction == null) {
-      // If no rebroadcasting function is provided, just retry checking
-      _retryCheck();
-      return;
-    }
-
-    setState(() {
-      _isRebroadcasting = true;
-      _errorMessage = "Trying to rebroadcast transaction...";
-      _hasError = false;
-    });
-
-    try {
-      // Call the provided callback to rebroadcast the transaction
-      final newTxHash = await widget.onRebroadcastTransaction!(_txHash!);
-
-      if (newTxHash != null) {
-        setState(() {
-          _isRebroadcasting = false;
-          _txHash = newTxHash; // Update to the new transaction hash
-          _retryCount = 0;
-        });
-
-        _startPolling(); // Start polling with the new hash
-      } else {
-        // Rebroadcasting failed
-        setState(() {
-          _isRebroadcasting = false;
-          _hasError = true;
-          _errorMessage = "Failed to rebroadcast transaction. "
-              "Please try again or check your connection.";
-        });
-      }
-    } catch (e) {
-      setState(() {
-        _isRebroadcasting = false;
-        _hasError = true;
-        _errorMessage = "Error rebroadcasting transaction: ${e.toString()}";
-      });
-    }
-  }
-
-  void _retryCheck() {
-    setState(() {
-      _hasError = false;
-      _retryCount = 0;
-    });
-    _startPolling();
-  }
-
   @override
   void dispose() {
     _timer?.cancel();
@@ -196,74 +142,77 @@ class _TxStatusWidgetState extends State<TxStatusWidget> {
   Widget build(BuildContext context) {
     if (_done) {
       return Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-              _status == "Success"
-                  ? Icons.check_circle
-                  : Icons.error,
-              size: 48,
-              color: _status == "Success" ? Colors.green : Colors.red
+            _status == "Success" ? Icons.check_circle : Icons.error,
+            size: 48,
+            color: _status == "Success" ? Colors.green : Colors.red
           ),
           SizedBox(height: 16),
           Text(_status ?? "Unknown", style: TextStyle(fontSize: 18)),
+          if (_status == "Success" && _txHash != null) ...[
+            SizedBox(height: 10),
+            Text(
+              "Transaction Hash:",
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            SizedBox(
+              width: 280,
+              child: Text(
+                _txHash!,
+                style: TextStyle(fontSize: 12),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.clip,
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Browser(
+                      title: "MANTRA Explorer",
+                      url: "$explorerUrl/tx/$_txHash",
+                    ),
+                  ),
+                );
+              },
+              icon: Icon(Icons.open_in_new),
+              label: Text("View in Explorer"),
+            ),
+          ],
         ],
       );
     }
 
     if (_hasError) {
       return Column(
+        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(Icons.warning_amber_rounded, size: 48, color: Colors.orange),
           SizedBox(height: 16),
-          Text(_errorMessage,
+          Container(
+            width: 280,
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              _errorMessage,
               style: TextStyle(fontSize: 16),
-              textAlign: TextAlign.center),
-          SizedBox(height: 16),
-          // Show appropriate action buttons based on error type
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: _retryCheck,
-                child: Text("Rebroadcast"),
-              ),
-              if (widget.onRebroadcastTransaction != null &&
-                  _errorMessage.contains("Transaction not found"))
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: ElevatedButton(
-                    onPressed: _isRebroadcasting ? null : _rebroadcastTransaction,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                    ),
-                    child: _isRebroadcasting
-                      ? Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(
-                              width: 16,
-                              height: 16,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: Colors.white,
-                              ),
-                            ),
-                            SizedBox(width: 8),
-                            Text("Rebroadcasting..."),
-                          ],
-                        )
-                      : Text("Rebroadcast"),
-                  ),
-                ),
-            ],
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 3,
+            ),
           ),
         ],
       );
     }
 
     return Column(
+      mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
       children: const [
         CircularProgressIndicator(),
