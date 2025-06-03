@@ -6,3 +6,4 @@ const int feeExponent = 6;
 // For building transactions, lib/infrastructure/blockchain/wallet_repository.dart
 const String defaultGasUsed = "30000";
 const double gasLimitMultiplier = 3;
+const String explorerUrl = "https://explorer.mantrachain.io/MANTRA-Dukong";
