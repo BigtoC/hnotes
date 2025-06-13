@@ -42,7 +42,7 @@ dependencies:
     git:
       url: https://github.com/BigtoC/mantrachain-dart.git
       ref: main
-  cosmos_sdk: ^2.6.0
+  cosmos_sdk: ^2.7.0
   blockchain_utils: ^5.0.0
   flutter_secure_storage: ^9.2.4
 

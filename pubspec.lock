@@ -93,10 +93,10 @@ packages:
     dependency: "direct main"
     description:
       name: cosmos_sdk
-      sha256: "159d673a0271801b45285f42b68f17d702a60125141345354c9d4d1928ab0204"
+      sha256: "78504e49ab7ccb0f82cef9818692975dfdfc8ecc3a4144003bdd66d5c3c0baf8"
       url: "https://pub.dev"
     source: hosted
-    version: "2.6.0"
+    version: "2.7.0"
   crypto:
     dependency: transitive
     description:
