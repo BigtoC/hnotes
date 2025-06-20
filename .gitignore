@@ -46,3 +46,6 @@ app.*.map.json
 **/secrets/*.key
 **/secrets/*.json
 **/secrets/*.yaml
+
+android/app/.cxx
+android/build

@@ -3,7 +3,7 @@ import "package:flutter/cupertino.dart";
 import "package:hnotes/application/wallet/address_bloc.dart";
 import "package:hnotes/presentation/components/loading_circle.dart";
 import "package:hnotes/presentation/home_page/base/one_dapp_widget.dart";
-import "package:hnotes/presentation/home_page/dapps/wallet_balance_page.dart";
+import "package:hnotes/presentation/home_page/dapps/wallet_balance/wallet_balance_page.dart";
 
 class WalletBalanceCard extends StatefulWidget {
   const WalletBalanceCard({super.key});

@@ -77,12 +77,11 @@ void main() {
 
         // Assert
         // Check that the result is properly rounded with no decimal places
-        // Expected calculation: 0.01234 * (123456 * 3) = 4570
-        // But should be truncated to 2285
+        // Expected calculation: 0.01234 * (123456 * 3) = 4570.0512, truncated to 4570
         final rawAmount = double.parse(gasPriceStr) *
                         double.parse(gasInfo.gasUsed!) *
                         gasLimitMultiplier;
-        final expectedAmount = BigInt.parse(rawAmount.toStringAsFixed(0));
+        final expectedAmount = BigInt.parse(rawAmount.floor().toString());
         expect(fee.amount[0].amount, expectedAmount);
         expect(fee.amount[0].amount, BigInt.from(4570));
       });
@@ -124,9 +123,9 @@ void main() {
         );
         expect(fee.gasLimit, expectedGasLimit);
 
-        // Expected amount = 0.05 * 149999 = 7499.95, rounded to 7500
+        // Expected amount = 0.05 * (99999 * 3) = 14999.85, floored to 14999
         final expectedAmount = BigInt.parse(
-            (0.05 * 99999 * gasLimitMultiplier).toStringAsFixed(0)
+            (0.05 * 99999 * gasLimitMultiplier).floor().toString()
         );
         expect(fee.amount[0].amount, expectedAmount);
       });

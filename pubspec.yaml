@@ -15,10 +15,10 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.0.3+1
+version: 3.0.4
 
 environment:
-  sdk: "3.8.0"
+  sdk: "^3.8.0"
   flutter: "^3.32.0"
 
 dependencies:
@@ -42,7 +42,7 @@ dependencies:
     git:
       url: https://github.com/BigtoC/mantrachain-dart.git
       ref: main
-  cosmos_sdk: ^2.6.0
+  cosmos_sdk: ^2.7.0
   blockchain_utils: ^5.0.0
   flutter_secure_storage: ^9.2.4
 
@@ -51,6 +51,8 @@ dev_dependencies:
     sdk: flutter
   flutter_launcher_icons: "^0.14.3"
   flutter_lints: ^5.0.0
+  mockito: ^5.4.4
+  build_runner: ^2.4.10
 
 flutter_icons:
   android: true
