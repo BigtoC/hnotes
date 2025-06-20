@@ -4,6 +4,7 @@ import "package:flutter/rendering.dart";
 
 import "package:hnotes/presentation/drawer/drawer_ui.dart";
 import "package:hnotes/presentation/home_page/dapps/wallet_balance/wallet_balance_card.dart";
+import "package:hnotes/presentation/home_page/dapps/proposal_manager/proposal_manager_card.dart";
 import "package:hnotes/presentation/home_page/header/header_widget.dart";
 import "package:hnotes/presentation/home_page/items/build_item_list.dart";
 import "package:hnotes/presentation/home_page/header/drawer_icon_widget.dart";
@@ -67,6 +68,7 @@ class MyHomePageState extends State<MyHomePage> {
               Container(height: 32),
               ImportantIndicatorText(isFlagOn: isFlagOn),
               WalletBalanceCard(),
+              ProposalManagerCard(),
               ...itemList,
               Container(height: 100),
             ],
