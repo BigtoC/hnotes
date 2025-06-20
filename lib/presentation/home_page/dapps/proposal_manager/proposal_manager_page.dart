@@ -99,8 +99,9 @@ class _ProposalManagerPageState extends State<ProposalManagerPage> {
                       const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () {
-                          // Trigger a rebuild to retry
-                          (context as Element).markNeedsBuild();
+                          setState(() {
+                            _loadDataFuture = _loadData();
+                          });
                         },
                         child: const Text("Retry"),
                       ),
