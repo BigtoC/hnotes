@@ -3,41 +3,51 @@ import 'package:hnotes/infrastructure/blockchain/contract_repository.dart';
 import 'package:hnotes/infrastructure/constants.dart';
 
 class ProposalManagerBloc {
-  static const String contractAddress = "mantra17p9u09rgfd2nwr52ayy0aezdc42r2xd2g5d70u00k5qyhzjqf89q08tazu";
-  
+  static const String contractAddress =
+      "mantra17p9u09rgfd2nwr52ayy0aezdc42r2xd2g5d70u00k5qyhzjqf89q08tazu";
+
   late final ContractRepository _contractRepository;
-  
+
   // Stream controllers
-  final StreamController<Map<String, dynamic>?> _contractStatusController = StreamController<Map<String, dynamic>?>.broadcast();
-  final StreamController<List<Map<String, dynamic>>> _proposalsController = StreamController<List<Map<String, dynamic>>>.broadcast();
-  final StreamController<Map<String, dynamic>?> _contractConfigController = StreamController<Map<String, dynamic>?>.broadcast();
-  
+  final StreamController<Map<String, dynamic>?> _contractStatusController =
+      StreamController<Map<String, dynamic>?>.broadcast();
+  final StreamController<List<Map<String, dynamic>>> _proposalsController =
+      StreamController<List<Map<String, dynamic>>>.broadcast();
+  final StreamController<Map<String, dynamic>?> _contractConfigController =
+      StreamController<Map<String, dynamic>?>.broadcast();
+
   // Stream getters
-  Stream<Map<String, dynamic>?> get contractStatusStream => _contractStatusController.stream;
-  Stream<List<Map<String, dynamic>>> get proposalsStream => _proposalsController.stream;
-  Stream<Map<String, dynamic>?> get contractConfigStream => _contractConfigController.stream;
-  
+  Stream<Map<String, dynamic>?> get contractStatusStream =>
+      _contractStatusController.stream;
+
+  Stream<List<Map<String, dynamic>>> get proposalsStream =>
+      _proposalsController.stream;
+
+  Stream<Map<String, dynamic>?> get contractConfigStream =>
+      _contractConfigController.stream;
+
   ProposalManagerBloc() {
     _contractRepository = ContractRepository(
       rpcEndpoint: chainRpcUrl,
       restEndpoint: chainRestUrl,
+      contractAddress: contractAddress,
     );
-    
+
     // Initialize streams with empty/null values to prevent null errors
     _contractStatusController.add(null);
     _proposalsController.add([]);
     _contractConfigController.add(null);
   }
-  
+
   /// Load all contract data (status, config, proposals)
   Future<void> loadContractData() async {
     try {
       // Load contract status
       await loadContractStatus();
-      
+
       // Load contract config
       await loadContractConfig();
-      
+
       // Load proposals
       await loadProposals();
     } catch (e) {
@@ -46,7 +56,7 @@ class ProposalManagerBloc {
       _contractConfigController.addError(e);
     }
   }
-  
+
   /// Load contract status
   Future<void> loadContractStatus() async {
     try {
@@ -56,7 +66,7 @@ class ProposalManagerBloc {
       _contractStatusController.addError(e);
     }
   }
-  
+
   /// Load contract configuration
   Future<void> loadContractConfig() async {
     try {
@@ -66,7 +76,7 @@ class ProposalManagerBloc {
       _contractConfigController.addError(e);
     }
   }
-  
+
   /// Load all proposals
   Future<void> loadProposals() async {
     try {
@@ -83,18 +93,18 @@ class ProposalManagerBloc {
       _proposalsController.addError(e);
     }
   }
-  
+
   /// Get specific proposal by ID
   Future<Map<String, dynamic>?> getProposal(int proposalId) async {
     try {
       return await _contractRepository.queryContract({
-        'proposal': {'id': proposalId}
+        'proposal': {'id': proposalId},
       });
     } catch (e) {
       rethrow;
     }
   }
-  
+
   /// Get contract ownership information
   Future<Map<String, dynamic>?> getOwnership() async {
     try {
@@ -103,7 +113,7 @@ class ProposalManagerBloc {
       rethrow;
     }
   }
-  
+
   /// Test connection to the contract
   Future<bool> testConnection() async {
     try {
@@ -112,7 +122,7 @@ class ProposalManagerBloc {
       return false;
     }
   }
-  
+
   /// Get contract info
   Future<Map<String, dynamic>?> getContractInfo() async {
     try {
@@ -121,7 +131,7 @@ class ProposalManagerBloc {
       rethrow;
     }
   }
-  
+
   /// Dispose resources
   void dispose() {
     _contractStatusController.close();

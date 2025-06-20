@@ -248,7 +248,7 @@ class WalletRepository {
       amount: [
         Coin(
             denom: feeDenom,
-            amount: BigInt.parse(gasAmount.toStringAsFixed(0))
+            amount: BigInt.from(gasAmount.floor())
         )
       ],
       gasLimit: BigInt.parse(gasLimit.toStringAsFixed(0)),

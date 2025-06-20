@@ -29,32 +29,33 @@ class _TendermintHTTPProvider implements TendermintServiceProvider {
         headers: {...params.headers}).timeout(timeout ?? defaultRequestTimeout);
     return params.toResponse(response.bodyBytes, response.statusCode);
   }
+
+  void dispose() {
+    client.close();
+  }
 }
 
 /// Repository for interacting with Mantra chain smart contracts
 class ContractRepository {
   final Logger _logger = Logger();
-  
-  // Mantra chain RPC endpoints
-  static const String mainnetRpc = 'https://rpc.mantrachain.io';
-  static const String testnetRpc = 'https://rpc.dukong.mantrachain.io/';
-  
-  // REST API endpoints for queries
-  static const String mainnetRest = 'https://api.mantrachain.io';
-  static const String testnetRest = 'https://api.dukong.mantrachain.io';
-  
-  // The specific contract address provided
-  static const String contractAddress = 'mantra17p9u09rgfd2nwr52ayy0aezdc42r2xd2g5d70u00k5qyhzjqf89q08tazu';
 
   final String rpcEndpoint;
   final String restEndpoint;
+  final String contractAddress;
   late final TendermintProvider provider;
-  
+  late final _TendermintHTTPProvider _httpProvider;
+
   ContractRepository({
-    this.rpcEndpoint = testnetRpc,
-    this.restEndpoint = testnetRest,
+    required this.rpcEndpoint,
+    required this.restEndpoint,
+    required this.contractAddress,
   }) {
-    provider = TendermintProvider(_TendermintHTTPProvider(url: rpcEndpoint));
+    _httpProvider = _TendermintHTTPProvider(url: rpcEndpoint);
+    provider = TendermintProvider(_httpProvider);
+  }
+
+  void dispose() {
+    _httpProvider.dispose();
   }
 
   /// Query smart contract with a specific message using cosmos_sdk
@@ -87,7 +88,7 @@ class ContractRepository {
       return null;
     } catch (e) {
       _logger.e("Error querying contract: $e");
-      throw Exception("Error querying contract: $e");
+      throw Exception("Failed to query contract");
     }
   }
 
@@ -271,53 +272,6 @@ class ContractRepository {
       return results;
     } catch (e) {
       _logger.e("Error executing multiple queries: $e");
-      rethrow;
-    }
-  }
-
-  /// Example usage method demonstrating various queries
-  Future<void> demonstrateQueries() async {
-    try {
-      _logger.i("=== Contract Query Demonstration ===");
-      
-      // Get basic contract information
-      _logger.i("1. Getting contract info...");
-      final contractInfo = await getContractInfo();
-      _logger.i("Contract Info: $contractInfo");
-      
-      // Get contract code information
-      _logger.i("2. Getting contract code info...");
-      final codeInfo = await getContractCode();
-      _logger.i("Code Info: $codeInfo");
-      
-      // Try common query patterns
-      _logger.i("3. Trying common queries...");
-      
-      try {
-        final config = await getConfig();
-        _logger.i("Config: $config");
-      } catch (e) {
-        _logger.w("Config query not supported: $e");
-      }
-      
-      try {
-        final state = await getState();
-        _logger.i("State: $state");
-      } catch (e) {
-        _logger.w("State query not supported: $e");
-      }
-      
-      try {
-        final tokenInfo = await getTokenInfo();
-        _logger.i("Token Info: $tokenInfo");
-      } catch (e) {
-        _logger.w("Token info query not supported: $e");
-      }
-      
-      _logger.i("=== Demonstration Complete ===");
-      
-    } catch (e) {
-      _logger.e("Error in demonstration: $e");
       rethrow;
     }
   }

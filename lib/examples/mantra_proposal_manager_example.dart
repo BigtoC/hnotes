@@ -4,20 +4,24 @@ import "package:hnotes/infrastructure/constants.dart";
 /// Example usage specific to the Mantra Proposal Manager contract
 /// This contract supports: config, proposal, proposals, status, ownership
 
-const String contractAddress = "mantra17p9u09rgfd2nwr52ayy0aezdc42r2xd2g5d70u00k5qyhzjqf89q08tazu";
+const String contractAddress =
+    "mantra17p9u09rgfd2nwr52ayy0aezdc42r2xd2g5d70u00k5qyhzjqf89q08tazu";
+const String exampleRestEndpoint = "https://api.dukong.mantrachain.io";
 
 class MantraProposalManagerExample {
   final ContractRepository _contractRepo;
 
-  MantraProposalManagerExample({String? rpcEndpoint}) 
+  MantraProposalManagerExample({String? rpcEndpoint, String? restEndpoint})
     : _contractRepo = ContractRepository(
         rpcEndpoint: rpcEndpoint ?? chainRpcUrl,
+        restEndpoint: restEndpoint ?? exampleRestEndpoint,
+        contractAddress: contractAddress,
       );
 
   /// Demonstrate the actual supported queries for this specific contract
   Future<void> runExample() async {
     print("🚀 Mantra Proposal Manager Contract Example");
-    print("📄 Contract Address: ${ContractRepository.contractAddress}");
+    print("📄 Contract Address: ${_contractRepo.contractAddress}");
     print("🌐 RPC Endpoint: ${_contractRepo.rpcEndpoint}");
     print("");
 
@@ -34,19 +38,18 @@ class MantraProposalManagerExample {
 
       // 1. Get contract configuration
       await _queryConfig();
-      
+
       // 2. Get ownership information
       await _queryOwnership();
-      
+
       // 3. Get contract status
       await _queryStatus();
-      
+
       // 4. Get proposals list
       await _queryProposals();
-      
+
       // 5. Example of querying a specific proposal (if any exist)
       await _querySpecificProposal();
-      
     } catch (e) {
       print("❌ Error during example: $e");
     }
@@ -55,12 +58,14 @@ class MantraProposalManagerExample {
   Future<void> _queryConfig() async {
     print("📋 === Getting Contract Configuration ===");
     try {
-      final config = await _contractRepo.queryContract({"config": {}});
+      final config = await _contractRepo.getConfig();
       print("✅ Config: $config");
-      
+
       if (config != null && config["successful_proposal_fee"] != null) {
         final fee = config["successful_proposal_fee"];
-        print('   💰 Successful Proposal Fee: ${fee['amount']} ${fee['denom']}');
+        print(
+          '   💰 Successful Proposal Fee: ${fee['amount']} ${fee['denom']}',
+        );
       }
     } catch (e) {
       print("❌ Config query failed: $e");
@@ -96,16 +101,18 @@ class MantraProposalManagerExample {
       // Query all proposals (may need pagination parameters)
       final proposals = await _contractRepo.queryContract({"proposals": {}});
       print("✅ Proposals: $proposals");
-      
+
       if (proposals != null && proposals["proposals"] is List) {
         final proposalsList = proposals["proposals"] as List;
         print("   📊 Total proposals found: ${proposalsList.length}");
-        
+
         if (proposalsList.isNotEmpty) {
           print("   📋 Recent proposals:");
           for (int i = 0; i < proposalsList.length && i < 3; i++) {
             final proposal = proposalsList[i];
-            print('      ${i + 1}. ID: ${proposal['id'] ?? 'N/A'} - Title: ${proposal['title'] ?? 'N/A'}');
+            print(
+              '      ${i + 1}. ID: ${proposal['id'] ?? 'N/A'} - Title: ${proposal['title'] ?? 'N/A'}',
+            );
           }
         }
       }
@@ -120,16 +127,16 @@ class MantraProposalManagerExample {
     try {
       // Try to get proposal with ID 1 (common starting ID)
       final proposal = await _contractRepo.queryContract({
-        "proposal": {"id": 1}
+        "proposal": {"id": 1},
       });
       print("✅ Proposal #1: $proposal");
     } catch (e) {
       print("❌ Specific proposal query failed (proposal may not exist): $e");
-      
+
       // Try alternative ID formats
       try {
         final proposal = await _contractRepo.queryContract({
-          "proposal": {"proposal_id": 1}
+          "proposal": {"proposal_id": 1},
         });
         print("✅ Proposal #1 (alt format): $proposal");
       } catch (e2) {
@@ -142,7 +149,7 @@ class MantraProposalManagerExample {
   /// Helper method to get contract info and code info
   Future<void> getContractDetails() async {
     print("ℹ️  === Contract Details ===");
-    
+
     try {
       final contractInfo = await _contractRepo.getContractInfo();
       print("✅ Contract Info:");
@@ -153,7 +160,7 @@ class MantraProposalManagerExample {
     } catch (e) {
       print("❌ Failed to get contract info: $e");
     }
-    
+
     try {
       final codeInfo = await _contractRepo.getContractCode();
       print("✅ Code Info:");
@@ -164,19 +171,71 @@ class MantraProposalManagerExample {
     }
     print("");
   }
+
+  /// This method demonstrates the generic query functions from the ContractRepository.
+  /// These functions are helpers for common query patterns and may or may not
+  /// be supported by the specific contract being queried.
+  Future<void> demonstrateGenericQueries() async {
+    print("\n" + "=" * 60);
+    print("🔬 Demonstrating Generic Contract Query Helpers");
+    print("These may fail if the contract doesn't support them.");
+    print("=" * 60);
+
+    // 1. getConfig
+    print("\n📋 1. Querying Config (generic helper)...");
+    try {
+      final config = await _contractRepo.getConfig();
+      print("✅ Success: $config");
+    } catch (e) {
+      print(
+        "❌ Failed: This contract might not support a 'config' query or has a different structure.",
+      );
+    }
+
+    // 2. getState
+    print("\n📊 2. Querying State (generic helper)...");
+    try {
+      final state = await _contractRepo.getState();
+      print("✅ Success: $state");
+    } catch (e) {
+      print("❌ Failed: This contract might not support a 'state' query.");
+    }
+
+    // 3. getTokenInfo
+    print("\n🪙 3. Querying Token Info (generic helper)...");
+    try {
+      final tokenInfo = await _contractRepo.getTokenInfo();
+      print("✅ Success: $tokenInfo");
+    } catch (e) {
+      print("❌ Failed: This is likely not a CW20 token contract.");
+    }
+
+    // 4. getBalance
+    print("\n💰 4. Querying Balance (generic helper)...");
+    try {
+      // Using a dummy address for demonstration purposes
+      const dummyAddress = "mantra1dfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf";
+      final balance = await _contractRepo.getBalance(dummyAddress);
+      print("✅ Success: $balance");
+    } catch (e) {
+      print("❌ Failed: This contract might not support a 'balance' query.");
+    }
+    print("\n" + "=" * 60);
+  }
 }
 
 /// Main function to run the example
 void main() async {
   final example = MantraProposalManagerExample();
-  
+
   print("🎯 Starting Mantra Proposal Manager Contract Example");
   print("⏰ ${DateTime.now()}");
   print("=" * 60);
-  
+
   await example.getContractDetails();
   await example.runExample();
-  
+  await example.demonstrateGenericQueries();
+
   print("=" * 60);
   print("✅ Example completed!");
 }

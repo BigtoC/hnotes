@@ -2,20 +2,39 @@ import "package:flutter/material.dart";
 import "package:hnotes/infrastructure/blockchain/contract_repository.dart";
 import "package:hnotes/infrastructure/constants.dart";
 
-class ProposalManagerPage extends StatelessWidget {
-  const ProposalManagerPage({super.key});
+const String proposalManagerContractAddress =
+    "mantra17p9u09rgfd2nwr52ayy0aezdc42r2xd2g5d70u00k5qyhzjqf89q08tazu";
+
+class ProposalManagerPage extends StatefulWidget {
+  final ContractRepository? contractRepository;
+
+  const ProposalManagerPage({super.key, this.contractRepository});
+
+  @override
+  State<ProposalManagerPage> createState() => _ProposalManagerPageState();
+}
+
+class _ProposalManagerPageState extends State<ProposalManagerPage> {
+  late final ContractRepository _contractRepository;
+  late Future<Map<String, dynamic>> _loadDataFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _contractRepository = widget.contractRepository ??
+        ContractRepository(
+          rpcEndpoint: chainRpcUrl,
+          restEndpoint: chainRestUrl,
+          contractAddress: proposalManagerContractAddress,
+        );
+    _loadDataFuture = _loadData();
+  }
 
   Future<Map<String, dynamic>> _loadData() async {
     try {
-      // Create a new repository instance to avoid stream issues
-      final contractRepository = ContractRepository(
-        rpcEndpoint: chainRpcUrl,
-        restEndpoint: chainRestUrl,
-      );
-
       // Query data directly from the contract
-      final statusQuery = contractRepository.queryContract({"status": {}});
-      final proposalsQuery = contractRepository.queryContract({
+      final statusQuery = _contractRepository.queryContract({"status": {}});
+      final proposalsQuery = _contractRepository.queryContract({
         "proposals": {},
       });
 
@@ -41,7 +60,7 @@ class ProposalManagerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, dynamic>>(
-      future: _loadData(),
+      future: _loadDataFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
