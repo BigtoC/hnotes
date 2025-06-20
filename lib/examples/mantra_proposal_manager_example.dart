@@ -61,11 +61,11 @@ class MantraProposalManagerExample {
       final config = await _contractRepo.getConfig();
       print("✅ Config: $config");
 
-      if (config != null && config["successful_proposal_fee"] != null) {
-        final fee = config["successful_proposal_fee"];
-        print(
-          '   💰 Successful Proposal Fee: ${fee['amount']} ${fee['denom']}',
-        );
+      if (config != null && config["successful_proposal_fee"] is Map) {
+        final fee = config["successful_proposal_fee"] as Map;
+        final amount = fee["amount"] ?? "N/A";
+        final denom = fee["denom"] ?? "N/A";
+        print("   💰 Successful Proposal Fee: $amount $denom");
       }
     } catch (e) {
       print("❌ Config query failed: $e");
@@ -96,7 +96,7 @@ class MantraProposalManagerExample {
   }
 
   Future<void> _queryProposals() async {
-    print("📝 === Getting Proposals List ===");
+    print("📝 === Getting Proposals List ====");
     try {
       // Query all proposals (may need pagination parameters)
       final proposals = await _contractRepo.queryContract({"proposals": {}});
@@ -110,9 +110,12 @@ class MantraProposalManagerExample {
           print("   📋 Recent proposals:");
           for (int i = 0; i < proposalsList.length && i < 3; i++) {
             final proposal = proposalsList[i];
-            print(
-              '      ${i + 1}. ID: ${proposal['id'] ?? 'N/A'} - Title: ${proposal['title'] ?? 'N/A'}',
-            );
+            if (proposal is Map) {
+              print(
+                '      ${i + 1}. ID: ${proposal["id"] ?? "N/A"} - '
+                    'Title: ${proposal["title"] ?? "N/A"}',
+              );
+            }
           }
         }
       }
@@ -164,19 +167,22 @@ class MantraProposalManagerExample {
     try {
       final codeInfo = await _contractRepo.getContractCode();
       print("✅ Code Info:");
-      print('   Creator: ${codeInfo?['code_info']?['creator']}');
-      print('   Data Hash: ${codeInfo?['code_info']?['data_hash']}');
+      final creator = codeInfo?["code_info"]?["creator"] ?? "N/A";
+      final dataHash = codeInfo?["code_info"]?["data_hash"] ?? "N/A";
+      print("   Creator: $creator");
+      print("   Data Hash: $dataHash");
     } catch (e) {
       print("❌ Failed to get code info: $e");
     }
     print("");
   }
 
-  /// This method demonstrates the generic query functions from the ContractRepository.
+  /// This method demonstrates the generic query functions
+  /// from the ContractRepository.
   /// These functions are helpers for common query patterns and may or may not
   /// be supported by the specific contract being queried.
   Future<void> demonstrateGenericQueries() async {
-    print("\n" + "=" * 60);
+    print("\n${"=" * 60}");
     print("🔬 Demonstrating Generic Contract Query Helpers");
     print("These may fail if the contract doesn't support them.");
     print("=" * 60);
@@ -188,7 +194,8 @@ class MantraProposalManagerExample {
       print("✅ Success: $config");
     } catch (e) {
       print(
-        "❌ Failed: This contract might not support a 'config' query or has a different structure.",
+        "❌ Failed: This contract might not support a 'config' query "
+            "or has a different structure.",
       );
     }
 
@@ -220,7 +227,7 @@ class MantraProposalManagerExample {
     } catch (e) {
       print("❌ Failed: This contract might not support a 'balance' query.");
     }
-    print("\n" + "=" * 60);
+    print("\n${"=" * 60}");
   }
 }
 
