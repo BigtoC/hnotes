@@ -63,7 +63,7 @@ jobs:
 
       - name: Create Deployment Summary
         run: |
-          echo "Release Summary:" >> $GITHUB_STEP_SUMMARY
-          echo "App version: ${{ steps.extract_version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "## Release Summary:" >> $GITHUB_STEP_SUMMARY
+          echo "### App version: ${{ steps.extract_version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
           echo "### 🕒 Released at: $(date)" >> $GITHUB_STEP_SUMMARY
           echo "::notice::Build APK successfully!"
