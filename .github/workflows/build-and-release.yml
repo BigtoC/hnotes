@@ -40,7 +40,7 @@ jobs:
         run: flutter build apk --release --build-name=${{ steps.extract_version.outputs.version }} --build-number=${{ github.run_number }}
 
       - name: Create GitHub Tag and Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.extract_version.outputs.version }}
           name: ${{ steps.extract_version.outputs.version }}
