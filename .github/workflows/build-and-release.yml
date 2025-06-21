@@ -45,15 +45,19 @@ jobs:
       - name: Build APK
         run: flutter build apk --release --build-name=${{ steps.extract_version.outputs.version }} --build-number=${{ github.run_number }}
 
+      - name: Rename APK
+        run: |
+          mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/hnotes-v${{ steps.extract_version.outputs.version }}.apk
+
       - name: Create GitHub Tag and Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.extract_version.outputs.version }}
-          name: ${{ steps.extract_version.outputs.version }}
+          tag_name: v${{ steps.extract_version.outputs.version }}
+          name: v${{ steps.extract_version.outputs.version }}
           draft: false
           prerelease: false
           generate_release_notes: true
-          files: build/app/outputs/flutter-apk/app-release.apk
+          files: build/app/outputs/flutter-apk/hnotes-v${{ steps.extract_version.outputs.version }}.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
