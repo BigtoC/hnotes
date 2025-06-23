@@ -175,7 +175,7 @@ class _TxStatusWidgetState extends State<TxStatusWidget> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => Browser(
-                      title: "MANTRA Explorer",
+                      title: "MANTRA Scan",
                       url: "$explorerUrl/tx/$_txHash",
                     ),
                   ),
