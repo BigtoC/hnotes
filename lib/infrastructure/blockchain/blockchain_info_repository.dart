@@ -35,14 +35,13 @@ class BlockchainInfoRepository {
   }
 
   Future<Map<String, String>> fetchGasPrice() async {
-    final GasPrices200Response? gasPrice = await queryApi.gasPrices();
-    final price = gasPrice?.prices.firstOrNull;
-    final double? gasPriceValue = double.tryParse(price?.amount ?? "0.01");
-    final String denom = price?.denom ?? feeDenom;
+    final EvmBaseFee200Response? gasPrice = await queryApi.baseFee();
+    final price = gasPrice?.baseFee;
+    final double? gasPriceValue = double.tryParse(price ?? "0.02");
     return {
-      "gasPrice": "$gasPriceValue $denom",
+      "gasPrice": "$gasPriceValue $feeDenom",
       "amount": gasPriceValue.toString(),
-      "denom": denom
+      "denom": feeDenom
     };
   }
 }
