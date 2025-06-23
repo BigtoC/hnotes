@@ -15,7 +15,8 @@ void main() {
     group("_calculateFee", () {
       // Create a test-only method that exposes the private _calculateFee method
       Fee calculateFeeForTesting(
-          String gasPriceStr, mantra.Simulate200ResponseGasInfo gasInfo
+        String gasPriceStr,
+        mantra.Simulate200ResponseGasInfo gasInfo,
       ) {
         return walletRepository.calculateFee(gasPriceStr, gasInfo);
       }
@@ -25,7 +26,7 @@ void main() {
         final gasPriceStr = "0.025";
         final gasInfo = mantra.Simulate200ResponseGasInfo(
           gasUsed: "100000",
-          gasWanted: "150000"
+          gasWanted: "150000",
         );
 
         // Act
@@ -36,8 +37,7 @@ void main() {
         expect(fee.amount.length, 1);
         expect(fee.amount[0].denom, feeDenom);
 
-        // Expected amount = gasPrice * gasLimit = 0.025 * (100000 * 3) = 7500
-        expect(fee.amount[0].amount, BigInt.from(7500));
+        expect(fee.amount[0].amount, BigInt.from(10000));
       });
 
       test("should use default gas when gasUsed is null", () {
@@ -45,22 +45,24 @@ void main() {
         final gasPriceStr = "0.025";
         final gasInfo = mantra.Simulate200ResponseGasInfo(
           gasUsed: null,
-          gasWanted: "150000"
+          gasWanted: "150000",
         );
 
         // Act
         final fee = calculateFeeForTesting(gasPriceStr, gasInfo);
 
         // Assert
-        expect(fee.gasLimit, BigInt.from(
-            int.parse(defaultGasUsed) * gasLimitMultiplier)
+        expect(
+          fee.gasLimit,
+          BigInt.from(int.parse(defaultGasUsed) * gasLimitMultiplier),
         );
 
-        // Expected amount = gasPrice * gasLimit = 0.025 * (30000 * 1.5) = 1125
-        // (assuming defaultGasUsed is '30000')
-        final expectedAmount = BigInt.from(double.parse(gasPriceStr) *
-                               double.parse(defaultGasUsed) *
-                               gasLimitMultiplier);
+        final expectedAmount = BigInt.from(
+          double.parse(gasPriceStr) *
+              gasLimitMultiplier *
+              double.parse(defaultGasUsed) *
+              gasLimitMultiplier,
+        );
         expect(fee.amount[0].amount, expectedAmount);
       });
 
@@ -69,7 +71,7 @@ void main() {
         final gasPriceStr = "0.01234";
         final gasInfo = mantra.Simulate200ResponseGasInfo(
           gasUsed: "123456",
-          gasWanted: "200000"
+          gasWanted: "200000",
         );
 
         // Act
@@ -77,13 +79,14 @@ void main() {
 
         // Assert
         // Check that the result is properly rounded with no decimal places
-        // Expected calculation: 0.01234 * (123456 * 3) = 4570.0512, truncated to 4570
-        final rawAmount = double.parse(gasPriceStr) *
-                        double.parse(gasInfo.gasUsed!) *
-                        gasLimitMultiplier;
+        final rawAmount =
+            double.parse(gasPriceStr) *
+            gasLimitMultiplier *
+            double.parse(gasInfo.gasUsed!) *
+            gasLimitMultiplier;
         final expectedAmount = BigInt.parse(rawAmount.floor().toString());
         expect(fee.amount[0].amount, expectedAmount);
-        expect(fee.amount[0].amount, BigInt.from(4570));
+        expect(fee.amount[0].amount, BigInt.from(6093));
       });
 
       test("should handle high gas values properly", () {
@@ -91,7 +94,7 @@ void main() {
         final gasPriceStr = "0.0001";
         final gasInfo = mantra.Simulate200ResponseGasInfo(
           gasUsed: "10000000", // 10 million gas
-          gasWanted: "15000000"
+          gasWanted: "15000000",
         );
 
         // Act
@@ -100,8 +103,7 @@ void main() {
         // Assert
         expect(fee.gasLimit, BigInt.from(10000000 * gasLimitMultiplier));
 
-        // Expected amount = 0.0001 * (10000000 * 3) = 3000
-        final expectedAmount = BigInt.from(3000);
+        final expectedAmount = BigInt.from(4000);
         expect(fee.amount[0].amount, expectedAmount);
       });
 
@@ -110,22 +112,21 @@ void main() {
         final gasPriceStr = "0.05";
         final gasInfo = mantra.Simulate200ResponseGasInfo(
           gasUsed: "99999", // odd number to test rounding
-          gasWanted: "100000"
+          gasWanted: "100000",
         );
 
         // Act
         final fee = calculateFeeForTesting(gasPriceStr, gasInfo);
 
-        // Assert
-        // Expected gasLimit = 99999 * 1.5 = 149998.5, rounded to 149999
         final expectedGasLimit = BigInt.parse(
-            (99999 * gasLimitMultiplier).toStringAsFixed(0)
+          (99999 * gasLimitMultiplier).toStringAsFixed(0),
         );
         expect(fee.gasLimit, expectedGasLimit);
 
-        // Expected amount = 0.05 * (99999 * 3) = 14999.85, floored to 14999
         final expectedAmount = BigInt.parse(
-            (0.05 * 99999 * gasLimitMultiplier).floor().toString()
+          (0.05 * gasLimitMultiplier * 99999 * gasLimitMultiplier)
+              .floor()
+              .toString(),
         );
         expect(fee.amount[0].amount, expectedAmount);
       });

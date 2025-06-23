@@ -237,7 +237,7 @@ class WalletRepository {
     String gasPriceStr,
     mantra.Simulate200ResponseGasInfo gasInfo,
   ) {
-    final gasPrice = double.parse(gasPriceStr);
+    final gasPrice = double.parse(gasPriceStr) * gasLimitMultiplier;
     final gasLimit = double.parse(
         gasInfo.gasUsed ?? defaultGasUsed
     ) * gasLimitMultiplier;
