@@ -1,5 +1,7 @@
 import "package:cosmos_sdk/cosmos_sdk.dart";
+import "package:hnotes/application/wallet/utils.dart";
 import "package:hnotes/infrastructure/blockchain/wallet_repository.dart";
+import "package:hnotes/infrastructure/constants.dart";
 import "package:hnotes/infrastructure/local_storage/secrets/secrets_repository.dart";
 import "package:rxdart/rxdart.dart";
 
@@ -40,6 +42,13 @@ class WalletBloc {
       String receiver,
       {TransactionConfirmationCallback? confirmTransaction}
       ) async {
+    if (receiver.startsWith("0x")) {
+      receiver = EthBech32Converter.ethAddressToBech32(
+          receiver,
+          chainAddressPrefix
+      );
+    }
+
     final message = MsgSend(
         fromAddress: CosmosBaseAddress(sender),
         toAddress: CosmosBaseAddress(receiver),
